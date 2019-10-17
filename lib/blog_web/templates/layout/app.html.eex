@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html class="has-navbar-fixed-top">
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -8,7 +8,46 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
   </head>
   <body>
-    <main role="main" class="container">
+    <nav
+        class="navbar has-shadow is-fixed-top bl-nav"
+        role="navigation"
+        aria-label="main navigation"
+      >
+        <div class="container">
+          <div class="navbar-brand">
+            <a href="/" class="navbar-item is-active">首页</a>
+            <a href="/" class="navbar-item">想法</a>
+            <a
+              role="button"
+              class="navbar-burger burger"
+              aria-label="menu"
+              aria-expanded="false"
+              data-target="navbarBasicExample"
+            >
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+              <span aria-hidden="true"></span>
+            </a>
+          </div>
+
+          <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+            </div>
+            <div class="navbar-end">
+              <a
+                class="navbar-item"
+                href="https://github.com/Hentioe/blog"
+                target="_blank"
+              >
+                <span class="icon">
+                  <i class="fab fa-lg fa-github-alt"></i>
+                </span>
+              </a>
+            </div>
+          </div>
+        </div>
+    </nav>
+    <main>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>

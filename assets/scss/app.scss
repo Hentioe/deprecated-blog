@@ -1,1 +1,36 @@
+@import "./base.scss";
 @import "../node_modules/bulma/bulma.sass";
+
+// 链接默认样式
+a {
+  @extend %link;
+}
+
+// 导航栏效果
+$nav-menu-item-border-width: 3px;
+$nav-menu-item-transition-duration: 0.2s;
+$navbar-background-active-color: darken($navbar-background-color, 10%);
+
+.navbar {
+  a.navbar-item {
+    color: darken($default-link-color, 10%);
+    border-top: $nav-menu-item-border-width solid rgba(0, 0, 0, 0);
+    border-bottom: $nav-menu-item-border-width solid rgba(0, 0, 0, 0);
+    transition: border-bottom $nav-menu-item-transition-duration,
+      color $nav-menu-item-transition-duration;
+    &:hover,
+    &.is-active {
+      color: $default-main-color;
+      border-top: $nav-menu-item-border-width solid
+        $navbar-item-hover-background-color;
+      border-bottom: $nav-menu-item-border-width solid $default-main-color;
+    }
+    &:active {
+      background-color: $navbar-background-active-color;
+      border-top: $nav-menu-item-border-width solid
+        $navbar-background-active-color;
+      border-bottom: $nav-menu-item-border-width solid
+        darken($default-background-color, 25%);
+    }
+  }
+}

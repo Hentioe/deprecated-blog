@@ -1,0 +1,21 @@
+// 全局变量
+$default-main-color: #00C9CE;
+$default-background-color: #f6f6f6;
+// 阴影色
+$default-box-shadow-color: rgba(26, 26, 26, 0.1);
+$default-box-shadow-size: 0 1px 3px;
+$default-link-color: #4C4C4C;
+$default-link-hover-color: hsl(217, 71%, 53%);
+// 重写 Bluma 变量
+$body-background-color: $default-background-color;
+$navbar-box-shadow-color: $default-box-shadow-color;
+$nabbar-box-shadow-size: $default-box-shadow-size;
+$footer-background-color: rgba(0, 0, 0, 0);
+
+//扩展
+%link {
+  color: $default-link-color;
+  &:hover {
+    color: $default-link-hover-color;
+  }
+}
