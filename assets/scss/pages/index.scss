@@ -42,18 +42,9 @@ $article-list-item-color: #ececec;
     }
   }
   &-tags {
-    padding: 0.5rem $card-content-padding;
-    &-item {
-      font-size: 0.9rem;
-      background-color: lighten($default-main-color, 50%);
-      color: darken($default-main-color, 5%);
-      padding: 2px 6px;
-      margin: 0.5rem 0;
-      border-radius: 12px;
-      display: inline-block;
-      &:hover {
-        background: lighten($default-main-color, 45%);
-      }
+    padding: $card-content-padding / 2;
+    & > * {
+      margin: $card-content-padding / 8;
     }
   }
 }

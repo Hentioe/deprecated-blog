@@ -13,6 +13,7 @@ $default-spacing: 0.7rem;
 }
 $full-transparent: transparent(0);
 // 重写 Bluma 变量
+$primary: darken($default-main-color, 2%);
 $body-background-color: $default-background-color;
 $navbar-box-shadow-color: $default-box-shadow-color;
 $navbar-box-shadow-size: 0 2px 2px;

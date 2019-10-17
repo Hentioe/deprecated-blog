@@ -15,7 +15,9 @@
       >
         <div class="container">
           <div class="navbar-brand">
-            <a href="/" class="navbar-item is-active">首页</a>
+            <%= live_link "首页", 
+                          class: "navbar-item is-active",
+                          to: Routes.live_path(@conn, BlogWeb.IndexLive) %>
             <a href="/" class="navbar-item">想法</a>
             <a
               role="button"

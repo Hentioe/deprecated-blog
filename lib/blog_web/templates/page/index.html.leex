@@ -7,14 +7,14 @@
             <p class="card-header-title">文章</p>
           </header>
           <div class="card-content">
-            <%= for i <- 1..40 do %>
+            <%= for article <- @articles do %>
               <div class="columns is-mobile is-vcentered bl-index-articles-item">
                 <div class="column bl-index-articles-item-title">
-                  <a>我是一个假文章标题-<%= i %></a>
+                  <a><%= article.title %></a>
                 </div>
                 <div class="column is-narrow has-text-centered bl-index-articles-item-rm">
                   <span>
-                    <%= Enum.random(0..35) %>
+                    <%= article.rsum %>
                   </span>
                 </div>
               </div>
@@ -28,10 +28,10 @@
             <p class="card-header-title">分类</p>
           </header>
           <div class="card-content bl-index-categories">
-            <%= for i <- 1..9 do %>
-              <a class="bl-index-categories-item">
-                文章类别-<%= i %>
-              </a>
+            <%= for category <- @categories do %>
+              <%= live_link category.name, 
+                            class: "bl-index-categories-item#{if @category_id == category.id, do: " is-active"}",
+                            to: Routes.live_path(@socket, BlogWeb.IndexLive, category.id) %>
             <% end %>
           </div>
         </div>
@@ -40,10 +40,19 @@
             <p class="card-header-title">标签</p>
           </header>
           <div class="card-content bl-index-tags">
-            <%= for i <- 1..9 do %>
-              <a class="bl-index-tags-item">
-                标签-<%= i %>
-              </a>
+            <%= for tag <- @tags do %>
+              <%= if @tag_id == tag.id do %>
+                <span class="tag is-primary">
+                  <%= tag.name %>
+                  <%= live_link "", 
+                        class: "delete is-small",
+                        to: Routes.live_path(@socket, BlogWeb.IndexLive) %>
+                </span>
+              <% else %>
+                <%= live_link tag.name, 
+                      class: "tag is-primary is-small",
+                      to: Routes.live_path(@socket, BlogWeb.IndexLive, %{tag_id: tag.id}) %>
+              <% end %>
             <% end %>
           </div>
         </div>
