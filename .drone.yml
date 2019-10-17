@@ -2,6 +2,14 @@ kind: pipeline
 name: default
 
 steps:
+  - name: app-compile
+    image: bluerain/elixir:1.9.2-slim
+    environment:
+      MIX_ENV: prod
+    commands:
+      - mix deps.get
+      - mix compile
+
   - name: assets-build
     image: node:stretch
     commands:
