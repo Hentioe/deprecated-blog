@@ -1,18 +1,18 @@
 <div class="container">
   <section class="section">
-    <div class="columns">
-      <div class="column is-8">
+    <div class="columns is-desktop">
+      <div class="column is-8-desktop">
         <div class="card">
           <header class="card-header">
             <p class="card-header-title">文章</p>
           </header>
           <div class="card-content">
             <%= for i <- 1..40 do %>
-              <div class="columns is-mobile is-vcentered bl-index-article">
-                <div class="column bl-index-article-title">
+              <div class="columns is-mobile is-vcentered bl-index-articles-item">
+                <div class="column bl-index-articles-item-title">
                   <a>我是一个假文章标题-<%= i %></a>
                 </div>
-                <div class="column is-narrow has-text-centered bl-index-article-rm">
+                <div class="column is-narrow has-text-centered bl-index-articles-item-rm">
                   <span>
                     <%= Enum.random(0..35) %>
                   </span>
@@ -22,14 +22,14 @@
           </div>
         </div>
       </div>
-      <div class="column is-4 bl-sidecards">
+      <div class="column is-4-desktop bl-sidecards">
         <div class="card">
           <header class="card-header">
             <p class="card-header-title">分类</p>
           </header>
-          <div class="card-content bl-index-article-categories">
+          <div class="card-content bl-index-categories">
             <%= for i <- 1..9 do %>
-              <a class="bl-index-article-categories-item">
+              <a class="bl-index-categories-item">
                 文章类别-<%= i %>
               </a>
             <% end %>
@@ -39,31 +39,16 @@
           <header class="card-header">
             <p class="card-header-title">标签</p>
           </header>
-          <div class="card-content bl-index-article-tags">
+          <div class="card-content bl-index-tags">
             <%= for i <- 1..9 do %>
-              <a class="bl-index-article-tags-item">
+              <a class="bl-index-tags-item">
                 标签-<%= i %>
               </a>
             <% end %>
           </div>
         </div>
-        <div class="bl-sticky">
-          <div class="card bl-index-about">
-            <header class="card-header">
-              <p class="card-header-title">关于</p>
-            </header>
-            <div class="card-content">
-              <div>
-                <p>
-                  <a>博客的说明和相关历史</a>
-                </p>
-              </div>
-            </div>
-          </div>
-          <div class="bl-footer-card">
-            <span>蓝雨博客 · 2019</span>
-          </div>
-        </div>
+        <%# 载入侧边页脚 %>
+        <%= Phoenix.LiveView.live_render @socket, BlogWeb.SidefooterLive, id: "home_sidefooter" %>
       </div>
     </div>
   </section>

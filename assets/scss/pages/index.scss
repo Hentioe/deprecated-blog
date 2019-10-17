@@ -4,7 +4,7 @@ $article-list-item-transition-duration: 0.5s;
 $article-list-item-color: #ececec;
 
 .bl-index {
-  &-article {
+  &-articles-item {
     border-bottom: 1px solid $article-list-item-color;
     transition: border-bottom $article-list-item-transition-duration;
     cursor: pointer;
@@ -28,37 +28,32 @@ $article-list-item-color: #ececec;
         display: inline-block;
       }
     }
-    &-categories {
-      padding: $card-content-padding 0;
-      &-item {
-        display: block;
-        padding: 0.5rem $card-content-padding;
-        &.is-active,
-        &:hover {
-          background-color: lighten($default-main-color, 40%);
-          color: white;
-        }
-      }
-    }
-    &-tags {
+  }
+  &-categories {
+    padding: $card-content-padding 0;
+    &-item {
+      display: block;
       padding: 0.5rem $card-content-padding;
-      &-item {
-        font-size: 0.9rem;
-        background: lighten($default-main-color, 50%);
-        color: $default-main-color;
-        padding: 2px 6px;
-        margin: 0.5rem 0;
-        border-radius: 12px;
-        display: inline-block;
-        &:hover {
-          background: lighten($default-main-color, 45%);
-        }
+      &.is-active,
+      &:hover {
+        background-color: lighten($default-main-color, 40%);
+        color: white;
       }
     }
   }
-  &-about {
-    a {
-      text-decoration: underline;
+  &-tags {
+    padding: 0.5rem $card-content-padding;
+    &-item {
+      font-size: 0.9rem;
+      background: lighten($default-main-color, 50%);
+      color: $default-main-color;
+      padding: 2px 6px;
+      margin: 0.5rem 0;
+      border-radius: 12px;
+      display: inline-block;
+      &:hover {
+        background: lighten($default-main-color, 45%);
+      }
     }
   }
 }

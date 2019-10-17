@@ -37,10 +37,20 @@ $navbar-background-active-color: darken($navbar-background-color, 10%);
   }
 }
 
-.bl-footer-card {
-  padding: 0.2rem;
-  color: darken($default-background-color, 45%);
-  font-size: 0.9rem;
+// 页脚（位于侧边）
+.bl-sidefooter {
+  position: sticky;
+  top: $navbar-height + $default-spacing;
+  &-about {
+    a {
+      text-decoration: underline;
+    }
+  }
+  &-copyright {
+    padding: 0.2rem;
+    color: darken($default-background-color, 45%);
+    font-size: 0.9rem;
+  }
 }
 
 .bl-page > .container > .section {
@@ -88,11 +98,6 @@ $navbar-background-active-color: darken($navbar-background-color, 10%);
 
 // 类样式实现
 .bl {
-  // 粘性定位
-  &-sticky {
-    position: sticky;
-    top: $navbar-height + $default-spacing;
-  }
   &-sidecards {
     .card {
       margin-bottom: $default-spacing;
