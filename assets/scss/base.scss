@@ -1,16 +1,27 @@
 // 全局变量
-$default-main-color: #00C9CE;
+$default-main-color: #00c9ce;
 $default-background-color: #f6f6f6;
 // 阴影色
 $default-box-shadow-color: rgba(26, 26, 26, 0.1);
 $default-box-shadow-size: 0 1px 3px;
-$default-link-color: #4C4C4C;
-$default-link-hover-color: hsl(217, 71%, 53%);
+$default-link-color: #4c4c4c;
+$default-link-hover-color: darken($default-main-color, 5%);
+$default-spacing: 0.7rem;
+// 透明
+@mixin transparent($opcity) {
+  background-color: rgba(255, 255, 255, $opcity);
+}
+$full-transparent: transparent(0);
 // 重写 Bluma 变量
 $body-background-color: $default-background-color;
 $navbar-box-shadow-color: $default-box-shadow-color;
 $nabbar-box-shadow-size: $default-box-shadow-size;
-$footer-background-color: rgba(0, 0, 0, 0);
+$card-shadow: $default-box-shadow-size $default-box-shadow-color;
+$card-header-background-color: darken($default-background-color, 1%);
+$section-padding: 3rem $default-spacing;
+$section-padding-medium: 9rem $default-spacing;
+$section-padding-large: 18rem $default-spacing;
+$column-gap: $default-spacing / 2;
 
 //扩展
 %link {

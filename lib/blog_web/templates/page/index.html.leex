@@ -1,0 +1,70 @@
+<div class="container">
+  <section class="section">
+    <div class="columns">
+      <div class="column is-8">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">文章</p>
+          </header>
+          <div class="card-content">
+            <%= for i <- 1..40 do %>
+              <div class="columns is-mobile is-vcentered bl-index-article">
+                <div class="column bl-index-article-title">
+                  <a>我是一个假文章标题-<%= i %></a>
+                </div>
+                <div class="column is-narrow has-text-centered bl-index-article-rm">
+                  <span>
+                    <%= Enum.random(0..35) %>
+                  </span>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <div class="column is-4 bl-sidecards">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">分类</p>
+          </header>
+          <div class="card-content bl-index-article-categories">
+            <%= for i <- 1..9 do %>
+              <a class="bl-index-article-categories-item">
+                文章类别-<%= i %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">标签</p>
+          </header>
+          <div class="card-content bl-index-article-tags">
+            <%= for i <- 1..9 do %>
+              <a class="bl-index-article-tags-item">
+                标签-<%= i %>
+              </a>
+            <% end %>
+          </div>
+        </div>
+        <div class="bl-sticky">
+          <div class="card bl-index-about">
+            <header class="card-header">
+              <p class="card-header-title">关于</p>
+            </header>
+            <div class="card-content">
+              <div>
+                <p>
+                  <a>博客的说明和相关历史</a>
+                </p>
+              </div>
+            </div>
+          </div>
+          <div class="bl-footer-card">
+            <span>蓝雨博客 · 2019</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

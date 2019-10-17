@@ -1,5 +1,7 @@
 @import "./base.scss";
+// @import "../../deps/phoenix_live_view/assets/css/live_view.css";
 @import "../node_modules/bulma/bulma.sass";
+@import "./pages/index.scss";
 
 // 链接默认样式
 a {
@@ -31,6 +33,69 @@ $navbar-background-active-color: darken($navbar-background-color, 10%);
         $navbar-background-active-color;
       border-bottom: $nav-menu-item-border-width solid
         darken($default-background-color, 25%);
+    }
+  }
+}
+
+.bl-footer-card {
+  padding: 0.2rem;
+  color: darken($default-background-color, 45%);
+  font-size: 0.9rem;
+}
+
+.bl-page > .container > .section {
+  padding: 1.5rem 0.75rem;
+  & > .columns {
+    margin-left: 0;
+    margin-right: 0;
+    & > .column {
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}
+
+// 改进不同设备样式
+@media screen and (min-width: 1024px) {
+  .bl-page > .container > .section {
+    padding: $default-spacing 0;
+    & > .columns {
+      margin-left: -$column-gap;
+      margin-right: -$column-gap;
+      & > .column {
+        padding-left: $column-gap;
+        padding-right: $column-gap;
+      }
+    }
+  }
+}
+@media screen and (max-width: 960px) {
+  .bl-page > .container > .section {
+    padding: $default-spacing 0;
+  }
+}
+
+// 圆角卡片
+.card {
+  border-radius: $radius;
+  .card-footer {
+    border-radius: 0 0 $radius $radius;
+  }
+  .card-header {
+    border-radius: $radius $radius 0 0;
+  }
+}
+
+// 类样式实现
+.bl {
+  // 粘性定位
+  &-sticky {
+    position: sticky;
+    top: $navbar-height + $default-spacing;
+  }
+  &-sidecards {
+    .card {
+      margin-bottom: $default-spacing;
     }
   }
 }
