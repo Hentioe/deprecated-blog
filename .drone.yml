@@ -12,7 +12,7 @@ steps:
     image: bluerain/elixir:1.9.2-slim
     pull: true
     environment:
-      - MIX_ENV=prod
+      MIX_ENV: prod
     commands:
       - mix phx.digest
       - mix release
