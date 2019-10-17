@@ -1,0 +1,31 @@
+kind: pipeline
+name: default
+
+steps:
+  - name: assets-build
+    image: node:stretch
+    commands:
+      - npm install --prefix assets
+      - npm run deploy --prefix assets
+
+  - name: app-build
+    image: bluerain/elixir:1.9.2-slim
+    pull: true
+    environment:
+      - MIX_ENV=prod
+    commands:
+      - mix phx.digest
+      - mix release
+
+  - name: image-build
+    image: docker
+    commands:
+      - docker build . -t bluerain/blog
+    volumes:
+      - name: docker_sock
+        path: /var/run/docker.sock
+
+volumes:
+  - name: docker_sock
+    host:
+      path: /var/run/docker.sock
