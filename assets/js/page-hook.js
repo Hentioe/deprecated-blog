@@ -1,3 +1,6 @@
+import Progress from "./progress";
+const bar = new Progress("#progress");
+bar.connecting(0.1);
 const defaultOptions = {
   // 选中的导航栏子项
   navbar_item: null
@@ -17,8 +20,10 @@ class PageHook {
       items.forEach(item => item.classList.add("is-active"));
     }
     this.updateTitle();
+    bar.finished();
   }
   destroyed() {
+    bar.connecting(0.5);
     if (this.options.navbar_item) {
       let items = document.querySelectorAll(
         `.navbar-item[href='${this.options.navbar_item}']`
@@ -28,8 +33,16 @@ class PageHook {
     window.scrollTo({ top: 0, behavior: "smooth" });
     document.title = defaultTitle;
   }
+
+  disconnected() {
+    bar.connecting(0.25);
+  }
+  reconnected() {
+    bar.finished();
+  }
   updated() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    bar.finished();
   }
   updateTitle() {
     let hookName = this.constructor.name;
