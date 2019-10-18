@@ -16,9 +16,9 @@
         <div class="container">
           <div class="navbar-brand">
             <%= live_link "首页", 
-                          class: "navbar-item is-active",
-                          to: Routes.live_path(@conn, BlogWeb.IndexLive) %>
-            <a href="/" class="navbar-item">想法</a>
+                  class: "navbar-item",
+                  to: Routes.live_path(@conn, BlogWeb.IndexLive) %>
+            <a href="/tweets" class="navbar-item">想法</a>
             <a
               role="button"
               class="navbar-burger burger"

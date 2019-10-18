@@ -5,7 +5,8 @@
   <div class="card-content">
     <div>
       <p>
-        <a>博客的说明和相关历史</a>
+        <%= live_link "博客的说明和相关历史",
+              to: Routes.live_path(@socket, BlogWeb.ArticleLive, "history") %>
       </p>
     </div>
   </div>

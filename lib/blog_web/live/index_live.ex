@@ -17,6 +17,7 @@ defmodule BlogWeb.IndexLive do
               %{
                 id: 10000 + i,
                 title: "我是文章的标题#{i}",
+                query_title: "i-am-an-article-#{i}",
                 rsum: Enum.random(0..24),
                 category_id: Enum.random(10001..(10000 + @csum)),
                 tags:

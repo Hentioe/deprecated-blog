@@ -1,0 +1,41 @@
+<div class="container" phx-hook="ArticlePage" bl-title="<%= @article.title %>">
+  <section class="section">
+    <div class="columns is-desktop">
+      <div class="column is-8-desktop">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title has-text-weight-normal is-size-4 bl-article-title">
+              <%= @article.title %>
+            </p>
+          </header>
+          <div class="columns is-mobile is-marginless bl-article-metainfo">
+            <div class="column is-paddingless is-narrow">
+                发表于
+                <span>12</span>
+                天前
+            </div>
+            <div class="column is-paddingless is-narrow">
+              <span>&nbsp;· 更新于</span>
+              <span>2</span>
+              <span>天前</span>
+            </div>
+            <div class="column is-paddingless is-narrow">
+              <span>&nbsp;·</span>
+              <span>1517</span>
+              次阅读
+            </div>
+          </div>
+          <div class="card-content">
+            <div class="content bl-article-content">
+              <%=raw @article.content %>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-4-desktop bl-sidecards">
+        <%# 载入侧边页脚 %>
+        <%= Phoenix.LiveView.live_render @socket, BlogWeb.SidefooterLive, id: "article_sidefooter" %>
+      </div>
+    </div>
+  </section>
+</div>

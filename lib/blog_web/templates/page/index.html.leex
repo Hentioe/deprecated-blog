@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" phx-hook="IndexPage">
   <section class="section">
     <div class="columns is-desktop">
       <div class="column is-8-desktop">
@@ -9,8 +9,9 @@
           <div class="card-content">
             <%= for article <- @articles do %>
               <div class="columns is-mobile is-vcentered bl-index-articles-item">
-                <div class="column bl-index-articles-item-title">
-                  <a><%= article.title %></a>
+                <div class="column bl-index-articles-item-title" phx-hook="ArticleItem">
+                  <%= live_link article.title,
+                        to: Routes.live_path(@socket, BlogWeb.ArticleLive, article.query_title) %>
                 </div>
                 <div class="column is-narrow has-text-centered bl-index-articles-item-rm">
                   <span>
@@ -30,8 +31,8 @@
           <div class="card-content bl-index-categories">
             <%= for category <- @categories do %>
               <%= live_link category.name, 
-                            class: "bl-index-categories-item#{if @category_id == category.id, do: " is-active"}",
-                            to: Routes.live_path(@socket, BlogWeb.IndexLive, category.id) %>
+                    class: "bl-index-categories-item#{if @category_id == category.id, do: " is-active"}",
+                    to: Routes.live_path(@socket, BlogWeb.IndexLive, category.id) %>
             <% end %>
           </div>
         </div>

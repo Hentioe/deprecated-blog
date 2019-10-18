@@ -20,6 +20,7 @@ defmodule BlogWeb.Router do
     live "/", IndexLive
     live "/c/:category_id", IndexLive
     live "/t/:tag_id", IndexLive
+    live "/p/:query_title", ArticleLive
   end
 
   # Other scopes may use custom stacks.
