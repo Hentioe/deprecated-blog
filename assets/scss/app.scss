@@ -1,5 +1,5 @@
 @import "./base.scss";
-// @import "../../deps/phoenix_live_view/assets/css/live_view.css";
+@import "./icon.scss";
 @import "../node_modules/bulma/bulma.sass";
 @import "./pages/index.scss";
 @import "./pages/article.scss";
@@ -16,7 +16,13 @@ $navbar-background-active-color: darken($navbar-background-color, 10%);
 
 .navbar {
   a.navbar-item {
-    color: darken($default-link-color, 10%);
+    &[href="/"] {
+      color: #82BCFF;
+    }
+    &[href="/readding"] {
+      color: #99FF82;
+    }
+    color: darken($default-link-color, 5%);
     border-top: $nav-menu-item-border-width solid rgba(0, 0, 0, 0);
     border-bottom: $nav-menu-item-border-width solid rgba(0, 0, 0, 0);
     transition: border-bottom $nav-menu-item-transition-duration,
@@ -27,6 +33,7 @@ $navbar-background-active-color: darken($navbar-background-color, 10%);
       border-top: $nav-menu-item-border-width solid
         $navbar-item-hover-background-color;
       border-bottom: $nav-menu-item-border-width solid $default-main-color;
+      background-color: white;
     }
     &:active {
       background-color: $navbar-background-active-color;

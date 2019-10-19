@@ -30,9 +30,13 @@
           </header>
           <div class="card-content bl-index-categories">
             <%= for category <- @categories do %>
-              <%= live_link category.name, 
-                    class: "bl-index-categories-item#{if @category_id == category.id, do: " is-active"}",
-                    to: Routes.live_path(@socket, BlogWeb.IndexLive, category.id) %>
+              <%= live_link  class: "bl-index-categories-item#{if @category_id == category.id, do: " is-active"}",
+                    to: Routes.live_path(@socket, BlogWeb.IndexLive, category.id) do %>
+                    <span>
+                      <i class="iconfont icon-category"></i>
+                    </span>
+                    <span><%= category.name %></span>
+              <% end %>
             <% end %>
           </div>
         </div>

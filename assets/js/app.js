@@ -3,7 +3,6 @@
 // its own CSS file.
 import "../scss/app.scss";
 import "./bulma-event";
-import "@fortawesome/fontawesome-free/js/all";
 import "mdn-polyfills/CustomEvent";
 import "mdn-polyfills/String.prototype.startsWith";
 import "mdn-polyfills/Array.from";
@@ -24,7 +23,11 @@ class IndexPage extends PageHook {
     super({ navbar_item: "/" });
   }
 }
-class ArticlePage extends PageHook {}
+class ArticlePage extends PageHook {
+  constructor() {
+    super({ navbar_item: "/readding" });
+  }
+}
 
 let Hooks = {
   IndexPage: new IndexPage(),

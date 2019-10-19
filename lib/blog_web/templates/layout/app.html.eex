@@ -16,10 +16,17 @@
       >
         <div class="container">
           <div class="navbar-brand">
-            <%= live_link "首页", 
-                  class: "navbar-item",
-                  to: Routes.live_path(@conn, BlogWeb.IndexLive) %>
-            <a href="/tweets" class="navbar-item">想法</a>
+            <%= live_link class: "navbar-item",
+                  to: Routes.live_path(@conn, BlogWeb.IndexLive) do %>
+              <span class="icon">
+                <i class="iconfont font-lg icon-zhuye"></i>
+              </span>
+            <% end %>
+            <a href="/readding" class="navbar-item">
+              <span class="icon">
+                <i class="iconfont font-lg icon-wenzhang"></i>
+              </span>
+            </a>
             <a
               role="button"
               class="navbar-burger burger"
@@ -34,8 +41,6 @@
           </div>
 
           <div id="navbarBasicExample" class="navbar-menu">
-            <div class="navbar-start">
-            </div>
             <div class="navbar-end">
               <a
                 class="navbar-item"
@@ -43,7 +48,7 @@
                 target="_blank"
               >
                 <span class="icon">
-                  <i class="fab fa-lg fa-github-alt"></i>
+                  <i class="iconfont font-lg icon-github-alt"></i>
                 </span>
               </a>
             </div>
@@ -56,5 +61,6 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1466622_hpm5jc5r2kg.css"/>
   </body>
 </html>
