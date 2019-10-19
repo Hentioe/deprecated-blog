@@ -1,2 +1,53 @@
-管理页布局。
-<%= render @view_module, @view_template, assigns %>
+
+<!DOCTYPE html>
+<html class="has-navbar-fixed-top">
+  <head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#00c1c7">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#00c1c7">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#00c1c7">
+    <title>BlueRain Blog</title>
+    <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/admin.css") %>"/>
+  </head>
+  <body>
+    <header>
+      <nav>
+        <div class="nav-wrapper">
+          <a class="brand-logo right">仪表盘</a>
+          <ul id="nav-mobile" class="left hide-on-small-only">
+            <li><a>写文</a></li>
+            <li><a>想法</a></li>
+            <li><a>续更</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <ul id="slide-out" class="sidenav sidenav-fixed">
+      <li>
+        <div class="user-view">
+          <a><span class="name">Hentioe</span></a>
+          <a><span class="email">me@bluerain.com</span></a>
+        </div>
+      </li>
+      <li class="active"><a>仪表盘</a></li>
+      <li><div class="divider"></div></li>
+      <li><a>文章管理</a></li>
+      <li><a>分类管理</a></li>
+      <li><a>标签管理</a></li>
+      <li><a>评论管理</a></li>
+      <li><div class="divider"></div></li>
+      <li><a>设置</a></li>
+    </ul>
+    <main>
+      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+      <%= render @view_module, @view_template, assigns %>
+    </main>
+    <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/admin.js") %>"></script>
+  </body>
+</html>

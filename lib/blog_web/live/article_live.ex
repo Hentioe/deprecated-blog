@@ -1,6 +1,6 @@
 defmodule BlogWeb.ArticleLive do
-  alias BlogWeb.{LiveView, UserView}
-  use LiveView, container: {:div, class: "bl-page"}
+  alias BlogWeb.LiveView
+  use LiveView, view: :user
 
   def render(assigns) do
     Phoenix.View.render(UserView, "article.html", assigns)

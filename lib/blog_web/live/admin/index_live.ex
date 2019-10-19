@@ -1,6 +1,6 @@
 defmodule BlogWeb.Admin.IndexLive do
-  alias BlogWeb.{LiveView, AdminView}
-  use LiveView
+  alias BlogWeb.LiveView
+  use LiveView, view: :admin
 
   def render(assigns) do
     Phoenix.View.render(AdminView, "index.html", assigns)
