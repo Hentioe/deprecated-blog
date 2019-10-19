@@ -31,3 +31,22 @@ $column-gap: $default-spacing / 2;
     color: $default-link-hover-color;
   }
 }
+
+@mixin breathe_animation($name, $duration: 800ms) {
+  animation-timing-function: ease-in-out;
+  animation-name: $name;
+  animation-duration: $duration;
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
+}
+
+@mixin breathe_frames($name, $property, $from, $to) {
+  @keyframes #{$name} {
+    0% {
+      #{$property}: $from;
+    }
+    100% {
+      #{$property}: $to;
+    }
+  }
+}

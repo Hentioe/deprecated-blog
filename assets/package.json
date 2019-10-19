@@ -16,6 +16,7 @@
     "phoenix_html": "file:../deps/phoenix_html",
     "phoenix_live_view": "file:../deps/phoenix_live_view",
     "progressbar.js": "^1.0.1",
+    "url": "^0.11.0",
     "url-search-params-polyfill": "^7.0.0"
   },
   "devDependencies": {

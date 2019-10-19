@@ -14,13 +14,37 @@ $nav-menu-item-border-width: 3px;
 $nav-menu-item-transition-duration: 0.2s;
 $navbar-background-active-color: darken($navbar-background-color, 10%);
 
+$home-icon: home-icon;
+$home-icon-color: #82bcff;
+$readding-icon: readding-icon;
+$readding-icon-color: #99ff82;
+
+@include breathe_frames(
+  $home-icon,
+  color,
+  $home-icon-color,
+  $default-link-color
+);
+@include breathe_frames(
+  $readding-icon,
+  color,
+  $readding-icon-color,
+  $default-link-color
+);
+
 .navbar {
   a.navbar-item {
     &[href="/"] {
-      color: #82BCFF;
+      color: $home-icon-color;
+      &.breathe:not(.is-active) {
+        @include breathe_animation($home-icon);
+      }
     }
     &[href="/readding"] {
-      color: #99FF82;
+      color: $readding-icon-color;
+      &.breathe:not(.is-active) {
+        @include breathe_animation($readding-icon);
+      }
     }
     color: darken($default-link-color, 5%);
     border-top: $nav-menu-item-border-width solid rgba(0, 0, 0, 0);

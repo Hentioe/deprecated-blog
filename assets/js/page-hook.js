@@ -28,7 +28,7 @@ class PageHook {
       let items = document.querySelectorAll(
         `.navbar-item[href='${this.options.navbar_item}']`
       );
-      items.forEach(item => item.classList.remove("is-active"));
+      items.forEach(item => item.classList.remove("is-active", "breathe"));
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
     document.title = defaultTitle;

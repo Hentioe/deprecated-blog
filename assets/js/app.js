@@ -14,6 +14,7 @@ import "url-search-params-polyfill";
 import "formdata-polyfill";
 import "classlist-polyfill";
 import "phoenix_html";
+import "./breathe";
 import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
 import PageHook from "./page-hook";
