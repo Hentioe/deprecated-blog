@@ -1,10 +1,12 @@
-@import "./base.scss";
-@import "./icon.scss";
+// ./lib/
+@import "./lib/icon.scss";
+// base.scss
+@import "./user/base.scss";
+// Bulma
 @import "../node_modules/bulma/bulma.sass";
-@import "./pages/index.scss";
-@import "./pages/article.scss";
+// ./user/
+@import "./user/page.scss"; // 链接默认样式
 
-// 链接默认样式
 a {
   @extend %link;
 }

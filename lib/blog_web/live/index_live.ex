@@ -1,9 +1,9 @@
 defmodule BlogWeb.IndexLive do
-  alias BlogWeb.{LiveView, PageView}
+  alias BlogWeb.{LiveView, UserView}
   use LiveView, container: {:div, class: "bl-page"}
 
   def render(assigns) do
-    Phoenix.View.render(PageView, "index.html", assigns)
+    Phoenix.View.render(UserView, "index.html", assigns)
   end
 
   @csum 7

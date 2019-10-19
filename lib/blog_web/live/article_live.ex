@@ -1,9 +1,9 @@
 defmodule BlogWeb.ArticleLive do
-  alias BlogWeb.{LiveView, PageView}
+  alias BlogWeb.{LiveView, UserView}
   use LiveView, container: {:div, class: "bl-page"}
 
   def render(assigns) do
-    Phoenix.View.render(PageView, "article.html", assigns)
+    Phoenix.View.render(UserView, "article.html", assigns)
   end
 
   @markdown_opts %Earmark.Options{

@@ -1,8 +1,6 @@
-// We need to import the CSS so that webpack will load it.
-// The MiniCssExtractPlugin is used to separate it out into
-// its own CSS file.
-import "../scss/app.scss";
-import "./bulma-event";
+// Styles
+import "../scss/user.scss";
+// Polyfills
 import "mdn-polyfills/CustomEvent";
 import "mdn-polyfills/String.prototype.startsWith";
 import "mdn-polyfills/Array.from";
@@ -13,11 +11,14 @@ import "child-replace-with-polyfill";
 import "url-search-params-polyfill";
 import "formdata-polyfill";
 import "classlist-polyfill";
+// Phoenix
 import "phoenix_html";
-import "./breathe";
 import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
-import PageHook from "./page-hook";
+// ./user/
+import "./user/bulma-event";
+import "./user/breathe";
+import PageHook from "./user/page-hook";
 
 class IndexPage extends PageHook {
   constructor() {

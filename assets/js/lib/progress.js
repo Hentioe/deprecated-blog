@@ -2,7 +2,7 @@ const ProgressBar = require("progressbar.js");
 
 class Progress {
   constructor(elem) {
-    this.bar = new ProgressBar.Line("#progressbar", {
+    this.bar = new ProgressBar.Line(elem, {
       easing: "easeInOut",
       strokeWidth: 0.2,
       from: { color: "#FF450F" },

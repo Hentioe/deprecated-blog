@@ -1,5 +1,5 @@
-import Progress from "./progress";
-const bar = new Progress("#progress");
+import Progress from "../lib/progress";
+const bar = new Progress("#progressbar");
 bar.connecting(0.1);
 const defaultOptions = {
   // 选中的导航栏子项

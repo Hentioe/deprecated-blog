@@ -1,0 +1,2 @@
+管理页布局。
+<%= render @view_module, @view_template, assigns %>

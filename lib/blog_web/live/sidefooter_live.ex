@@ -1,9 +1,9 @@
 defmodule BlogWeb.SidefooterLive do
-  alias BlogWeb.{LiveView, PageView}
+  alias BlogWeb.{LiveView, UserView}
   use LiveView, container: {:div, class: "bl-sidefooter"}
 
   def render(assigns) do
-    Phoenix.View.render(PageView, "sidefooter.html", assigns)
+    Phoenix.View.render(UserView, "sidefooter.html", assigns)
   end
 
   def mount(_attrs, socket) do
