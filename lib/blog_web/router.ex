@@ -18,8 +18,8 @@ defmodule BlogWeb.Router do
     pipe_through :browser
 
     live "/", IndexLive
-    live "/c/:category_id", IndexLive
-    live "/t/:tag_id", IndexLive
+    live "/c/:category_id", IndexLive, as: :clist
+    live "/t/:tag_id", IndexLive, as: :tlist
     live "/p/:query_title", ArticleLive
   end
 

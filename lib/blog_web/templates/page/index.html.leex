@@ -31,7 +31,7 @@
           <div class="card-content bl-index-categories">
             <%= for category <- @categories do %>
               <%= live_link  class: "bl-index-categories-item#{if @category_id == category.id, do: " is-active"}",
-                    to: Routes.live_path(@socket, BlogWeb.IndexLive, category.id) do %>
+                    to: Routes.clist_path(@socket, BlogWeb.IndexLive, category.id) do %>
                     <span>
                       <i class="iconfont icon-category"></i>
                     </span>
@@ -56,7 +56,7 @@
               <% else %>
                 <%= live_link tag.name, 
                       class: "tag is-primary is-small",
-                      to: Routes.live_path(@socket, BlogWeb.IndexLive, %{tag_id: tag.id}) %>
+                      to: Routes.tlist_path(@socket, BlogWeb.IndexLive, tag.id) %>
               <% end %>
             <% end %>
           </div>
