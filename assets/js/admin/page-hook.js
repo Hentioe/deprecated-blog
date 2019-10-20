@@ -1,4 +1,8 @@
 import Url from "url";
+import Preload from "../lib/preload";
+
+const preload = new Preload("#page-loading-progress");
+preload.play();
 
 const defaultOptions = {};
 const defaultTitle = document.title;
@@ -13,17 +17,25 @@ class PageHook {
   mounted() {
     this.navActive();
     this.updateTitle();
+    preload.display();
   }
   destroyed() {
     this.removeActive();
     window.scrollTo({ top: 0, behavior: "smooth" });
     document.title = defaultTitle;
+    preload.play();
   }
 
-  disconnected() {}
-  reconnected() {}
+  disconnected() {
+  
+    preload.play();
+  }
+  reconnected() {
+  
+  }
   updated() {
     window.scrollTo({ top: 0, behavior: "smooth" });
+    preload.display();
   }
   navActive(cache = true) {
     let pathname = this.options.pathname;

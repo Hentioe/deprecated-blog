@@ -6,5 +6,5 @@ document.addEventListener("DOMContentLoaded", function() {
   M.Collapsible.init(collapsibleElems, {});
 
   const elems = document.querySelectorAll(".fixed-action-btn");
-  M.FloatingActionButton.init(elems, {hoverEnabled: false});
+  M.FloatingActionButton.init(elems, {});
 });

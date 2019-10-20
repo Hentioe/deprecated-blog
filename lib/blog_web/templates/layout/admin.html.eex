@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html class="has-navbar-fixed-top">
   <head>
@@ -16,6 +15,9 @@
   </head>
   <body>
     <header>
+      <div id="page-loading-progress" class="progress" style="margin:0;position:fixed;top:0;visibility:hidden;">
+        <div class="indeterminate"></div>
+      </div>
       <nav>
         <div class="nav-wrapper">
           <a class="brand-logo right">
@@ -54,8 +56,8 @@
       <li>
         <%= live_link class: "sidenav-close",
               to: Routes.dashboard_path(@conn, BlogWeb.Admin.DashboardLive) do %>
-          <i class="material-icons">insert_chart</i>
-          图表数据
+          <i class="material-icons red-text">insert_chart</i>
+          数据统计
         <% end %>
       </li>
       <li><div class="divider"></div></li>
@@ -111,7 +113,7 @@
       <li>
         <a class="sidenav-close">
           评论管理
-          <i class="material-icons red-text">view_list</i>
+          <i class="material-icons teal-text text-accent-3">view_list</i>
         </a>
       </li>
       <li><div class="divider"></div></li>
@@ -127,10 +129,20 @@
         <i class="large material-icons deep-orange lighten-1">restaurant_menu</i>
       </a>
       <ul>
-        <li><a class="btn-floating red"><i class="material-icons">view_list</i></a></li>
+        <li><a class="btn-floating teal accent-3"><i class="material-icons">view_list</i></a></li>
         <li><a class="btn-floating yellow darken-1"><i class="material-icons">view_module</i></a></li>
-        <li><a class="btn-floating green"><i class="material-icons">edit</i></a></li>
-        <li><a class="btn-floating blue"><i class="material-icons">note_add</i></a></li>
+        <li>
+          <%= live_link class: "btn-floating green",
+                to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) do %>
+            <i class="material-icons">edit</i>
+          <% end %>
+        </li>
+        <li>
+          <%= live_link class: "btn-floating blue",
+                to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) do %>
+            <i class="material-icons">note_add</i>
+          <% end %>
+        </li>
       </ul>
     </div>
     <main>
