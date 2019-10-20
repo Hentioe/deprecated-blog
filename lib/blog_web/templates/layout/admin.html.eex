@@ -18,15 +18,24 @@
     <header>
       <nav>
         <div class="nav-wrapper">
-          <a class="brand-logo right">仪表盘</a>
-          <ul id="nav-mobile" class="left hide-on-small-only">
+          <a class="brand-logo right">
+            <i class="material-icons">notifications</i>
+          </a>
+          <ul id="nav-mobile">
             <li>
-              <%= live_link "写文",
-                    to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) %>
+              <a data-target="slide-out" class="sidenav-trigger">
+                <i class="material-icons">menu</i>
+              </a>
             </li>
             <li>
-              <%= live_link "续更",
-                    to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) %>
+              <%= live_link to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) do %>
+                写文
+              <% end %>
+            </li>
+            <li>
+              <%= live_link to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) do %>
+                续更
+              <% end %>
             </li>
           </ul>
         </div>
@@ -43,45 +52,116 @@
         </div>
       </li>
       <li>
-        <%= live_link "仪表盘",
-              class: "sidenav-close",
-              to: Routes.dashboard_path(@conn, BlogWeb.Admin.DashboardLive) %>
+        <%= live_link class: "sidenav-close",
+              to: Routes.dashboard_path(@conn, BlogWeb.Admin.DashboardLive) do %>
+          <i class="material-icons">insert_chart</i>
+          图表数据
+        <% end %>
       </li>
       <li><div class="divider"></div></li>
       <li class="no-padding">
         <ul class="collapsible collapsible-accordion">
           <li>
-            <a class="collapsible-header">文章管理</a>
+            <a class="collapsible-header">文章管理<i class="material-icons">folder</i></a>
             <div class="collapsible-body">
               <ul>
                 <li>
-                  <%= live_link "发表文章",
-                        class: "sidenav-close",
-                        to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) %>
+                  <%= live_link class: "sidenav-close",
+                        to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) do %>
+                    新增文章
+                    <i class="material-icons blue-text">note_add</i>
+                  <% end %>
                 </li>
                 <li>
-                  <%= live_link "更新文章",
-                        class: "sidenav-close",
-                        to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) %>
+                  <%= live_link class: "sidenav-close",
+                        to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) do %>
+                    编辑文章
+                    <i class="material-icons green-text">edit</i>
+                  <% end %>
                 </li>
-                <li><a href="#!">恢复文章</a></li>
-                <li><a href="#!">附加操作</a></li>
+                <li>
+                  <a href="#!">
+                    恢复文章
+                    <i class="material-icons">restore</i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#!">
+                    附加操作
+                    <i class="material-icons">view_headline</i>
+                  </a>
+                </li>
               </ul>
             </div>
           </li>
         </ul>
       </li>
-      <li><a class="sidenav-close">分类管理</a></li>
-      <li><a class="sidenav-close">标签管理</a></li>
-      <li><a class="sidenav-close">评论管理</a></li>
+      <li>
+        <a class="sidenav-close">
+          分类整理
+          <i class="material-icons yellow-text">view_module</i>
+        </a>
+      </li>
+      <li>
+        <a class="sidenav-close">
+          标签整理
+          <i class="material-icons">view_module</i>
+        </a>
+      </li>
+      <li>
+        <a class="sidenav-close">
+          评论管理
+          <i class="material-icons red-text">view_list</i>
+        </a>
+      </li>
       <li><div class="divider"></div></li>
-      <li><a class="sidenav-close">设置</a></li>
+      <li>
+        <a class="sidenav-close">
+          设置
+          <i class="material-icons">settings</i>
+        </a>
+      </li>
     </ul>
+    <div class="fixed-action-btn" style="user-select:none;">
+      <a class="btn-floating btn-large">
+        <i class="large material-icons deep-orange lighten-1">restaurant_menu</i>
+      </a>
+      <ul>
+        <li><a class="btn-floating red"><i class="material-icons">view_list</i></a></li>
+        <li><a class="btn-floating yellow darken-1"><i class="material-icons">view_module</i></a></li>
+        <li><a class="btn-floating green"><i class="material-icons">edit</i></a></li>
+        <li><a class="btn-floating blue"><i class="material-icons">note_add</i></a></li>
+      </ul>
+    </div>
     <main>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= render @view_module, @view_template, assigns %>
     </main>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/admin.js") %>"></script>
+    <style>
+      @font-face {
+        font-family: 'Material Icons';
+        font-style: normal;
+        font-weight: 400;
+        src: url(<%= Routes.static_path(@conn, "/fonts/Material-Icons.woff2") %>) format('woff2');
+      }
+
+      .material-icons {
+        font-family: 'Material Icons';
+        font-weight: normal;
+        font-style: normal;
+        font-size: 24px;
+        line-height: 1;
+        letter-spacing: normal;
+        text-transform: none;
+        display: inline-block;
+        white-space: nowrap;
+        word-wrap: normal;
+        direction: ltr;
+        -webkit-font-feature-settings: 'liga';
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
   </body>
 </html>

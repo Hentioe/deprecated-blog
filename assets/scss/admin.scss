@@ -15,14 +15,20 @@ footer {
   }
 }
 
-// SideNav
+// Sidenav
 .sidenav {
   .collapsible-header {
     padding: 0 $sidenav-padding * 2;
   }
   .collapsible-body {
-    li a {
-      padding: 0 $sidenav-padding * 3;
+    ul {
+      &:not(.collapsible) > li.active a i {
+        // 图标跟随变色
+        color: $sidenav-bg-color;
+      }
+      li a {
+        padding: 0 $sidenav-padding * 3;
+      }
     }
   }
 }

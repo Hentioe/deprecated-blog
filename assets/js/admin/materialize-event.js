@@ -1,7 +1,10 @@
 document.addEventListener("DOMContentLoaded", function() {
-  let sidenavElem = document.querySelector(".sidenav");
+  const sidenavElem = document.querySelector(".sidenav");
   M.Sidenav.init(sidenavElem, {});
 
-  let collapsibleElems = document.querySelectorAll('.collapsible');
+  const collapsibleElems = document.querySelectorAll(".collapsible");
   M.Collapsible.init(collapsibleElems, {});
+
+  const elems = document.querySelectorAll(".fixed-action-btn");
+  M.FloatingActionButton.init(elems, {hoverEnabled: false});
 });
