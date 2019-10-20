@@ -17,6 +17,40 @@ import "../node_modules/materialize-css/dist/js/materialize.min";
 import "phoenix_html";
 import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
+// ./admin/
+import "./admin/materialize-event";
+import PageHook from "./admin/page-hook";
 
-let liveSocket = new LiveSocket("/live", Socket);
+class DashboardPage extends PageHook {}
+class ArticlePage extends PageHook {
+  mounted() {
+    super.mounted();
+    let navLink = document.querySelector(
+      `nav li > a[href="${this.options.pathname}"]`
+    );
+    if (navLink) {
+      navLink.parentNode.classList.add("active");
+    }
+  }
+  
+  destroyed(){
+    super.destroyed();
+    let navLink = document.querySelector(
+      `nav li > a[href="${this.options.pathname}"]`
+    );
+    if (navLink) {
+      navLink.parentNode.classList.remove("active");
+    }
+  }
+}
+class AddArticlePage extends ArticlePage {}
+class EditArticlePage extends ArticlePage {}
+
+const Hooks = {
+  DashboardPage: new DashboardPage(),
+  AddArticlePage: new AddArticlePage(),
+  EditArticlePage: new EditArticlePage()
+};
+
+let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks });
 liveSocket.connect();

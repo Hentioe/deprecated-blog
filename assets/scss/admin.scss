@@ -14,3 +14,15 @@ footer {
     padding-left: 0;
   }
 }
+
+// SideNav
+.sidenav {
+  .collapsible-header {
+    padding: 0 $sidenav-padding * 2;
+  }
+  .collapsible-body {
+    li a {
+      padding: 0 $sidenav-padding * 3;
+    }
+  }
+}

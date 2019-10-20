@@ -4,6 +4,12 @@
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <!-- Chrome, Firefox OS and Opera -->
+    <meta name="theme-color" content="#00dae0">
+    <!-- Windows Phone -->
+    <meta name="msapplication-navbutton-color" content="#00dae0">
+    <!-- iOS Safari -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="#00dae0">
     <title>BlueRain Blog</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/user.css") %>"/>
   </head>

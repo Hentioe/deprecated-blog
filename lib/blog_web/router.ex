@@ -34,7 +34,10 @@ defmodule BlogWeb.Router do
   scope "/admin", BlogWeb.Admin do
     pipe_through [:browser, :admin_layout]
 
-    live "/", IndexLive
+    live "/", DashboardLive, as: :admin_root
+    live "/dashboard", DashboardLive, as: :dashboard
+    live "/article/add", AddArticleLive
+    live "/article/edit", EditArticleLive
   end
 
   # Other scopes may use custom stacks.

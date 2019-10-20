@@ -14,7 +14,7 @@ defmodule BlogWeb.LiveView do
       else
         case view_name do
           :user -> otps |> Keyword.put(:container, {:div, class: "bl-page"})
-          :admin -> otps
+          :admin -> otps |> Keyword.put(:container, {:div, class: "bl-admin-page"})
           _ -> raise "Invalid :view => :#{view_name}"
         end
       end
@@ -24,6 +24,7 @@ defmodule BlogWeb.LiveView do
       alias Phoenix.LiveView.Socket
       alias unquote(view)
       import BlogWeb.LiveView
+      alias BlogWeb.Router.Helpers, as: Routes
     end
   end
 

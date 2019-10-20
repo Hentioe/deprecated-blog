@@ -20,28 +20,62 @@
         <div class="nav-wrapper">
           <a class="brand-logo right">仪表盘</a>
           <ul id="nav-mobile" class="left hide-on-small-only">
-            <li><a>写文</a></li>
-            <li><a>想法</a></li>
-            <li><a>续更</a></li>
+            <li>
+              <%= live_link "写文",
+                    to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) %>
+            </li>
+            <li>
+              <%= live_link "续更",
+                    to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) %>
+            </li>
           </ul>
         </div>
       </nav>
     </header>
     <ul id="slide-out" class="sidenav sidenav-fixed">
       <li>
-        <div class="user-view">
-          <a><span class="name">Hentioe</span></a>
-          <a><span class="email">me@bluerain.com</span></a>
+        <div class="user-view blue lighten-1">
+          <a>
+            <img class="circle" src="<%= Routes.static_path(@conn, "/images/avatar.png") %>">
+          </a>
+          <a><span class="name white-text">Hentioe</span></a>
+          <a><span class="email white-text">me@bluerain.com</span></a>
         </div>
       </li>
-      <li class="active"><a>仪表盘</a></li>
+      <li>
+        <%= live_link "仪表盘",
+              class: "sidenav-close",
+              to: Routes.dashboard_path(@conn, BlogWeb.Admin.DashboardLive) %>
+      </li>
       <li><div class="divider"></div></li>
-      <li><a>文章管理</a></li>
-      <li><a>分类管理</a></li>
-      <li><a>标签管理</a></li>
-      <li><a>评论管理</a></li>
+      <li class="no-padding">
+        <ul class="collapsible collapsible-accordion">
+          <li>
+            <a class="collapsible-header">文章管理</a>
+            <div class="collapsible-body">
+              <ul>
+                <li>
+                  <%= live_link "发表文章",
+                        class: "sidenav-close",
+                        to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) %>
+                </li>
+                <li>
+                  <%= live_link "更新文章",
+                        class: "sidenav-close",
+                        to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) %>
+                </li>
+                <li><a href="#!">恢复文章</a></li>
+                <li><a href="#!">附加操作</a></li>
+              </ul>
+            </div>
+          </li>
+        </ul>
+      </li>
+      <li><a class="sidenav-close">分类管理</a></li>
+      <li><a class="sidenav-close">标签管理</a></li>
+      <li><a class="sidenav-close">评论管理</a></li>
       <li><div class="divider"></div></li>
-      <li><a>设置</a></li>
+      <li><a class="sidenav-close">设置</a></li>
     </ul>
     <main>
       <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
