@@ -30,7 +30,9 @@ class PageHook {
   disconnected() {
     preload.play();
   }
-  reconnected() {}
+  reconnected() {
+    preload.display();
+  }
   updated() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     preload.display();

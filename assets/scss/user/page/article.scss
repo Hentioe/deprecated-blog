@@ -13,4 +13,11 @@
       color: darken($default-link-color, 30%);
     }
   }
+  &-content {
+    @for $i from 1 through 6 {
+      h#{$i} {
+        font-weight: 400;
+      }
+    }
+  }
 }
