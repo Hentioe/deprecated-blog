@@ -18,10 +18,21 @@ import "phoenix_html";
 import { Socket } from "phoenix";
 import LiveSocket from "phoenix_live_view";
 // ./admin/
-import "./admin/materialize-event";
+import initEvent from "./admin/materialize-event";
 import PageHook from "./admin/page-hook";
 
-class DashboardPage extends PageHook {}
+const globalAcitionBtnElem = document.querySelector("#global-action-btn");
+class DashboardPage extends PageHook {
+  mounted() {
+    super.mounted()
+    M.FloatingActionButton.getInstance(globalAcitionBtnElem).open();
+  }
+
+  destroyed(){
+    super.destroyed()
+    M.FloatingActionButton.getInstance(globalAcitionBtnElem).close();
+  }
+}
 class ArticlePage extends PageHook {
   mounted() {
     super.mounted();
@@ -31,9 +42,11 @@ class ArticlePage extends PageHook {
     if (navLink) {
       navLink.parentNode.classList.add("active");
     }
+    initEvent(this.pageName());
+    globalAcitionBtnElem.style.visibility = "hidden";
   }
-  
-  destroyed(){
+
+  destroyed() {
     super.destroyed();
     let navLink = document.querySelector(
       `nav li > a[href="${this.options.pathname}"]`
@@ -41,6 +54,7 @@ class ArticlePage extends PageHook {
     if (navLink) {
       navLink.parentNode.classList.remove("active");
     }
+    globalAcitionBtnElem.style.visibility = "visible";
   }
 }
 class AddArticlePage extends ArticlePage {}

@@ -1,0 +1,7 @@
+div[phx-hook="AddArticlePage"] {
+  textarea#content {
+    height: 380px;
+    max-height: 380px;
+    overflow-y: auto;
+  }
+}

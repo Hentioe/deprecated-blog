@@ -1,10 +1,22 @@
 document.addEventListener("DOMContentLoaded", function() {
-  const sidenavElem = document.querySelector(".sidenav");
+  let sidenavElem = document.querySelector(".sidenav");
   M.Sidenav.init(sidenavElem, {});
 
-  const collapsibleElems = document.querySelectorAll(".collapsible");
+  let collapsibleElems = document.querySelectorAll(".collapsible");
   M.Collapsible.init(collapsibleElems, {});
 
-  const elems = document.querySelectorAll(".fixed-action-btn");
-  M.FloatingActionButton.init(elems, {});
+  let actionBtnElems = document.querySelectorAll(".fixed-action-btn");
+  M.FloatingActionButton.init(actionBtnElems, {});
 });
+
+export default function(page) {
+  const pageSelect = `div[phx-hook="${page}"]`;
+
+  M.FormSelect.init(document.querySelectorAll(`${pageSelect} select`), {});
+  M.Tabs.init(document.querySelectorAll(`${pageSelect} .tabs`), {});
+  M.Chips.init(document.querySelectorAll(`${pageSelect} .chips`), {});
+  M.FloatingActionButton.init(
+    document.querySelectorAll(`${pageSelect} .fixed-action-btn`),
+    {}
+  );
+}

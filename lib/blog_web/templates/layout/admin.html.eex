@@ -124,7 +124,7 @@
         </a>
       </li>
     </ul>
-    <div class="fixed-action-btn" style="user-select:none;">
+    <div id="global-action-btn" class="fixed-action-btn" style="user-select:none;">
       <a class="btn-floating btn-large">
         <i class="large material-icons deep-orange lighten-1">restaurant_menu</i>
       </a>

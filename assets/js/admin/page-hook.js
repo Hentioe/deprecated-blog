@@ -11,6 +11,7 @@ class PageHook {
   constructor(options = defaultOptions) {
     this.options = Object.assign({ ...defaultOptions }, options);
     this.updateTitle = this.updateTitle.bind(this);
+    this.pageName = this.pageName.bind(this);
     this.removeActive = this.removeActive.bind(this);
     this.navActive = this.navActive.bind(this);
   }
@@ -27,12 +28,9 @@ class PageHook {
   }
 
   disconnected() {
-  
     preload.play();
   }
-  reconnected() {
-  
-  }
+  reconnected() {}
   updated() {
     window.scrollTo({ top: 0, behavior: "smooth" });
     preload.display();
@@ -72,7 +70,7 @@ class PageHook {
     });
   }
   updateTitle() {
-    let hookName = this.constructor.name;
+    let hookName = this.pageName();
     let container = document.querySelector(
       `.container[phx-hook='${hookName}']`
     );
@@ -84,6 +82,10 @@ class PageHook {
       }
     }
     document.title = title;
+  }
+
+  pageName() {
+    return this.constructor.name;
   }
 }
 
