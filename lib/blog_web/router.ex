@@ -37,6 +37,7 @@ defmodule BlogWeb.Router do
     live "/", DashboardLive, as: :admin_root
     live "/dashboard", DashboardLive, as: :dashboard
     live "/article/add", AddArticleLive
+    live "/article/edit/:id", EditArticleLive
     live "/article/edit", EditArticleLive
   end
 
