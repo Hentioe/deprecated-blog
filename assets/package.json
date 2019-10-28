@@ -19,7 +19,10 @@
     "progressbar.js": "^1.0.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
+    "react-redux": "^7.1.1",
     "react-router-dom": "^5.1.2",
+    "redux": "^4.0.4",
+    "redux-logger": "^3.0.6",
     "url": "^0.11.0",
     "url-search-params-polyfill": "^7.0.0"
   },

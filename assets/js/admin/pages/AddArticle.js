@@ -1,7 +1,23 @@
 import React from "react";
+import { connect } from "react-redux";
+import { hiddenGlobalFAB, showGlobalFAB } from "../actions";
 import { PageComponent, Page } from "../lib/page";
 
 class AddArticle extends PageComponent {
+  constructor(props) {
+    super(props);
+  }
+
+  componentDidMount() {
+    super.componentDidMount();
+    const { dispatch } = this.props;
+    dispatch(hiddenGlobalFAB());
+  }
+
+  componentWillUnmount() {
+    super.componentWillUnmount();
+  }
+
   render() {
     return (
       <Page className="container" id={this.constructor.name}>
@@ -18,9 +34,7 @@ class AddArticle extends PageComponent {
               </div>
               <div className="input-field col s12 m6">
                 <select defaultValue="0">
-                  <option value="0">
-                    未选择
-                  </option>
+                  <option value="0">未选择</option>
                   <option value="1">类别 1</option>
                   <option value="2">类别 2</option>
                   <option value="3">类别 3</option>
@@ -69,9 +83,7 @@ class AddArticle extends PageComponent {
               </div>
               <div className="input-field col s6">
                 <select defaultValue="0">
-                  <option value="0">
-                    未选择（开放）
-                  </option>
+                  <option value="0">未选择（开放）</option>
                   <option value="1">审核匿名</option>
                   <option value="2">审核所有</option>
                   <option value="3">禁止匿名</option>
@@ -92,4 +104,8 @@ class AddArticle extends PageComponent {
   }
 }
 
-export default AddArticle;
+const mapStateToProps = state => {
+  return {};
+};
+
+export default connect(mapStateToProps)(AddArticle);

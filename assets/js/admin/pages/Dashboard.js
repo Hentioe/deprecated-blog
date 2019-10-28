@@ -1,7 +1,15 @@
 import React from "react";
+import { connect } from "react-redux";
+import { openGlobalFAB } from "../actions";
 import { PageComponent } from "../lib/page";
 
 class Dashboard extends PageComponent {
+  componentDidMount() {
+    super.componentDidMount();
+    const { dispatch } = this.props;
+    dispatch(openGlobalFAB());
+  }
+
   render() {
     return (
       <div className="container">
@@ -11,4 +19,8 @@ class Dashboard extends PageComponent {
   }
 }
 
-export default Dashboard;
+const mapStateToProps = state => {
+  return {};
+};
+
+export default connect(mapStateToProps)(Dashboard);

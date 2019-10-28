@@ -1,21 +1,38 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 
 class GlobalActionButtons extends React.Component {
   constructor(props) {
     super(props);
-    this.buttons = React.createRef();
+    this.fab = React.createRef();
+
+    this.open = this.open.bind(this);
   }
 
   componentDidMount() {
-    M.FloatingActionButton.init(this.buttons.current, {});
+    M.FloatingActionButton.init(this.fab.current, {});
   }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (this.props.opened) this.open();
+    else this.close();
+  }
+
+  open() {
+    M.FloatingActionButton.getInstance(this.fab.current).open();
+  }
+
+  close() {
+    M.FloatingActionButton.getInstance(this.fab.current).close();
+  }
+
   render() {
     return (
       <div
-        ref={this.buttons}
-        id="global-action-btn"
+        ref={this.fab}
         className="fixed-action-btn"
-        style={{ userSelect: "none" }}
+        style={{ userSelect: "none", visibility: this.props.visibility }}
       >
         <a className="btn-floating btn-large">
           <i className="large material-icons deep-orange lighten-1">
@@ -34,14 +51,14 @@ class GlobalActionButtons extends React.Component {
             </a>
           </li>
           <li>
-            <a className="btn-floating green">
+            <Link className="btn-floating green" to="/admin/articles/edit">
               <i className="material-icons">edit</i>
-            </a>
+            </Link>
           </li>
           <li>
-            <a className="btn-floating blue">
+            <Link className="btn-floating blue" to="/admin/articles/add">
               <i className="material-icons">note_add</i>
-            </a>
+            </Link>
           </li>
         </ul>
       </div>
@@ -49,4 +66,8 @@ class GlobalActionButtons extends React.Component {
   }
 }
 
-export default GlobalActionButtons;
+const mapStateToProps = state => {
+  return state.globalFAB;
+};
+
+export default connect(mapStateToProps)(GlobalActionButtons);
