@@ -7,6 +7,7 @@ import "mdn-polyfills/Array.from";
 import "mdn-polyfills/NodeList.prototype.forEach";
 import "mdn-polyfills/Element.prototype.closest";
 import "mdn-polyfills/Element.prototype.matches";
+import "mdn-polyfills/Object.assign";
 import "child-replace-with-polyfill";
 import "url-search-params-polyfill";
 import "formdata-polyfill";
@@ -23,7 +24,7 @@ import reduxLogger from "redux-logger";
 
 import Header from "./admin/components/Header";
 import Sidenav from "./admin/components/Sidenav";
-import GlobalActionButtons from "./admin/components/GlobalActionButtons";
+import GlobalFAB from "./admin/components/GlobalFAB";
 
 import Dashboard from "./admin/pages/Dashboard";
 import AddArticle from "./admin/pages/AddArticle";
@@ -43,7 +44,7 @@ class AppPage extends React.Component {
           <>
             <Header />
             <Sidenav />
-            <GlobalActionButtons />
+            <GlobalFAB />
             <main>
               <Switch>
                 <Route path="/admin/articles/add">

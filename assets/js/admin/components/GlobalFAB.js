@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 
-class GlobalActionButtons extends React.Component {
+class GlobalFAB extends React.Component {
   constructor(props) {
     super(props);
     this.fab = React.createRef();
@@ -70,4 +70,4 @@ const mapStateToProps = state => {
   return state.globalFAB;
 };
 
-export default connect(mapStateToProps)(GlobalActionButtons);
+export default connect(mapStateToProps)(GlobalFAB);
