@@ -48,7 +48,7 @@ defmodule BlogWeb.Router do
   scope "/admin2", BlogWeb.Admin2 do
     pipe_through [:browser, :admin2_layout]
 
-    get "/", IndexController, :index
+    get "/*path", IndexController, :index
   end
 
   # Other scopes may use custom stacks.
