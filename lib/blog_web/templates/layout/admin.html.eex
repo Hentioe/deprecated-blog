@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html class="has-navbar-fixed-top">
+<html>
   <head>
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -10,146 +10,11 @@
     <meta name="msapplication-navbutton-color" content="#00c1c7">
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="#00c1c7">
-    <title>BlueRain Blog</title>
+    <title>Bluerain Blog Admin | React</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/admin.css") %>"/>
   </head>
   <body>
-    <header>
-      <div id="page-loading-progress" class="progress" style="margin:0;position:fixed;top:0;visibility:hidden;">
-        <div class="indeterminate"></div>
-      </div>
-      <nav>
-        <div class="nav-wrapper">
-          <a class="brand-logo right">
-            <i class="material-icons">notifications</i>
-          </a>
-          <ul id="nav-mobile">
-            <li>
-              <a data-target="slide-out" class="sidenav-trigger">
-                <i class="material-icons">menu</i>
-              </a>
-            </li>
-            <li>
-              <%= live_link to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) do %>
-                写文
-              <% end %>
-            </li>
-            <li>
-              <%= live_link to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) do %>
-                续更
-              <% end %>
-            </li>
-          </ul>
-        </div>
-      </nav>
-    </header>
-    <ul id="slide-out" class="sidenav sidenav-fixed">
-      <li>
-        <div class="user-view blue lighten-1">
-          <a>
-            <img class="circle" src="<%= Routes.static_path(@conn, "/images/avatar.png") %>">
-          </a>
-          <a><span class="name white-text">Hentioe</span></a>
-          <a><span class="email white-text">me@bluerain.com</span></a>
-        </div>
-      </li>
-      <li>
-        <%= live_link class: "sidenav-close",
-              to: Routes.dashboard_path(@conn, BlogWeb.Admin.DashboardLive) do %>
-          <i class="material-icons red-text">insert_chart</i>
-          数据统计
-        <% end %>
-      </li>
-      <li><div class="divider"></div></li>
-      <li class="no-padding">
-        <ul class="collapsible collapsible-accordion">
-          <li>
-            <a class="collapsible-header">文章管理<i class="material-icons">folder</i></a>
-            <div class="collapsible-body">
-              <ul>
-                <li>
-                  <%= live_link class: "sidenav-close",
-                        to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) do %>
-                    新增文章
-                    <i class="material-icons blue-text">note_add</i>
-                  <% end %>
-                </li>
-                <li>
-                  <%= live_link class: "sidenav-close",
-                        to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) do %>
-                    编辑文章
-                    <i class="material-icons green-text">edit</i>
-                  <% end %>
-                </li>
-                <li>
-                  <a href="#!">
-                    恢复文章
-                    <i class="material-icons">restore</i>
-                  </a>
-                </li>
-                <li>
-                  <a href="#!">
-                    附加操作
-                    <i class="material-icons">view_headline</i>
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </li>
-        </ul>
-      </li>
-      <li>
-        <a class="sidenav-close">
-          分类整理
-          <i class="material-icons yellow-text">view_module</i>
-        </a>
-      </li>
-      <li>
-        <a class="sidenav-close">
-          标签整理
-          <i class="material-icons">view_module</i>
-        </a>
-      </li>
-      <li>
-        <a class="sidenav-close">
-          评论管理
-          <i class="material-icons teal-text text-accent-3">view_list</i>
-        </a>
-      </li>
-      <li><div class="divider"></div></li>
-      <li>
-        <a class="sidenav-close">
-          设置
-          <i class="material-icons">settings</i>
-        </a>
-      </li>
-    </ul>
-    <div id="global-action-btn" class="fixed-action-btn" style="user-select:none;">
-      <a class="btn-floating btn-large">
-        <i class="large material-icons deep-orange lighten-1">restaurant_menu</i>
-      </a>
-      <ul>
-        <li><a class="btn-floating teal accent-3"><i class="material-icons">view_list</i></a></li>
-        <li><a class="btn-floating yellow darken-1"><i class="material-icons">view_module</i></a></li>
-        <li>
-          <%= live_link class: "btn-floating green",
-                to: Routes.live_path(@conn, BlogWeb.Admin.EditArticleLive) do %>
-            <i class="material-icons">edit</i>
-          <% end %>
-        </li>
-        <li>
-          <%= live_link class: "btn-floating blue",
-                to: Routes.live_path(@conn, BlogWeb.Admin.AddArticleLive) do %>
-            <i class="material-icons">note_add</i>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-    <main>
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= render @view_module, @view_template, assigns %>
-    </main>
+    <%= render @view_module, @view_template, assigns %>
     <script type="text/javascript" src="<%= Routes.static_path(@conn, "/js/admin.js") %>"></script>
     <style>
       @font-face {

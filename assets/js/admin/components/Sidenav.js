@@ -28,7 +28,7 @@ class Sidenav extends React.Component {
           </div>
         </li>
         <li>
-          <Link className="sidenav-close" to="/admin2">
+          <Link className="sidenav-close" to="/admin">
             数据统计
             <i className="material-icons red-text">insert_chart</i>
           </Link>
@@ -45,13 +45,13 @@ class Sidenav extends React.Component {
               <div className="collapsible-body">
                 <ul>
                   <li>
-                    <Link className="sidenav-close" to="/admin2/articles/add">
+                    <Link className="sidenav-close" to="/admin/articles/add">
                       新增文章
                       <i className="material-icons blue-text">note_add</i>
                     </Link>
                   </li>
                   <li>
-                    <Link className="sidenav-close" to="/admin2/articles/edit">
+                    <Link className="sidenav-close" to="/admin/articles/edit">
                       编辑文章
                       <i className="material-icons green-text">edit</i>
                     </Link>

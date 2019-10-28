@@ -31,10 +31,10 @@ class Header extends React.Component {
                 </a>
               </li>
               <li>
-                <Link to="/admin2/articles/add">写文</Link>
+                <Link to="/admin/articles/add">写文</Link>
               </li>
               <li>
-                <Link to="/admin2/articles/edit">续更</Link>
+                <Link to="/admin/articles/edit">续更</Link>
               </li>
             </ul>
           </div>

@@ -4,21 +4,21 @@ import { PageComponent, Page } from "../lib/page";
 class AddArticle extends PageComponent {
   render() {
     return (
-      <Page id={this.constructor.name}>
+      <Page className="container" id={this.constructor.name}>
         <div className="section">
           <form className="z-depth-1 white">
             <div className="row">
               <div className="input-field col s12">
                 <input id="title" type="text" />
-                <label for="title">标题</label>
+                <label htmlFor="title">标题</label>
               </div>
               <div className="input-field col s12 m6">
                 <input id="query_tile" type="text" />
-                <label for="query_tile">查询标题</label>
+                <label htmlFor="query_tile">查询标题</label>
               </div>
               <div className="input-field col s12 m6">
-                <select>
-                  <option value="" selected>
+                <select defaultValue="0">
+                  <option value="0">
                     未选择
                   </option>
                   <option value="1">类别 1</option>
@@ -58,8 +58,8 @@ class AddArticle extends PageComponent {
                 <input className="input" placeholder="添加标签…" />
               </div>
               <div className="input-field col s6">
-                <select multiple>
-                  <option value="0" selected disabled>
+                <select multiple defaultValue={["0"]}>
+                  <option value="0" disabled>
                     选择附加
                   </option>
                   <option value="1">置顶</option>
@@ -68,8 +68,8 @@ class AddArticle extends PageComponent {
                 <label>附加选项</label>
               </div>
               <div className="input-field col s6">
-                <select>
-                  <option value="0" selected>
+                <select defaultValue="0">
+                  <option value="0">
                     未选择（开放）
                   </option>
                   <option value="1">审核匿名</option>

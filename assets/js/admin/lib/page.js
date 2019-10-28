@@ -84,7 +84,7 @@ class PageComponent extends React.Component {
 
 function Page(props) {
   return (
-    <div className="container" id={props.id}>
+    <div className={props.className} id={props.id}>
       {props.children}
     </div>
   );

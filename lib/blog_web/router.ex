@@ -22,10 +22,6 @@ defmodule BlogWeb.Router do
     plug :put_layout, {BlogWeb.LayoutView, :admin}
   end
 
-  pipeline :admin2_layout do
-    plug :put_layout, {BlogWeb.LayoutView, :admin2}
-  end
-
   scope "/", BlogWeb do
     pipe_through [:browser, :user_layout]
 
@@ -38,17 +34,7 @@ defmodule BlogWeb.Router do
   scope "/admin", BlogWeb.Admin do
     pipe_through [:browser, :admin_layout]
 
-    live "/", DashboardLive, as: :admin_root
-    live "/dashboard", DashboardLive, as: :dashboard
-    live "/article/add", AddArticleLive
-    live "/article/edit/:id", EditArticleLive
-    live "/article/edit", EditArticleLive
-  end
-
-  scope "/admin2", BlogWeb.Admin2 do
-    pipe_through [:browser, :admin2_layout]
-
-    get "/*path", IndexController, :index
+    get "/*path", PageController, :index
   end
 
   # Other scopes may use custom stacks.

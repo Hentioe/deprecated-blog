@@ -13,58 +13,44 @@ import "formdata-polyfill";
 import "classlist-polyfill";
 // Materialize
 import "../node_modules/materialize-css/dist/js/materialize.min";
-// Phoenix
-import "phoenix_html";
-import { Socket } from "phoenix";
-import LiveSocket from "phoenix_live_view";
-// ./admin/
-import initEvent from "./admin/materialize-event";
-import PageHook from "./admin/page-hook";
 
-const globalAcitionBtnElem = document.querySelector("#global-action-btn");
-class DashboardPage extends PageHook {
-  mounted() {
-    super.mounted()
-    M.FloatingActionButton.getInstance(globalAcitionBtnElem).open();
-  }
+import React from "react";
+import ReactDOM from "react-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
-  destroyed(){
-    super.destroyed()
-    M.FloatingActionButton.getInstance(globalAcitionBtnElem).close();
+import Header from "./admin/components/Header";
+import Sidenav from "./admin/components/Sidenav";
+import GlobalActionButtons from "./admin/components/GlobalActionButtons";
+
+import Dashboard from "./admin/pages/Dashboard";
+import AddArticle from "./admin/pages/AddArticle";
+import EditArticle from "./admin/pages/EditArticle";
+
+class AppPage extends React.Component {
+  render() {
+    return (
+      <Router>
+        <>
+          <Header />
+          <Sidenav />
+          <GlobalActionButtons />
+          <main>
+            <Switch>
+              <Route path="/admin/articles/add">
+                <AddArticle />
+              </Route>
+              <Route path="/admin/articles/edit">
+                <EditArticle />
+              </Route>
+              <Route path="/admin">
+                <Dashboard />
+              </Route>
+            </Switch>
+          </main>
+        </>
+      </Router>
+    );
   }
 }
-class ArticlePage extends PageHook {
-  mounted() {
-    super.mounted();
-    let navLink = document.querySelector(
-      `nav li > a[href="${this.options.pathname}"]`
-    );
-    if (navLink) {
-      navLink.parentNode.classList.add("active");
-    }
-    initEvent(this.pageName());
-    globalAcitionBtnElem.style.visibility = "hidden";
-  }
 
-  destroyed() {
-    super.destroyed();
-    let navLink = document.querySelector(
-      `nav li > a[href="${this.options.pathname}"]`
-    );
-    if (navLink) {
-      navLink.parentNode.classList.remove("active");
-    }
-    globalAcitionBtnElem.style.visibility = "visible";
-  }
-}
-class AddArticlePage extends ArticlePage {}
-class EditArticlePage extends ArticlePage {}
-
-const Hooks = {
-  DashboardPage: new DashboardPage(),
-  AddArticlePage: new AddArticlePage(),
-  EditArticlePage: new EditArticlePage()
-};
-
-let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks });
-liveSocket.connect();
+ReactDOM.render(<AppPage />, document.getElementById("app"));
