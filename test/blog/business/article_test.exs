@@ -4,14 +4,19 @@ defmodule Blog.Business.ArticleTest do
   alias Blog.Factory
   alias Blog.Business.Article
 
-  @params Map.from_struct(Factory.build(:article))
+  def build_params do
+    category = Repo.insert!(Factory.build(:category))
+    article = Factory.build(:article)
+    article = %{article | category_id: category.id}
+    Map.from_struct(article)
+  end
 
   test "create/1" do
-    {:ok, _} = Article.create(@params)
+    {:ok, _} = Article.create(build_params())
   end
 
   test "update/2" do
-    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.create(build_params())
 
     updated_title = "更新后的标题"
     updated_slug = "updated_title"
@@ -36,7 +41,7 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "change_status/1" do
-    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.create(build_params())
 
     {:ok, article} = Article.change_status(article, 0)
 
@@ -44,7 +49,7 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "delete/1" do
-    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.create(build_params())
 
     {:ok, article} = Article.delete(article)
 
@@ -52,7 +57,7 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "pin/1" do
-    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.create(build_params())
 
     assert article.pinned_at == DateTime.from_unix!(0, :microsecond)
 
@@ -62,7 +67,7 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "unpin/1" do
-    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.create(build_params())
     {:ok, article} = Article.pin(article)
 
     assert article.pinned_at > DateTime.from_unix!(0, :microsecond)
@@ -73,7 +78,7 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "find_by_slug/2" do
-    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.create(build_params())
 
     slug = article.slug
 
@@ -93,10 +98,12 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "find_list/1" do
+    params = build_params()
+
     list =
       1..15
       |> Enum.map(fn i ->
-        params = Map.put(@params, :slug, "#{@params[:slug]}-#{i}")
+        params = Map.put(params, :slug, "#{params[:slug]}-#{i}")
         {:ok, article} = Article.create(params)
         article
       end)

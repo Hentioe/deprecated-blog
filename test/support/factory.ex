@@ -8,4 +8,15 @@ defmodule Blog.Factory do
       status: 1
     }
   end
+
+  def build(:category) do
+    %Blog.Schemas.Category{
+      name: "类别1",
+      slug: "c-1"
+    }
+  end
+
+  def build(factory_name, attributes) do
+    factory_name |> build() |> struct(attributes)
+  end
 end

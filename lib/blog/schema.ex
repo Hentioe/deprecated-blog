@@ -7,6 +7,14 @@ defmodule Blog.Schema do
       alias Blog.Repo
 
       @timestamps_opts [type: :utc_datetime]
+
+      def slugify_field(%Ecto.Changeset{} = changeset, field) do
+        if slug = get_change(changeset, field) do
+          put_change(changeset, field, slugify(slug))
+        else
+          changeset
+        end
+      end
     end
   end
 
@@ -14,6 +22,12 @@ defmodule Blog.Schema do
     quote bind_quoted: binding() do
       field :status, :integer, default: default
     end
+  end
+
+  def slugify(str) when is_bitstring(str) do
+    str
+    |> String.downcase()
+    |> String.replace(~r/[^\w-]+/u, "-")
   end
 
   def traverse_errors(changeset) do

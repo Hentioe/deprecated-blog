@@ -15,6 +15,7 @@ defmodule Blog.Schemas.ArticleTest do
                :content,
                :comment_permissions,
                :pinned_at,
+               :category_id,
                :status,
                :inserted_at,
                :updated_at
@@ -25,7 +26,7 @@ defmodule Blog.Schemas.ArticleTest do
   end
 
   test "changeset/2" do
-    article = Factory.build(:article)
+    article = Factory.build(:article, category_id: 1)
     updated_title = "更新后的标题"
     updated_slug = "Updated Title"
     updated_content = "更新后的内容"
@@ -54,6 +55,7 @@ defmodule Blog.Schemas.ArticleTest do
              :content,
              :comment_permissions,
              :pinned_at,
+             :category_id,
              :status
            ]
 
