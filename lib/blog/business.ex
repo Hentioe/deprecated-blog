@@ -1,5 +1,5 @@
 defmodule Blog.Business do
-  alias __MODULE__.{Article}
+  alias __MODULE__.{Article, Category}
 
   @status %{normal: 1, hidden: 0, deleted: -1}
 
@@ -17,4 +17,9 @@ defmodule Blog.Business do
   def recycle_article(article), do: Article.change_status(article, @status.deleted)
   def drafted_article_list, do: find_article_list(@status.hidden)
   def recycled_article_list, do: find_article_list(@status.deleted)
+
+  defdelegate find_category_list, to: Category, as: :find_list
+  defdelegate create_category(params), to: Category, as: :create
+  defdelegate update_category(category, attrs), to: Category, as: :update
+  defdelegate delete_category(category), to: Category, as: :delete
 end

@@ -138,4 +138,24 @@ defmodule Blog.Business.ArticleTest do
     {:ok, article} = Article.pin(Enum.at(Article.find_list(nil, []), 5))
     assert Enum.at(Article.find_list(nil, []), 0) == article
   end
+
+  test "find_list/1 with conditions" do
+    params = build_params()
+
+    1..15
+    |> Enum.map(fn i ->
+      params = Map.put(params, :slug, "#{params[:slug]}-#{i}")
+      {:ok, article} = Article.create(params)
+      article
+    end)
+
+    list = Article.find_list(nil, category_slug: "c-1")
+    assert Enum.count(list) == 15
+    assert Enum.count(Article.find_list(nil, category_slug: "c-2")) == 0
+
+    category = Enum.at(list, 0).category
+    {:ok, _} = Blog.Business.update_category(category, %{slug: "c-2"})
+
+    assert Enum.count(Article.find_list(nil, category_slug: "c-2")) == 15
+  end
 end

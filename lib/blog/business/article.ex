@@ -1,6 +1,6 @@
 defmodule Blog.Business.Article do
   alias Blog.Repo
-  import Ecto.Query, only: [where: 2, dynamic: 2, order_by: 3, preload: 2, select: 3]
+  import Ecto.Query
   alias Blog.Schemas.{Article}
 
   def find_by_slug(slug, status) when is_bitstring(slug) do
@@ -27,19 +27,21 @@ defmodule Blog.Business.Article do
       end
 
     filter_category =
-      if category_id = conds[:category_id] do
-        dynamic([a], a.category_id == ^category_id)
+      if category_slug = conds[:category_slug] do
+        dynamic([a, c], c.slug == ^category_slug)
       else
         true
       end
 
-    Article
-    |> select([a], struct(a, ^@find_list_fields))
-    |> where(^filter_status)
-    |> where(^filter_category)
-    |> order_by([a], desc: a.pinned_at, desc: a.inserted_at)
-    |> preload(:category)
-    |> Repo.all()
+    Repo.all(
+      from a in Article,
+        select: struct(a, ^@find_list_fields),
+        join: c in assoc(a, :category),
+        where: ^filter_status,
+        where: ^filter_category,
+        order_by: [desc: a.pinned_at, desc: a.inserted_at],
+        preload: [category: c]
+    )
   end
 
   def create(params) do

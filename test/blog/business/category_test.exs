@@ -39,6 +39,19 @@ defmodule Blog.Business.CategoryTest do
     assert category.__meta__.state == :deleted
   end
 
+  test "delete/1 with related articles" do
+    {:ok, category} = Category.create(build_params())
+
+    {:ok, _} =
+      Blog.Business.create_article(
+        Map.from_struct(Factory.build(:article, category_id: category.id))
+      )
+
+    {:error, %{errors: errors}} = Category.delete(category)
+    [articles: {reason, _}] = errors
+    assert reason == "are still associated with this entry"
+  end
+
   test "find_list/0" do
     params = build_params()
 
