@@ -2,7 +2,7 @@ defmodule Blog.Repo.Migrations.CreateArticlesTags do
   use Blog.Migration
 
   def change do
-    create table(:articles_tags) do
+    create table(:articles_tags, primary_key: false) do
       add :article_id, references(:articles, on_delete: :delete_all)
       add :tag_id, references(:tags, on_delete: :delete_all)
     end
