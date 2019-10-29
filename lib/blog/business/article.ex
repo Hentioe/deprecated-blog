@@ -1,6 +1,6 @@
 defmodule Blog.Business.Article do
   alias Blog.Repo
-  import Ecto.Query, only: [where: 2, dynamic: 2]
+  import Ecto.Query, only: [where: 2, dynamic: 2, order_by: 3]
   alias Blog.Schemas.{Article}
 
   def find_by_slug(slug, status) when is_bitstring(slug) do
@@ -24,7 +24,10 @@ defmodule Blog.Business.Article do
         true
       end
 
-    Article |> where(^filter_status) |> Repo.all()
+    Article
+    |> where(^filter_status)
+    |> order_by([a], desc: a.pinned_at, desc: a.inserted_at)
+    |> Repo.all()
   end
 
   def create(params) do
@@ -41,6 +44,14 @@ defmodule Blog.Business.Article do
 
   def change_status(%Article{} = article, status) do
     update(article, %{status: status})
+  end
+
+  def pin(%Article{} = article) do
+    update(article, %{pinned_at: DateTime.utc_now()})
+  end
+
+  def unpin(%Article{} = article) do
+    update(article, %{pinned_at: DateTime.from_unix!(0, :microsecond)})
   end
 
   def delete(%Article{} = article) do

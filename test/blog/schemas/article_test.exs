@@ -14,6 +14,7 @@ defmodule Blog.Schemas.ArticleTest do
                :slug,
                :content,
                :comment_permissions,
+               :pinned_at,
                :status,
                :inserted_at,
                :updated_at
@@ -26,15 +27,18 @@ defmodule Blog.Schemas.ArticleTest do
   test "changeset/2" do
     article = Factory.build(:article)
     updated_title = "更新后的标题"
+    updated_slug = "Updated Title"
     updated_content = "更新后的内容"
 
     params = %{
       "title" => updated_title,
+      "slug" => updated_slug,
       "content" => updated_content
     }
 
     changes = %{
       title: updated_title,
+      slug: "updated-title",
       content: updated_content
     }
 
@@ -43,7 +47,16 @@ defmodule Blog.Schemas.ArticleTest do
     assert changeset.data == article
     assert changeset.changes == changes
     assert changeset.validations == []
-    assert changeset.required == [:title, :slug, :content, :comment_permissions, :status]
+
+    assert changeset.required == [
+             :title,
+             :slug,
+             :content,
+             :comment_permissions,
+             :pinned_at,
+             :status
+           ]
+
     assert changeset.valid?
   end
 end

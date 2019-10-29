@@ -51,6 +51,27 @@ defmodule Blog.Business.ArticleTest do
     assert article.__meta__.state == :deleted
   end
 
+  test "pin/1" do
+    {:ok, article} = Article.create(@params)
+
+    assert article.pinned_at == DateTime.from_unix!(0, :microsecond)
+
+    {:ok, article} = Article.pin(article)
+
+    assert article.pinned_at > DateTime.from_unix!(0, :microsecond)
+  end
+
+  test "unpin/1" do
+    {:ok, article} = Article.create(@params)
+    {:ok, article} = Article.pin(article)
+
+    assert article.pinned_at > DateTime.from_unix!(0, :microsecond)
+
+    {:ok, article} = Article.unpin(article)
+
+    assert article.pinned_at == DateTime.from_unix!(0, :microsecond)
+  end
+
   test "find_by_slug/2" do
     {:ok, article} = Article.create(@params)
 
@@ -98,5 +119,8 @@ defmodule Blog.Business.ArticleTest do
     assert Enum.count(Article.find_list(0)) == 5
     assert Enum.count(Article.find_list(-1)) == 5
     assert Enum.count(Article.find_list(nil)) == 15
+
+    {:ok, article} = Article.pin(Enum.at(Article.find_list(nil), 5))
+    assert Enum.at(Article.find_list(nil), 0) == article
   end
 end
