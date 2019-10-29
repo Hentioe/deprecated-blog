@@ -37,8 +37,9 @@ defmodule BlogWeb.Router do
     get "/*path", PageController, :index
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", BlogWeb do
-  #   pipe_through :api
-  # end
+  scope "/api/admin", BlogWeb.API.Admin do
+    pipe_through [:api]
+
+    resources "/categories", CategoryController, except: [:new, :edit]
+  end
 end
