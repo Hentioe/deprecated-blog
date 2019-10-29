@@ -12,6 +12,7 @@ defmodule Blog.Schemas.Article do
     field :pinned_at, :utc_datetime_usec, default: DateTime.from_unix!(0, :microsecond)
 
     belongs_to :category, Blog.Schemas.Category
+    many_to_many :tags, Blog.Schemas.Tag, join_through: "articles_tags", on_replace: :delete
 
     status()
     timestamps()
@@ -22,6 +23,7 @@ defmodule Blog.Schemas.Article do
     article
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> assoc_constraint(:category)
+    |> put_assoc(:tags, attrs[:tags] || [])
     |> validate_required(@required_fields)
     |> unique_constraint(:slug, name: :articles_slug_index)
     |> slugify_field(:slug)
@@ -37,5 +39,12 @@ defmodule Blog.Schemas.Article do
   def status_changeset(%__MODULE__{} = article, status) do
     article
     |> cast(%{status: status}, [:status])
+  end
+
+  @doc false
+  def tags_changeset(%__MODULE__{} = article, tags) when is_list(tags) do
+    article
+    |> cast(%{}, [])
+    |> put_assoc(:tags, tags)
   end
 end

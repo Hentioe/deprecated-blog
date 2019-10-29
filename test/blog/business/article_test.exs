@@ -4,10 +4,15 @@ defmodule Blog.Business.ArticleTest do
   alias Blog.Factory
   alias Blog.Business.Article
 
-  def build_params do
+  def build_params(attrs \\ []) do
     category = Repo.insert!(Factory.build(:category))
     article = Factory.build(:article)
-    article = %{article | category_id: category.id}
+
+    article =
+      article
+      |> struct(category_id: category.id)
+      |> struct(attrs)
+
     Map.from_struct(article)
   end
 
@@ -140,7 +145,8 @@ defmodule Blog.Business.ArticleTest do
   end
 
   test "find_list/1 with conditions" do
-    params = build_params()
+    {:ok, tag} = Blog.Business.create_tag(Map.from_struct(Factory.build(:tag)))
+    params = build_params(tags: [tag])
 
     1..15
     |> Enum.map(fn i ->
@@ -157,5 +163,13 @@ defmodule Blog.Business.ArticleTest do
     {:ok, _} = Blog.Business.update_category(category, %{slug: "c-2"})
 
     assert Enum.count(Article.find_list(nil, category_slug: "c-2")) == 15
+
+    assert Enum.count(Article.find_list(nil, tag_slug: "t-1")) == 15
+
+    {:ok, _} = Article.update_tags(Enum.at(list, 0), [])
+    assert Enum.count(Article.find_list(nil, tag_slug: "t-1")) == 14
+
+    {:ok, _} = Blog.Business.delete_tag(tag)
+    assert Enum.count(Article.find_list(nil, tag_slug: "t-1")) == 0
   end
 end

@@ -33,14 +33,24 @@ defmodule Blog.Business.Article do
         true
       end
 
+    filter_tag =
+      if tag_slug = conds[:tag_slug] do
+        dynamic([a, ..., t], t.slug == ^tag_slug)
+      else
+        true
+      end
+
     Repo.all(
       from a in Article,
         select: struct(a, ^@find_list_fields),
         join: c in assoc(a, :category),
+        left_join: t in assoc(a, :tags),
         where: ^filter_status,
         where: ^filter_category,
+        where: ^filter_tag,
         order_by: [desc: a.pinned_at, desc: a.inserted_at],
-        preload: [category: c]
+        preload: [category: c],
+        preload: [tags: t]
     )
   end
 
@@ -59,6 +69,12 @@ defmodule Blog.Business.Article do
   def change_status(%Article{} = article, status) do
     article
     |> Article.status_changeset(status)
+    |> Repo.update()
+  end
+
+  def update_tags(%Article{} = article, tags) do
+    article
+    |> Article.tags_changeset(tags)
     |> Repo.update()
   end
 

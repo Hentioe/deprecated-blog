@@ -5,7 +5,8 @@ defmodule Blog.Factory do
       slug: "title1",
       content: "我是内容。",
       comment_permissions: 1,
-      status: 1
+      status: 1,
+      tags: []
     }
   end
 
@@ -13,6 +14,13 @@ defmodule Blog.Factory do
     %Blog.Schemas.Category{
       name: "类别1",
       slug: "c-1"
+    }
+  end
+
+  def build(:tag) do
+    %Blog.Schemas.Tag{
+      name: "标签1",
+      slug: "t-1"
     }
   end
 
