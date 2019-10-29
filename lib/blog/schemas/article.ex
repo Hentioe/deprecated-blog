@@ -26,4 +26,16 @@ defmodule Blog.Schemas.Article do
     |> unique_constraint(:slug, name: :articles_slug_index)
     |> slugify_field(:slug)
   end
+
+  @doc false
+  def pin_changeset(%__MODULE__{} = article, pinned_at) do
+    article
+    |> cast(%{pinned_at: pinned_at}, [:pinned_at])
+  end
+
+  @doc false
+  def status_changeset(%__MODULE__{} = article, status) do
+    article
+    |> cast(%{status: status}, [:status])
+  end
 end

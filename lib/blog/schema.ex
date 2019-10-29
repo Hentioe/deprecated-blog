@@ -15,6 +15,26 @@ defmodule Blog.Schema do
           changeset
         end
       end
+
+      def fields do
+        __MODULE__.__schema__(:fields)
+      end
+
+      def fields(opts) when is_list(opts) do
+        all_fields = fields()
+        excludes = opts[:excludes]
+
+        cond do
+          excludes ->
+            excludes
+            |> Enum.reduce(all_fields, fn field, fields ->
+              fields |> List.delete(field)
+            end)
+
+          true ->
+            all_fields
+        end
+      end
     end
   end
 

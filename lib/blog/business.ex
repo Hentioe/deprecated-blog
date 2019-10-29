@@ -3,7 +3,10 @@ defmodule Blog.Business do
 
   @status %{normal: 1, hidden: 0, deleted: -1}
 
-  defdelegate find_article_list(status \\ @status.normal), to: Article, as: :find_list
+  defdelegate find_article_list(status \\ @status.normal, conds \\ []),
+    to: Article,
+    as: :find_list
+
   defdelegate find_article_by_slug(slug, status \\ @status.normal), to: Article, as: :find_by_slug
   defdelegate create_article(params), to: Article, as: :create
   defdelegate update_article(article, attrs), to: Article, as: :update

@@ -85,6 +85,7 @@ defmodule Blog.Business.ArticleTest do
     article = Article.find_by_slug(article.slug, 1)
 
     assert article
+    assert article.category
 
     {:ok, _} = Article.change_status(article, -1)
 
@@ -108,7 +109,7 @@ defmodule Blog.Business.ArticleTest do
         article
       end)
 
-    assert Enum.count(Article.find_list(1)) == 15
+    assert Enum.count(Article.find_list(1, [])) == 15
 
     1..5
     |> Enum.each(fn i ->
@@ -122,12 +123,19 @@ defmodule Blog.Business.ArticleTest do
       {:ok, _} = Article.change_status(article, -1)
     end)
 
-    assert Enum.count(Article.find_list(1)) == 5
-    assert Enum.count(Article.find_list(0)) == 5
-    assert Enum.count(Article.find_list(-1)) == 5
-    assert Enum.count(Article.find_list(nil)) == 15
+    assert Enum.count(Article.find_list(1, [])) == 5
+    assert Enum.count(Article.find_list(0, [])) == 5
+    assert Enum.count(Article.find_list(-1, [])) == 5
 
-    {:ok, article} = Article.pin(Enum.at(Article.find_list(nil), 5))
-    assert Enum.at(Article.find_list(nil), 0) == article
+    list = Article.find_list(nil, [])
+    assert Enum.count(list) == 15
+
+    list
+    |> Enum.each(fn a ->
+      assert a.content == nil
+    end)
+
+    {:ok, article} = Article.pin(Enum.at(Article.find_list(nil, []), 5))
+    assert Enum.at(Article.find_list(nil, []), 0) == article
   end
 end
