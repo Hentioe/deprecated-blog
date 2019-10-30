@@ -71,6 +71,20 @@ defmodule BlogWeb.API.Admin.ArticleController do
     end
   end
 
+  def pin(conn, %{"id" => id}) do
+    with {:ok, article} <- Business.get_article(id),
+         {:ok, article} <- Business.pin_article(article) do
+      json(conn, article)
+    end
+  end
+
+  def unpin(conn, %{"id" => id}) do
+    with {:ok, article} <- Business.get_article(id),
+         {:ok, article} <- Business.unpin_article(article) do
+      json(conn, article)
+    end
+  end
+
   def drafted_list(conn, _params) do
     with categories <- Business.drafted_article_list() do
       json(conn, categories)
@@ -81,5 +95,19 @@ defmodule BlogWeb.API.Admin.ArticleController do
     with categories <- Business.recycled_article_list() do
       json(conn, categories)
     end
+  end
+
+  @markdown_opts %Earmark.Options{
+    smartypants: false
+  }
+
+  def preview(conn, %{"content" => content}) do
+    html =
+      case content |> Earmark.as_html(@markdown_opts) do
+        {:ok, html, _} -> html
+        {:error, _, message} -> "Earmark parsing error:\n #{message}"
+      end
+
+    text(conn, html)
   end
 end
