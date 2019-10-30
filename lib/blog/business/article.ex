@@ -1,6 +1,17 @@
 defmodule Blog.Business.Article do
-  use Blog.Business, schema: Blog.Schemas.Article
+  @preload [:category, :tags]
+
+  use Blog.Business, schema: Blog.Schemas.Article, preload: @preload
   import Ecto.Query
+
+  defp preload({:error, %Ecto.Changeset{} = _} = error) do
+    error
+  end
+
+  defp preload({:ok, article}) do
+    article = article |> Repo.preload(@preload)
+    {:ok, article}
+  end
 
   def find_by_slug(slug, status) when is_bitstring(slug) do
     conds = [slug: slug |> String.trim()]
@@ -57,36 +68,42 @@ defmodule Blog.Business.Article do
     %Article{}
     |> Article.changeset(params)
     |> Repo.insert()
+    |> preload()
   end
 
   def update(%Article{} = article, attrs) do
     article
     |> Article.changeset(attrs)
     |> Repo.update()
+    |> preload()
   end
 
   def change_status(%Article{} = article, status) do
     article
     |> Article.status_changeset(status)
     |> Repo.update()
+    |> preload()
   end
 
   def update_tags(%Article{} = article, tags) do
     article
     |> Article.tags_changeset(tags)
     |> Repo.update()
+    |> preload()
   end
 
   def pin(%Article{} = article) do
     article
     |> Article.pin_changeset(DateTime.utc_now())
     |> Repo.update()
+    |> preload()
   end
 
   def unpin(%Article{} = article) do
     article
     |> Article.pin_changeset(DateTime.from_unix!(0, :microsecond))
     |> Repo.update()
+    |> preload()
   end
 
   def delete(%Article{} = article) do

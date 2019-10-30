@@ -42,5 +42,11 @@ defmodule BlogWeb.Router do
 
     resources "/categories", CategoryController, except: [:new, :edit]
     resources "/tags", TagController, except: [:new, :edit]
+    put "/articles/:id/draft", ArticleController, :draft
+    put "/articles/:id/recycle", ArticleController, :recycle
+    put "/articles/:id/restore", ArticleController, :restore
+    get "/articles/drafted", ArticleController, :drafted_list
+    get "/articles/recycled", ArticleController, :recycled_list
+    resources "/articles", ArticleController, except: [:new, :edit]
   end
 end

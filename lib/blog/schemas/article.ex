@@ -4,6 +4,7 @@ defmodule Blog.Schemas.Article do
   @required_fields ~w(title slug content comment_permissions pinned_at category_id status)a
   @optional_fields ~w()a
 
+  @derive {Jason.Encoder, except: [:__meta__]}
   schema "articles" do
     field :title, :string
     field :slug, :string
@@ -23,7 +24,7 @@ defmodule Blog.Schemas.Article do
     article
     |> cast(attrs, @required_fields ++ @optional_fields)
     |> assoc_constraint(:category)
-    |> put_assoc(:tags, attrs[:tags] || [])
+    |> put_assoc(:tags, attrs[:tags] || attrs["tags"] || [])
     |> validate_required(@required_fields)
     |> unique_constraint(:slug, name: :articles_slug_index)
     |> slugify_field(:slug)

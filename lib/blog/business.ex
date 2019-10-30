@@ -1,6 +1,7 @@
 defmodule Blog.Business do
   defmacro __using__(opts) do
     schema_module = opts[:schema]
+    preload = opts[:preload]
 
     {_, _, [:Blog, :Schemas, name]} = schema_module
 
@@ -10,8 +11,18 @@ defmodule Blog.Business do
 
       def get(id) do
         case unquote(schema_module) |> Repo.get(id) do
-          nil -> {:error, :not_found, %{entry: unquote(name), params: %{id: id}}}
-          c -> {:ok, c}
+          nil ->
+            {:error, :not_found, %{entry: unquote(name), params: %{id: id}}}
+
+          c ->
+            c =
+              if unquote(preload) do
+                Repo.preload(c, unquote(preload))
+              else
+                c
+              end
+
+            {:ok, c}
         end
       end
     end
@@ -35,6 +46,7 @@ defmodule Blog.Business do
   defdelegate delete_article(article), to: Article, as: :delete
   def draft_article(article), do: Article.change_status(article, @status.hidden)
   def recycle_article(article), do: Article.change_status(article, @status.deleted)
+  def restore_article(article), do: Article.change_status(article, @status.normal)
   def drafted_article_list, do: find_article_list(@status.hidden)
   def recycled_article_list, do: find_article_list(@status.deleted)
 
