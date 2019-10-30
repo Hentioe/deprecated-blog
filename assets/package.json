@@ -10,6 +10,7 @@
     "bulma": "^0.7.5",
     "child-replace-with-polyfill": "^1.0.1",
     "classlist-polyfill": "^1.2.0",
+    "cross-fetch": "^3.0.4",
     "formdata-polyfill": "^3.0.19",
     "materialize-css": "^1.0.0-rc.2",
     "mdn-polyfills": "^5.18.0",
@@ -23,6 +24,7 @@
     "react-router-dom": "^5.1.2",
     "redux": "^4.0.4",
     "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0",
     "url": "^0.11.0",
     "url-search-params-polyfill": "^7.0.0"
   },

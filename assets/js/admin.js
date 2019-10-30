@@ -21,6 +21,7 @@ import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { applyMiddleware, createStore } from "redux";
 import { Provider } from "react-redux";
 import reduxLogger from "redux-logger";
+import thunkMiddleware from "redux-thunk";
 
 import Header from "./admin/components/Header";
 import Sidenav from "./admin/components/Sidenav";
@@ -29,11 +30,12 @@ import GlobalFAB from "./admin/components/GlobalFAB";
 import Dashboard from "./admin/pages/Dashboard";
 import AddArticle from "./admin/pages/AddArticle";
 import EditArticle from "./admin/pages/EditArticle";
+import Category from "./admin/pages/Category";
 
 import Reducers from "./admin/reducers";
 
 const DEBUG = process.env.NODE_ENV == "development";
-const middlewares = [DEBUG && reduxLogger].filter(Boolean);
+const middlewares = [thunkMiddleware, DEBUG && reduxLogger].filter(Boolean);
 const store = createStore(Reducers, applyMiddleware(...middlewares));
 
 class AppPage extends React.Component {
@@ -52,6 +54,9 @@ class AppPage extends React.Component {
                 </Route>
                 <Route path="/admin/articles/edit">
                   <EditArticle />
+                </Route>
+                <Route path="/admin/category">
+                  <Category />
                 </Route>
                 <Route path="/admin">
                   <Dashboard />

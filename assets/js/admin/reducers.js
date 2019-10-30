@@ -3,7 +3,11 @@ import {
   SHOW_GLOBAL_FAB,
   HIDDEN_GLOBAL_FAB,
   OPEN_GLOBAL_FAB,
-  CLOSE_GLOBAL_FAB
+  CLOSE_GLOBAL_FAB,
+  REQUEST_CATEGORIES,
+  RECEIVE_CATEGORIES,
+  CREATING_CATEGORY,
+  CREATED_CATEGORY
 } from "./actions";
 
 const initialFABState = {
@@ -26,4 +30,40 @@ function globalFAB(state = initialFABState, action) {
   }
 }
 
-export default combineReducers({ globalFAB });
+const initialCateogriesState = {
+  isCompleted: true,
+  isCreating: false,
+  items: []
+};
+
+function category(state = initialCateogriesState, action) {
+  switch (action.type) {
+    case REQUEST_CATEGORIES:
+      return Object.assign({}, state, {
+        isCompleted: false,
+        items: [
+          {
+            id: 0,
+            name: "加载中……",
+            slug: "loading…",
+            description: "正在加载类别列表……"
+          }
+        ]
+      });
+    case RECEIVE_CATEGORIES:
+      return Object.assign({}, state, {
+        isCompleted: true,
+        items: action.data
+      });
+    case CREATING_CATEGORY:
+      return Object.assign({}, state, { isCreating: true });
+    case CREATED_CATEGORY:
+      let {items} = Object.assign({}, {items: state.items});
+      items.push(action.data);
+      return Object.assign({}, state, { isCreating: false, items });
+    default:
+      return state;
+  }
+}
+
+export default combineReducers({ globalFAB, category });

@@ -80,6 +80,10 @@ class PageComponent extends React.Component {
       {}
     );
   }
+
+  scrollToTop() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 }
 
 function Page(props) {
