@@ -1,7 +1,6 @@
 defmodule Blog.Business.Article do
-  alias Blog.Repo
+  use Blog.Business, schema: Blog.Schemas.Article
   import Ecto.Query
-  alias Blog.Schemas.{Article}
 
   def find_by_slug(slug, status) when is_bitstring(slug) do
     conds = [slug: slug |> String.trim()]

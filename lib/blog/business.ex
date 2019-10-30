@@ -1,4 +1,22 @@
 defmodule Blog.Business do
+  defmacro __using__(opts) do
+    schema_module = opts[:schema]
+
+    {_, _, [:Blog, :Schemas, name]} = schema_module
+
+    quote do
+      alias unquote(schema_module)
+      alias Blog.Repo
+
+      def get(id) do
+        case unquote(schema_module) |> Repo.get(id) do
+          nil -> {:error, :not_found, %{entry: unquote(name), params: %{id: id}}}
+          c -> {:ok, c}
+        end
+      end
+    end
+  end
+
   alias __MODULE__.{Article, Category, Tag}
 
   @status %{normal: 1, hidden: 0, deleted: -1}
@@ -7,6 +25,7 @@ defmodule Blog.Business do
     to: Article,
     as: :find_list
 
+  defdelegate get_article(id), to: Article, as: :get
   defdelegate find_article_by_slug(slug, status \\ @status.normal), to: Article, as: :find_by_slug
   defdelegate create_article(params), to: Article, as: :create
   defdelegate update_article(article, attrs), to: Article, as: :update
@@ -19,11 +38,13 @@ defmodule Blog.Business do
   def drafted_article_list, do: find_article_list(@status.hidden)
   def recycled_article_list, do: find_article_list(@status.deleted)
 
+  defdelegate get_category(id), to: Category, as: :get
   defdelegate find_category_list, to: Category, as: :find_list
   defdelegate create_category(params), to: Category, as: :create
   defdelegate update_category(category, attrs), to: Category, as: :update
   defdelegate delete_category(category), to: Category, as: :delete
 
+  defdelegate get_tag(id), to: Tag, as: :get
   defdelegate find_tag_list, to: Tag, as: :find_list
   defdelegate create_tag(params), to: Tag, as: :create
   defdelegate update_tag(tag, attrs), to: Tag, as: :update

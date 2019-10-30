@@ -1,7 +1,7 @@
 defmodule Blog.Business.Category do
-  alias Blog.Repo
+  use Blog.Business, schema: Blog.Schemas.Category
+
   import Ecto.Query, only: [order_by: 3]
-  alias Blog.Schemas.{Category}
 
   def find_list do
     Category

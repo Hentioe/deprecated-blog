@@ -5,6 +5,7 @@ defmodule Blog.Schemas.Tag do
   @required_fields ~w(name slug)a
   @optional_fields ~w(description color)a
 
+  @derive {Jason.Encoder, except: [:__meta__, :articles]}
   schema "tags" do
     field :name, :string
     field :slug, :string

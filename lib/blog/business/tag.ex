@@ -1,7 +1,6 @@
 defmodule Blog.Business.Tag do
-  alias Blog.Repo
+  use Blog.Business, schema: Blog.Schemas.Tag
   import Ecto.Query, only: [order_by: 3]
-  alias Blog.Schemas.{Tag}
 
   def find_list do
     Tag

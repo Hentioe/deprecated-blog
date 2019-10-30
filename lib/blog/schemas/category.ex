@@ -4,6 +4,7 @@ defmodule Blog.Schemas.Category do
   @required_fields ~w(name slug)a
   @optional_fields ~w(description)a
 
+  @derive {Jason.Encoder, except: [:__meta__, :articles]}
   schema "categories" do
     field :name, :string
     field :slug, :string
