@@ -13,7 +13,6 @@ import {
   failure as failedOnCategories
 } from "./slices/categories";
 
-
 import {
   requestTags,
   receiveTags,
@@ -25,6 +24,68 @@ import {
   deletedTag,
   failure as failedOnTags
 } from "./slices/tags";
+
+import {
+  failure as failedOnPushArticle,
+  requestArticle,
+  receiveArticle,
+  pushingArticle,
+  pushedArticle
+} from "./slices/push-article";
+
+import {
+  failure as failedOnArticles,
+  requestArticles,
+  receiveArticles
+} from "./slices/articles";
+
+const articlesShowCall = id => ({
+  [CALL_API]: {
+    types: [requestArticle, receiveArticle, failedOnPushArticle],
+    endpoint: `articles/${id}`
+  }
+});
+
+export function fetchArticle(id) {
+  return dispatch => dispatch(articlesShowCall(id));
+}
+
+const articlesIndexCall = () => ({
+  [CALL_API]: {
+    types: [requestArticles, receiveArticles, failedOnArticles],
+    endpoint: "articles"
+  }
+});
+
+export function fetchArticles() {
+  return dispatch => dispatch(articlesIndexCall());
+}
+
+const articleCreateCall = data => ({
+  [CALL_API]: {
+    types: [pushingArticle, pushedArticle, failedOnPushArticle],
+    endpoint: "articles",
+    method: "POST",
+    data
+  }
+});
+
+export function createArticle(data) {
+  return dispatch => dispatch(articleCreateCall(data));
+}
+
+const articleUpdateCall = (id, data) => ({
+  [CALL_API]: {
+    types: [pushingArticle, pushedArticle, failedOnPushArticle],
+    endpoint: `articles/${id}`,
+    method: "PUT",
+    data
+  }
+});
+
+export function updateArticle(data) {
+  return dispatch => dispatch(articleUpdateCall(data.id, data));
+}
 
 const categoriesIndexCall = () => ({
   [CALL_API]: {

@@ -1,9 +1,9 @@
-const apiError = {
+export const apiError = {
   type: null,
   errors: null
 };
 
-export default (state, action) =>
+export const failureAction = (state, action) =>
   Object.assign({}, state, {
     apiError: {
       type: action.payload.sourceAction,

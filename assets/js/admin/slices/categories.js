@@ -1,10 +1,5 @@
 import { createSlice } from "redux-starter-kit";
-import failureAction from "../lib/error";
-
-const apiError = {
-  type: null,
-  errors: null
-};
+import {apiError, failureAction} from "../lib/error";
 
 const initialState = {
   isLoaded: true,

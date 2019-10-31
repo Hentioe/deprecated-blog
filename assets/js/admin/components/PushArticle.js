@@ -1,4 +1,12 @@
 import React from "react";
+import { connect } from "react-redux";
+import {
+  fetchCategories,
+  fetchArticles,
+  fetchArticle,
+  createArticle,
+  updateArticle
+} from "../actions";
 
 const textAreaStyles = {
   height: "380px",
@@ -6,29 +14,167 @@ const textAreaStyles = {
   overflowY: "auto"
 };
 
+const ADD_ACTION = "send";
+const EDIT_ACTION = "save";
+
 class PushArticle extends React.Component {
   constructor(props) {
     super(props);
+    this.categorySelect = React.createRef();
+    this.articleSelect = React.createRef();
+    this.state = {
+      editingArticle: {
+        id: 0,
+        title: "",
+        slug: "",
+        content: "",
+        category_id: 0,
+        comment_permissions: 0
+      }
+    };
   }
 
+  componentDidMount() {
+    const { action, dispatch } = this.props;
+    dispatch(fetchCategories());
+  }
+
+  componentDidUpdate(prevProps, prevState, _snapshot) {
+    let {
+      dispatch,
+      action,
+      isLoaded,
+      isCategoriesLoaded,
+      article
+    } = this.props;
+    let { editingArticle } = this.state;
+
+    // 类别列表加载完毕再加载文章列表
+    if (
+      isCategoriesLoaded !== prevProps.isCategoriesLoaded &&
+      isCategoriesLoaded
+    ) {
+      if (action == EDIT_ACTION) dispatch(fetchArticles());
+    }
+
+    if (isLoaded !== prevProps.isLoaded && isLoaded) {
+      this.setState({
+        editingArticle: Object.assign({}, article)
+      });
+    }
+    if (editingArticle.id != prevState.editingArticle.id) {
+      M.updateTextFields();
+    }
+    M.AutoInit();
+  }
+
+  handlePush = e => {
+    let { editingArticle } = this.state;
+    let { action, dispatch } = this.props;
+
+    switch (action) {
+      case ADD_ACTION:
+        dispatch(createArticle(editingArticle));
+        break;
+      case EDIT_ACTION:
+        dispatch(updateArticle(editingArticle));
+        break;
+      default:
+      // 错误动作提示
+    }
+  };
+
+  handleEditArticleIdChange = e => {
+    const { dispatch } = this.props;
+    dispatch(fetchArticle(parseInt(e.target.value)));
+  };
+
+  handleCategoryIdChange = e => {
+    this.setState({
+      editingArticle: Object.assign(this.state.editingArticle, {
+        category_id: parseInt(e.target.value)
+      })
+    });
+  };
+
+  handleTitleChange = e => {
+    this.setState({
+      editingArticle: Object.assign(this.state.editingArticle, {
+        title: e.target.value
+      })
+    });
+  };
+
+  handleSlugChange = e => {
+    this.setState({
+      editingArticle: Object.assign(this.state.editingArticle, {
+        slug: e.target.value.toLowerCase()
+      })
+    });
+  };
+
+  handleContentChange = e => {
+    this.setState({
+      editingArticle: Object.assign(this.state.editingArticle, {
+        content: e.target.value
+      })
+    });
+  };
+
   render() {
+    let { action, categories, articles } = this.props;
+    let { editingArticle: e } = this.state;
     return (
       <form className="z-depth-1 white">
         <div className="row">
+          {action == EDIT_ACTION ? (
+            <div className="input-field col s12">
+              <select
+                value={e.id}
+                onChange={this.handleEditArticleIdChange}
+                refs={this.articleSelect}
+              >
+                <option value={-1}>待选择（总数：{articles.length}）</option>
+                {articles.map(a => (
+                  <option key={a.id} value={a.id}>
+                    {a.title}
+                  </option>
+                ))}
+              </select>
+              <label>编辑目标</label>
+            </div>
+          ) : null}
           <div className="input-field col s12">
-            <input id="title" type="text" />
+            <input
+              id="title"
+              type="text"
+              value={e.title}
+              onChange={this.handleTitleChange}
+            />
             <label htmlFor="title">标题</label>
           </div>
           <div className="input-field col s12 m6">
-            <input id="query_tile" type="text" />
-            <label htmlFor="query_tile">查询标题</label>
+            <input
+              id="slug"
+              type="text"
+              value={e.slug}
+              onChange={this.handleSlugChange}
+            />
+            <label htmlFor="slug">SLUG</label>
           </div>
+          {/* 类别选择 */}
           <div className="input-field col s12 m6">
-            <select defaultValue="0">
-              <option value="0">未选择</option>
-              <option value="1">类别 1</option>
-              <option value="2">类别 2</option>
-              <option value="3">类别 3</option>
+            <select
+              value={e.category_id}
+              onChange={this.handleCategoryIdChange}
+              refs={this.categorySelect}
+            >
+              <option value={-1}>待选择（总数：{categories.length}）</option>
+              {categories.map(c => (
+                <option key={c.id} value={c.id}>
+                  {c.name}
+                </option>
+              ))}
             </select>
             <label>类别</label>
           </div>
@@ -51,6 +197,8 @@ class PushArticle extends React.Component {
                 id="content"
                 className="materialize-textarea"
                 placeholder="请输入内容……"
+                value={e.content}
+                onChange={this.handleContentChange}
               ></textarea>
             </div>
           </div>
@@ -85,7 +233,10 @@ class PushArticle extends React.Component {
           </div>
         </div>
         <div id="push-article-fab" className="fixed-action-btn">
-          <a className="btn-floating btn-large waves-effect waves-light blue">
+          <a
+            className="btn-floating btn-large waves-effect waves-light blue"
+            onClick={this.handlePush}
+          >
             <i className="material-icons">{this.props.action}</i>
           </a>
         </div>
@@ -94,4 +245,30 @@ class PushArticle extends React.Component {
   }
 }
 
-export default PushArticle;
+const mapStateToProps = state => {
+  const {
+    isLoaded: isCategoriesLoaded,
+    apiError: categoriesApiError,
+    items: categories
+  } = state.categories;
+  const {
+    isLoaded: isArticlesLoaded,
+    apiError: articlesApiError,
+    items: articles
+  } = state.articles;
+
+  let attachState = {
+    isCategoriesLoaded,
+    categoriesApiError,
+    categories,
+    isArticlesLoaded,
+    articlesApiError,
+    articles
+  };
+  return {
+    ...state.pushArticle,
+    ...attachState
+  };
+};
+
+export default connect(mapStateToProps)(PushArticle);
