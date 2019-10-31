@@ -33,9 +33,12 @@ import EditArticle from "./admin/pages/EditArticle";
 import Category from "./admin/pages/Categories";
 
 import Reducers from "./admin/reducers";
+import api from "./admin/middleware/api";
 
 const DEBUG = process.env.NODE_ENV == "development";
-const middlewares = [thunkMiddleware, DEBUG && reduxLogger].filter(Boolean);
+const middlewares = [thunkMiddleware, api, DEBUG && reduxLogger].filter(
+  Boolean
+);
 const store = configureStore({
   reducer: Reducers,
   middleware: middlewares

@@ -2,9 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import { initGFAB } from "../slices/global-fab";
 import { PageComponent } from "../lib/page";
-import { fetchCategories, createCategory } from "../actions";
+import { fetchCategories, createCategory, updateCategory } from "../actions";
 
 const initialEditCategory = {
+  id: 0,
   name: "",
   slug: "",
   description: ""
@@ -55,6 +56,8 @@ class Category extends PageComponent {
     if (editintAt <= 0) {
       // 添加
       dispatch(createCategory(editingCategory));
+    } else {
+      dispatch(updateCategory(editingCategory));
     }
   };
 
