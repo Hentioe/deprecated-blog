@@ -56,8 +56,8 @@ const categories = createSlice({
 
       return Object.assign({}, state, { isCreating: false, items });
     },
-    deletingCategory: state =>
-      Object.assign({}, state, { deletingAt: 0 }),
+    deletingCategory: (state, action) =>
+      Object.assign({}, state, { deletingAt: action.payload }),
     deletedCategory: (state, action) => {
       let items = [...state.items];
       let index = 0;
@@ -66,7 +66,7 @@ const categories = createSlice({
           index = i;
         }
       });
-      delete items[index];
+      items.splice(index, 1);
 
       return Object.assign({}, state, { deletingAt: 0, items });
     }

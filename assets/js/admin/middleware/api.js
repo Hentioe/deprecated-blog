@@ -44,7 +44,7 @@ export default store => next => action => {
 
   types = types.map(t => (typeof t === "string" ? t : t.type));
   const [requestType, successType, failureType] = types;
-  next(actionWith({ type: requestType }));
+  next(actionWith({ type: requestType, payload: callApi.parameter }));
 
   let options = {};
   if (callAPI.method) {

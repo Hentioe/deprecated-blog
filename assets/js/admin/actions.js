@@ -60,7 +60,8 @@ const categoriesDeleteCall = id => ({
   [CALL_API]: {
     types: [deletingCategory, deletedCategory, failedOnCategories],
     endpoint: `categories/${id}`,
-    method: "DELETE"
+    method: "DELETE",
+    parameter: id
   }
 });
 

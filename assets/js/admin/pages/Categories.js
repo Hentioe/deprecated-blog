@@ -107,7 +107,7 @@ class Category extends PageComponent {
   };
 
   render() {
-    let { isCompleted, isCreating, items } = this.props;
+    let { isCompleted, isCreating, deletingAt, items } = this.props;
     let { editintAt, editingCategory } = this.state;
     return (
       <div className="container">
@@ -146,7 +146,7 @@ class Category extends PageComponent {
                     </div>
                   </div>
                 </div>
-                <div className="card-action white-text">
+                <div className="card-action">
                   {!isCreating ? (
                     <>
                       <a href="#" onClick={this.handlePush}>
@@ -164,28 +164,22 @@ class Category extends PageComponent {
                 </div>
               </div>
             </div>
-            {items.map(category => (
-              <div key={category.id} className="col s12 m6">
+            {items.map(c => (
+              <div key={c.id} className="col s12 m6">
                 <div className="card blue-grey darken-1">
                   <div className="card-content white-text">
                     <span className="card-title">
-                      {category.name} ({category.slug})
+                      {c.name} ({c.slug})
                     </span>
-                    <p>{category.description}</p>
+                    <p>{c.description}</p>
                   </div>
                   <div className="card-action white-text">
-                    {isCompleted ? (
+                    {isCompleted && deletingAt != c.id ? (
                       <>
-                        <a
-                          href="#"
-                          onClick={e => this.handleEdit(category.id, e)}
-                        >
+                        <a href="#" onClick={e => this.handleEdit(c.id, e)}>
                           编辑
                         </a>
-                        <a
-                          href="#"
-                          onClick={e => this.handleDelete(category.id, e)}
-                        >
+                        <a href="#" onClick={e => this.handleDelete(c.id, e)}>
                           删除
                         </a>
                       </>
