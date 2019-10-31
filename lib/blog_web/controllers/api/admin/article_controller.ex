@@ -108,6 +108,6 @@ defmodule BlogWeb.API.Admin.ArticleController do
         {:error, _, message} -> "Earmark parsing error:\n #{message}"
       end
 
-    text(conn, html)
+    json(conn, %{html: html})
   end
 end

@@ -30,7 +30,9 @@ import {
   requestArticle,
   receiveArticle,
   pushingArticle,
-  pushedArticle
+  pushedArticle,
+  requestPreview,
+  receivePreview
 } from "./slices/push-article";
 
 import {
@@ -38,6 +40,19 @@ import {
   requestArticles,
   receiveArticles
 } from "./slices/articles";
+
+const articlesPreviewCall = data => ({
+  [CALL_API]: {
+    types: [requestPreview, receivePreview, failedOnPushArticle],
+    endpoint: "articles/preview",
+    method: "POST",
+    data
+  }
+});
+
+export function previewArticle(data) {
+  return dispatch => dispatch(articlesPreviewCall(data));
+}
 
 const articlesShowCall = id => ({
   [CALL_API]: {

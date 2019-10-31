@@ -5,7 +5,8 @@ import {
   fetchArticles,
   fetchArticle,
   createArticle,
-  updateArticle
+  updateArticle,
+  previewArticle
 } from "../actions";
 
 const textAreaStyles = {
@@ -68,6 +69,13 @@ class PushArticle extends React.Component {
     M.AutoInit();
   }
 
+  handlePreview = e => {
+    const { dispatch, isPreviewing } = this.props;
+    const { editingArticle } = this.state;
+    const { content } = editingArticle;
+    if (!isPreviewing) dispatch(previewArticle({ content: content }));
+  };
+
   handlePush = e => {
     let { editingArticle } = this.state;
     let { action, dispatch } = this.props;
@@ -122,7 +130,7 @@ class PushArticle extends React.Component {
   };
 
   render() {
-    let { action, categories, articles } = this.props;
+    let { action, categories, articles, isPreviewing, preview } = this.props;
     let { editingArticle: e } = this.state;
     return (
       <form className="z-depth-1 white">
@@ -178,6 +186,7 @@ class PushArticle extends React.Component {
             </select>
             <label>类别</label>
           </div>
+          {/* 编辑框 */}
           <div className="col s12">
             <ul className="tabs">
               <li className="tab col s6">
@@ -185,7 +194,7 @@ class PushArticle extends React.Component {
                   编辑
                 </a>
               </li>
-              <li className="tab col s6">
+              <li className="tab col s6" onMouseEnter={this.handlePreview}>
                 <a href="#preview">预览</a>
               </li>
             </ul>
@@ -204,8 +213,11 @@ class PushArticle extends React.Component {
           </div>
           <div id="preview" className="col s12">
             <div className="browser-default">
-              <h3 className="browser-default">我是预览结果</h3>
-              <p>我是预览内容。</p>
+              {isPreviewing ? (
+                <p className="flow-text">生成预览中……</p>
+              ) : (
+                <div dangerouslySetInnerHTML={{ __html: preview }} />
+              )}
             </div>
           </div>
           <div className="input-field chips chips-initial col s12">

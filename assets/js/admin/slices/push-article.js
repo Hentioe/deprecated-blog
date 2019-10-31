@@ -1,9 +1,10 @@
 import { createSlice } from "redux-starter-kit";
-import {apiError, failureAction} from "../lib/error";
+import { apiError, failureAction } from "../lib/error";
 
 const initialState = {
   isLoaded: true,
   isPushing: false,
+  isPreviewing: false,
   apiError,
   article: {
     title: "",
@@ -11,7 +12,8 @@ const initialState = {
     content: "",
     category_id: 0,
     comment_permissions: 0
-  }
+  },
+  preview: ""
 };
 
 const pushArticle = createSlice({
@@ -38,7 +40,13 @@ const pushArticle = createSlice({
       }),
     pushingArticle: state => Object.assign({}, state, { isPushing: true }),
     pushedArticle: (state, action) =>
-      Object.assign({}, state, { isPushing: false, article: action.payload })
+      Object.assign({}, state, { isPushing: false, article: action.payload }),
+    requestPreview: state => Object.assign({}, state, { isPreviewing: true }),
+    receivePreview: (state, action) =>
+      Object.assign({}, state, {
+        isPreviewing: false,
+        preview: action.payload.html
+      })
   }
 });
 
@@ -47,7 +55,9 @@ export const {
   requestArticle,
   receiveArticle,
   pushingArticle,
-  pushedArticle
+  pushedArticle,
+  requestPreview,
+  receivePreview,
 } = pushArticle.actions;
 
 export default pushArticle.reducer;
