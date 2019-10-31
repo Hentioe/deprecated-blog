@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { openGlobalFAB } from "../actions";
+import { initGFAB } from "../slices/global-fab";
 import { PageComponent } from "../lib/page";
 import { fetchCategories, createCategory } from "../actions";
 
@@ -22,10 +22,11 @@ class Category extends PageComponent {
   componentDidMount() {
     super.componentDidMount();
     const { dispatch } = this.props;
+    dispatch(initGFAB());
     dispatch(fetchCategories());
   }
 
-  componentDidUpdate(prevProps, prevState, snapshot) {
+  componentDidUpdate(prevProps, prevState, _snapshot) {
     let { editintAt } = this.state;
     let { isCreating } = this.props;
     // 更新编辑区域
@@ -46,6 +47,7 @@ class Category extends PageComponent {
       editingCategory: Object.assign({}, initialEditCategory)
     });
   };
+
   handlePush = e => {
     e.preventDefault();
     let { editintAt, editingCategory } = this.state;
@@ -183,7 +185,7 @@ class Category extends PageComponent {
 }
 
 const mapStateToProps = state => {
-  return state.category;
+  return state.categories;
 };
 
 export default connect(mapStateToProps)(Category);

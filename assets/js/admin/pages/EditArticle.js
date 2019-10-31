@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { hiddenGlobalFAB, showGlobalFAB } from "../actions";
+import { hiddenGFAB } from "../slices/global-fab";
 import { PageComponent, Page } from "../lib/page";
 import PushArticle from "../components/PushArticle";
 
@@ -12,7 +12,7 @@ class EditArticle extends PageComponent {
   componentDidMount() {
     super.componentDidMount();
     const { dispatch } = this.props;
-    dispatch(hiddenGlobalFAB());
+    dispatch(hiddenGFAB());
   }
 
   componentWillUnmount() {

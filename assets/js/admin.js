@@ -17,11 +17,11 @@ import "../node_modules/materialize-css/dist/js/materialize.min";
 
 import React from "react";
 import ReactDOM from "react-dom";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { applyMiddleware, createStore } from "redux";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import reduxLogger from "redux-logger";
 import thunkMiddleware from "redux-thunk";
+import { configureStore } from "redux-starter-kit";
 
 import Header from "./admin/components/Header";
 import Sidenav from "./admin/components/Sidenav";
@@ -30,13 +30,16 @@ import GlobalFAB from "./admin/components/GlobalFAB";
 import Dashboard from "./admin/pages/Dashboard";
 import AddArticle from "./admin/pages/AddArticle";
 import EditArticle from "./admin/pages/EditArticle";
-import Category from "./admin/pages/Category";
+import Category from "./admin/pages/Categories";
 
 import Reducers from "./admin/reducers";
 
 const DEBUG = process.env.NODE_ENV == "development";
 const middlewares = [thunkMiddleware, DEBUG && reduxLogger].filter(Boolean);
-const store = createStore(Reducers, applyMiddleware(...middlewares));
+const store = configureStore({
+  reducer: Reducers,
+  middleware: middlewares
+});
 
 class AppPage extends React.Component {
   render() {

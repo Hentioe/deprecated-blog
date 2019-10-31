@@ -1,13 +1,13 @@
 import React from "react";
 import { connect } from "react-redux";
-import { openGlobalFAB } from "../actions";
+import { openGFAB } from "../slices/global-fab";
 import { PageComponent } from "../lib/page";
 
 class Dashboard extends PageComponent {
   componentDidMount() {
     super.componentDidMount();
     const { dispatch } = this.props;
-    dispatch(openGlobalFAB());
+    dispatch(openGFAB());
   }
 
   render() {
