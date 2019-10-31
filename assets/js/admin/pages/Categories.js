@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { initGFAB } from "../slices/global-fab";
 import { PageComponent } from "../lib/page";
-import { fetchCategories, createCategory, updateCategory } from "../actions";
+import {
+  fetchCategories,
+  createCategory,
+  updateCategory,
+  deleteCategory
+} from "../actions";
 
 const initialEditCategory = {
   id: 0,
@@ -40,6 +45,12 @@ class Category extends PageComponent {
       });
     }
   }
+
+  handleDelete = (id, e) => {
+    e.preventDefault();
+    const { dispatch } = this.props;
+    dispatch(deleteCategory(id));
+  };
 
   handleCancelEdit = e => {
     e.preventDefault();
@@ -171,7 +182,12 @@ class Category extends PageComponent {
                         >
                           编辑
                         </a>
-                        <a href="#">删除</a>
+                        <a
+                          href="#"
+                          onClick={e => this.handleDelete(category.id, e)}
+                        >
+                          删除
+                        </a>
                       </>
                     ) : (
                       <span>操作按钮不可用</span>

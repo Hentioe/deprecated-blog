@@ -10,6 +10,7 @@ const initialState = {
   isCompleted: true,
   isCreating: false,
   isUpdating: false,
+  deletingAt: 0,
   apiError,
   items: []
 };
@@ -54,6 +55,20 @@ const categories = createSlice({
       items[index] = action.payload;
 
       return Object.assign({}, state, { isCreating: false, items });
+    },
+    deletingCategory: state =>
+      Object.assign({}, state, { deletingAt: 0 }),
+    deletedCategory: (state, action) => {
+      let items = [...state.items];
+      let index = 0;
+      items.forEach((item, i) => {
+        if (item.id === action.payload.id) {
+          index = i;
+        }
+      });
+      delete items[index];
+
+      return Object.assign({}, state, { deletingAt: 0, items });
     }
   }
 });
@@ -65,6 +80,8 @@ export const {
   createdCategory,
   updatingCategory,
   updatedCategory,
+  deletingCategory,
+  deletedCategory,
   failure
 } = categories.actions;
 

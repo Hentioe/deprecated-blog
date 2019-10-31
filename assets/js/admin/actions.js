@@ -8,6 +8,8 @@ import {
   createdCategory,
   updatingCategory,
   updatedCategory,
+  deletingCategory,
+  deletedCategory,
   failure as failedOnCategories
 } from "./slices/categories";
 
@@ -51,5 +53,19 @@ export function createCategory(data) {
 export function updateCategory(data) {
   return dispatch => {
     dispatch(categoriesUpdateCall(data.id, data));
+  };
+}
+
+const categoriesDeleteCall = id => ({
+  [CALL_API]: {
+    types: [deletingCategory, deletedCategory, failedOnCategories],
+    endpoint: `categories/${id}`,
+    method: "DELETE"
+  }
+});
+
+export function deleteCategory(id) {
+  return dispatch => {
+    dispatch(categoriesDeleteCall(id));
   };
 }
