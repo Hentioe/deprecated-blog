@@ -2,26 +2,22 @@ import React from "react";
 import { connect } from "react-redux";
 import { initGFAB } from "../slices/global-fab";
 import { PageComponent } from "../lib/page";
-import {
-  fetchCategories,
-  createCategory,
-  updateCategory,
-  deleteCategory
-} from "../actions";
+import { fetchTags, createTag, updateTag, deleteTag } from "../actions";
 
-const initialEditCategory = {
+const initialEditTag = {
   id: 0,
   name: "",
   slug: "",
-  description: ""
+  description: "",
+  color: ""
 };
 
-class Categories extends PageComponent {
+class Tags extends PageComponent {
   constructor(props) {
     super(props);
     this.state = {
       editintAt: 0,
-      editingCategory: Object.assign({}, initialEditCategory)
+      editingTag: Object.assign({}, initialEditTag)
     };
   }
 
@@ -29,7 +25,7 @@ class Categories extends PageComponent {
     super.componentDidMount();
     const { dispatch } = this.props;
     dispatch(initGFAB());
-    dispatch(fetchCategories());
+    dispatch(fetchTags());
   }
 
   componentDidUpdate(prevProps, prevState, _snapshot) {
@@ -41,40 +37,52 @@ class Categories extends PageComponent {
     if (prevProps.isCreating !== isCreating && !isCreating) {
       this.setState({
         editintAt: editintAt - 1,
-        editingCategory: Object.assign({}, initialEditCategory)
+        editingTag: Object.assign({}, initialEditTag)
       });
     }
   }
 
+  cardClass = color => {
+    return color ? "card" : "card blue-grey darken-1";
+  };
+
+  handleColorChange = e => {
+    this.setState({
+      editingTag: Object.assign(this.state.editingTag, {
+        color: e.target.value
+      })
+    });
+  };
+
   handleDelete = (id, e) => {
     e.preventDefault();
     const { dispatch } = this.props;
-    dispatch(deleteCategory(id));
+    dispatch(deleteTag(id));
   };
 
   handleCancelEdit = e => {
     e.preventDefault();
     this.setState({
       editintAt: 0,
-      editingCategory: Object.assign({}, initialEditCategory)
+      editingTag: Object.assign({}, initialEditTag)
     });
   };
 
   handlePush = e => {
     e.preventDefault();
-    let { editintAt, editingCategory } = this.state;
+    let { editintAt, editingTag } = this.state;
     let { dispatch } = this.props;
     if (editintAt <= 0) {
       // 添加
-      dispatch(createCategory(editingCategory));
+      dispatch(createTag(editingTag));
     } else {
-      dispatch(updateCategory(editingCategory));
+      dispatch(updateTag(editingTag));
     }
   };
 
   handleNameChange = e => {
     this.setState({
-      editingCategory: Object.assign(this.state.editingCategory, {
+      editingTag: Object.assign(this.state.editingTag, {
         name: e.target.value
       })
     });
@@ -82,7 +90,7 @@ class Categories extends PageComponent {
 
   handleSlugChange = e => {
     this.setState({
-      editingCategory: Object.assign(this.state.editingCategory, {
+      editingTag: Object.assign(this.state.editingTag, {
         slug: e.target.value.toLowerCase()
       })
     });
@@ -90,7 +98,7 @@ class Categories extends PageComponent {
 
   handleDescriptionChange = e => {
     this.setState({
-      editingCategory: Object.assign(this.state.editingCategory, {
+      editingTag: Object.assign(this.state.editingTag, {
         description: e.target.value
       })
     });
@@ -98,17 +106,17 @@ class Categories extends PageComponent {
 
   handleEdit = (editintAt, e) => {
     e.preventDefault();
-    let editingCategory = Object.assign(
-      {},
-      this.props.items.filter(c => c.id == editintAt)[0]
-    );
-    this.setState({ editintAt, editingCategory });
+    let editTarget = this.props.items.filter(c => c.id == editintAt)[0];
+    let color = editTarget.color;
+    if (!color) color = "";
+    let editingTag = Object.assign({}, editTarget, { color });
+    this.setState({ editintAt, editingTag });
     this.scrollToTop();
   };
 
   render() {
     let { isLoaded, isCreating, deletingAt, items } = this.props;
-    let { editintAt, editingCategory } = this.state;
+    let { editintAt, editingTag } = this.state;
     return (
       <div className="container">
         <div className="section">
@@ -122,7 +130,7 @@ class Categories extends PageComponent {
                         id="edit_name"
                         type="text"
                         onChange={this.handleNameChange}
-                        value={editingCategory.name}
+                        value={editingTag.name}
                       />
                       <label htmlFor="edit_name">名称</label>
                     </div>
@@ -131,7 +139,7 @@ class Categories extends PageComponent {
                         id="edit_name"
                         type="text"
                         onChange={this.handleSlugChange}
-                        value={editingCategory.slug}
+                        value={editingTag.slug}
                       />
                       <label htmlFor="edit_name">SLUG</label>
                     </div>
@@ -140,9 +148,26 @@ class Categories extends PageComponent {
                         id="textarea1"
                         className="materialize-textarea"
                         onChange={this.handleDescriptionChange}
-                        value={editingCategory.description}
+                        value={editingTag.description}
                       ></textarea>
                       <label htmlFor="textarea1">描述</label>
+                    </div>
+                    <div className="col s6 center-align">
+                      <p
+                        className="flow-text"
+                        style={{ color: editingTag.color }}
+                      >
+                        预览色
+                      </p>
+                    </div>
+                    <div className="input-field col s6">
+                      <input
+                        id="edit_color"
+                        type="text"
+                        onChange={this.handleColorChange}
+                        value={editingTag.color}
+                      />
+                      <label htmlFor="edit_color">颜色</label>
                     </div>
                   </div>
                 </div>
@@ -164,9 +189,13 @@ class Categories extends PageComponent {
                 </div>
               </div>
             </div>
+            {/* 生成列表 */}
             {items.map(c => (
               <div key={c.id} className="col s12 m6">
-                <div className="card blue-grey darken-1">
+                <div
+                  className={this.cardClass(c.color)}
+                  style={{ backgroundColor: c.color }}
+                >
                   <div className="card-content white-text">
                     <span className="card-title">
                       {c.name} ({c.slug})
@@ -198,7 +227,7 @@ class Categories extends PageComponent {
 }
 
 const mapStateToProps = state => {
-  return state.categories;
+  return state.tags;
 };
 
-export default connect(mapStateToProps)(Categories);
+export default connect(mapStateToProps)(Tags);

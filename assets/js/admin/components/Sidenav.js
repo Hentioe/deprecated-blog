@@ -74,16 +74,16 @@ class Sidenav extends React.Component {
           </ul>
         </li>
         <li>
-          <Link className="sidenav-close" to="/admin/category">
+          <Link className="sidenav-close" to="/admin/categories">
             分类整理
             <i className="material-icons yellow-text">view_module</i>
           </Link>
         </li>
         <li>
-          <a className="sidenav-close">
+          <Link className="sidenav-close" to="/admin/tags">
             标签整理
             <i className="material-icons">view_module</i>
-          </a>
+          </Link>
         </li>
         <li>
           <a className="sidenav-close">

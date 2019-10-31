@@ -30,7 +30,8 @@ import GlobalFAB from "./admin/components/GlobalFAB";
 import Dashboard from "./admin/pages/Dashboard";
 import AddArticle from "./admin/pages/AddArticle";
 import EditArticle from "./admin/pages/EditArticle";
-import Category from "./admin/pages/Categories";
+import Categories from "./admin/pages/Categories";
+import Tags from "./admin/pages/Tags";
 
 import Reducers from "./admin/reducers";
 import api from "./admin/middleware/api";
@@ -61,8 +62,11 @@ class AppPage extends React.Component {
                 <Route path="/admin/articles/edit">
                   <EditArticle />
                 </Route>
-                <Route path="/admin/category">
-                  <Category />
+                <Route path="/admin/categories">
+                  <Categories />
+                </Route>
+                <Route path="/admin/tags">
+                  <Tags />
                 </Route>
                 <Route path="/admin">
                   <Dashboard />

@@ -15,11 +15,11 @@ const initialState = {
   items: []
 };
 
-const categories = createSlice({
-  name: "categories",
+const tags = createSlice({
+  name: "tags",
   initialState,
   reducers: {
-    requestCategories: state =>
+    requestTags: state =>
       Object.assign({}, state, {
         isLoaded: false,
         items: [
@@ -27,24 +27,24 @@ const categories = createSlice({
             id: 0,
             name: "加载中……",
             slug: "loading…",
-            description: "正在加载类别列表……"
+            description: "正在加载标签列表……"
           }
         ]
       }),
-    receiveCategories: (state, action) =>
+    receiveTags: (state, action) =>
       Object.assign({}, state, {
         isLoaded: true,
         items: action.payload
       }),
     failure: failureAction,
-    creatingCategory: state => Object.assign({}, state, { isCreating: true }),
-    createdCategory: (state, action) => {
+    creatingTag: state => Object.assign({}, state, { isCreating: true }),
+    createdTag: (state, action) => {
       let items = [...state.items];
       items.push(action.payload);
       return Object.assign({}, state, { isCreating: false, items });
     },
-    updatingCategory: state => Object.assign({}, state, { isUpdating: true }),
-    updatedCategory: (state, action) => {
+    updatingTag: state => Object.assign({}, state, { isUpdating: true }),
+    updatedTag: (state, action) => {
       let items = [...state.items];
       let index = 0;
       items.forEach((item, i) => {
@@ -56,9 +56,9 @@ const categories = createSlice({
 
       return Object.assign({}, state, { isCreating: false, items });
     },
-    deletingCategory: (state, action) =>
+    deletingTag: (state, action) =>
       Object.assign({}, state, { deletingAt: action.payload }),
-    deletedCategory: (state, action) => {
+    deletedTag: (state, action) => {
       let items = [...state.items];
       let index = 0;
       items.forEach((item, i) => {
@@ -74,15 +74,15 @@ const categories = createSlice({
 });
 
 export const {
-  requestCategories,
-  receiveCategories,
-  creatingCategory,
-  createdCategory,
-  updatingCategory,
-  updatedCategory,
-  deletingCategory,
-  deletedCategory,
+  requestTags,
+  receiveTags,
+  creatingTag,
+  createdTag,
+  updatingTag,
+  updatedTag,
+  deletingTag,
+  deletedTag,
   failure
-} = categories.actions;
+} = tags.actions;
 
-export default categories.reducer;
+export default tags.reducer;
