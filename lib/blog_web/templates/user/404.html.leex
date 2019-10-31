@@ -1,0 +1,24 @@
+<div class="container" phx-hook="NotFoundPage" bl-title="没有找到您想要的内容哦">
+  <section class="section">
+    <div class="columns is-desktop">
+      <div class="column is-8-desktop">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title has-text-weight-normal is-size-4 bl-article-title">
+            没有找到相关<%= @from %>
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              如果您确认地址没有错误的话，您访问的内容可能已经不存在了。
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-4-desktop bl-sidecards">
+        <%# 载入侧边页脚 %>
+        <%= Phoenix.LiveView.live_render @socket, BlogWeb.SidefooterLive, id: "article_sidefooter" %>
+      </div>
+    </div>
+  </section>
+</div>

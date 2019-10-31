@@ -30,6 +30,11 @@ class ArticlePage extends PageHook {
     super({ navbar_item: "/readding" });
   }
 }
+class NotFoundPage extends PageHook {
+  constructor() {
+    super({ navbar_item: "/readding" });
+  }
+}
 
 let Hooks = {
   IndexPage: new IndexPage(),
@@ -42,7 +47,8 @@ let Hooks = {
         }
       });
     }
-  }
+  },
+  NotFoundPage: new NotFoundPage()
 };
 
 let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks });

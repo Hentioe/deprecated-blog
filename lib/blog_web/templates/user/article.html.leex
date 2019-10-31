@@ -10,19 +10,15 @@
           </header>
           <div class="columns is-mobile is-marginless bl-article-metainfo">
             <div class="column is-paddingless is-narrow">
-                发表于
-                <span>12</span>
-                天前
+                发表于<span><%= days_ago(@article.inserted_at) %></span>
             </div>
             <div class="column is-paddingless is-narrow">
-              <span>&nbsp;· 更新于</span>
-              <span>2</span>
-              <span>天前</span>
+              <span>&nbsp;· 更新于<%= days_ago(@article.inserted_at) %></span>
             </div>
             <div class="column is-paddingless is-narrow">
               <span>&nbsp;·</span>
-              <span>1517</span>
-              次阅读
+              <span>0</span>
+              次阅读（假象）
             </div>
           </div>
           <div class="card-content">

@@ -26,9 +26,10 @@ defmodule BlogWeb.Router do
     pipe_through [:browser, :user_layout]
 
     live "/", IndexLive
-    live "/c/:category_id", IndexLive, as: :clist
-    live "/t/:tag_id", IndexLive, as: :tlist
-    live "/p/:query_title", ArticleLive
+    live "/c/:category_slug", IndexLive, as: :clist
+    live "/t/:tag_slug", IndexLive, as: :tlist
+    live "/p/:slug", ArticleLive
+    live "/404", NotFoundLive
   end
 
   scope "/admin", BlogWeb.Admin do
