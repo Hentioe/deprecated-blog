@@ -66,6 +66,8 @@ class PushArticle extends React.Component {
 
     // 文章列表加载完毕根据可能传递的 id 加载文章
     if (isArticlesLoaded !== prevProps.isArticlesLoaded && isArticlesLoaded) {
+      const id = this.props.id;
+      if (id) dispatch(fetchArticle(id));
     }
 
     if (isLoaded !== prevProps.isLoaded && isLoaded) {

@@ -1,5 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { initGFAB } from "../slices/global-fab";
 import { PageComponent, Page } from "../lib/page";
 import {
@@ -95,7 +96,7 @@ class OperationArticle extends PageComponent {
                       </a>
                       <ul id={`menu-${a.id}`} className="dropdown-content">
                         <li>
-                          <a href="#">编辑</a>
+                          <Link to={`/admin/articles/edit/${a.id}`}>编辑</Link>
                         </li>
                         <li>
                           {Date.parse(a.pinned_at) === 0 ? (

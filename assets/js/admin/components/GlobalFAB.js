@@ -46,9 +46,12 @@ class GlobalFAB extends React.Component {
             </a>
           </li>
           <li>
-            <a className="btn-floating yellow darken-1">
+            <Link
+              className="btn-floating yellow darken-1"
+              to="/admin/categories"
+            >
               <i className="material-icons">view_module</i>
-            </a>
+            </Link>
           </li>
           <li>
             <Link className="btn-floating green" to="/admin/articles/edit">

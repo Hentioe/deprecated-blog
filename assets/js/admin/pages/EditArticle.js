@@ -23,7 +23,7 @@ class EditArticle extends PageComponent {
     return (
       <Page className="container" id={this.constructor.name}>
         <div className="section">
-          <PushArticle action="save" />
+          <PushArticle action="save" id={this.props.id} />
         </div>
       </Page>
     );
