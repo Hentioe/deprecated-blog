@@ -18,11 +18,16 @@ const textAreaStyles = {
 const ADD_ACTION = "send";
 const EDIT_ACTION = "save";
 
+const DRAFTED_ATTACH = "DRAFT_ATTACH";
+const PINNED_ATTACH = "PINNED_ATTACH";
+
 class PushArticle extends React.Component {
   constructor(props) {
     super(props);
     this.categorySelect = React.createRef();
     this.articleSelect = React.createRef();
+    this.attachSelect = React.createRef();
+
     this.state = {
       editingArticle: {
         id: 0,
@@ -46,6 +51,7 @@ class PushArticle extends React.Component {
       action,
       isLoaded,
       isCategoriesLoaded,
+      isArticlesLoaded,
       article
     } = this.props;
     let { editingArticle } = this.state;
@@ -58,6 +64,10 @@ class PushArticle extends React.Component {
       if (action == EDIT_ACTION) dispatch(fetchArticles());
     }
 
+    // 文章列表加载完毕根据可能传递的 id 加载文章
+    if (isArticlesLoaded !== prevProps.isArticlesLoaded && isArticlesLoaded) {
+    }
+
     if (isLoaded !== prevProps.isLoaded && isLoaded) {
       this.setState({
         editingArticle: Object.assign({}, article)
@@ -68,6 +78,20 @@ class PushArticle extends React.Component {
     }
     M.AutoInit();
   }
+
+  handleChangeAttach = e => {
+    const selectInstance = M.FormSelect.getInstance(this.attachSelect.current);
+    const values = selectInstance.getSelectedValues();
+    const { editingArticle } = this.state;
+    let { status, pinned_at } = editingArticle;
+    if (values.includes(DRAFTED_ATTACH)) status = 0;
+    else status = 1;
+    if (values.includes(PINNED_ATTACH)) pinned_at = new Date().toISOString();
+    else pinned_at = new Date(Date.UTC(1970, 0, 1));
+    this.setState({
+      editingArticle: Object.assign({}, editingArticle, { status, pinned_at })
+    });
+  };
 
   handlePreview = e => {
     const { dispatch, isPreviewing } = this.props;
@@ -94,7 +118,9 @@ class PushArticle extends React.Component {
 
   handleEditArticleIdChange = e => {
     const { dispatch } = this.props;
-    dispatch(fetchArticle(parseInt(e.target.value)));
+    const id = parseInt(e.target.value);
+    history.pushState(null, null, `/admin/articles/edit/${id}`);
+    dispatch(fetchArticle(id));
   };
 
   handleCategoryIdChange = e => {
@@ -132,6 +158,11 @@ class PushArticle extends React.Component {
   render() {
     let { action, categories, articles, isPreviewing, preview } = this.props;
     let { editingArticle: e } = this.state;
+    let attachValue = [
+      Date.parse(e.pinned_at) > 0 && PINNED_ATTACH,
+      e.status === 0 && DRAFTED_ATTACH
+    ].filter(Boolean);
+    if (attachValue.length == 0) attachValue = [0];
     return (
       <form className="z-depth-1 white">
         <div className="row">
@@ -140,7 +171,7 @@ class PushArticle extends React.Component {
               <select
                 value={e.id}
                 onChange={this.handleEditArticleIdChange}
-                refs={this.articleSelect}
+                ref={this.articleSelect}
               >
                 <option value={-1}>待选择（总数：{articles.length}）</option>
                 {articles.map(a => (
@@ -175,7 +206,7 @@ class PushArticle extends React.Component {
             <select
               value={e.category_id}
               onChange={this.handleCategoryIdChange}
-              refs={this.categorySelect}
+              ref={this.categorySelect}
             >
               <option value={-1}>待选择（总数：{categories.length}）</option>
               {categories.map(c => (
@@ -223,13 +254,20 @@ class PushArticle extends React.Component {
           <div className="input-field chips chips-initial col s12">
             <input className="input" placeholder="添加标签…" />
           </div>
+          {/* 附加属性设置 */}
           <div className="input-field col s6">
-            <select multiple defaultValue={[0]}>
-              <option value="0" disabled>
+            <select
+              id="attach"
+              multiple
+              value={attachValue}
+              ref={this.attachSelect}
+              onChange={this.handleChangeAttach}
+            >
+              <option value={0} disabled>
                 选择附加
               </option>
-              <option value="1">置顶</option>
-              <option value="2">草稿</option>
+              <option value={PINNED_ATTACH}>置顶</option>
+              <option value={DRAFTED_ATTACH}>草稿</option>
             </select>
             <label>附加选项</label>
           </div>

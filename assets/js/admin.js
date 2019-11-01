@@ -64,6 +64,9 @@ class AppPage extends React.Component {
                 <Route path="/admin/articles/edit">
                   <EditArticle />
                 </Route>
+                <Route path="/admin/articles/edit/:id">
+                  <EditArticle />
+                </Route>
                 <Route path="/admin/articles/operation">
                   <OperationArticle />
                 </Route>
