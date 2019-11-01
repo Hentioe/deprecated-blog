@@ -49,6 +49,7 @@ defmodule Blog.Business do
   def restore_article(article), do: Article.change_status(article, @status.normal)
   def drafted_article_list, do: find_article_list(@status.hidden)
   def recycled_article_list, do: find_article_list(@status.deleted)
+  def non_normal_article_list, do: find_article_list(:non_normal)
 
   defdelegate get_category(id), to: Category, as: :get
   defdelegate find_category_list, to: Category, as: :find_list

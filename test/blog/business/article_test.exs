@@ -87,18 +87,16 @@ defmodule Blog.Business.ArticleTest do
 
     slug = article.slug
 
-    article = Article.find_by_slug(article.slug, 1)
+    {:ok, article} = Article.find_by_slug(article.slug, 1)
 
     assert article
     assert article.category
 
     {:ok, _} = Article.change_status(article, -1)
 
-    article = Article.find_by_slug(slug, 1)
+    {:error, :not_found, _} = Article.find_by_slug(slug, 1)
 
-    assert article == nil
-
-    article = Article.find_by_slug(slug, nil)
+    {:ok, article} = Article.find_by_slug(slug, nil)
 
     assert article
   end

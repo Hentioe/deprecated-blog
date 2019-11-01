@@ -36,7 +36,7 @@ class PushArticle extends React.Component {
   }
 
   componentDidMount() {
-    const { action, dispatch } = this.props;
+    const { dispatch } = this.props;
     dispatch(fetchCategories());
   }
 

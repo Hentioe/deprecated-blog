@@ -1,6 +1,18 @@
 import fetch from "cross-fetch";
 import { CALL_API } from "./middleware/api";
 
+export const NORMAL_STATUS = "/normal";
+export const HIDDEN_STATUS = "/drafted";
+export const RECYCLE_STATUS = "/recycled";
+export const NON_NORMAL_STATUS = "/non_normal";
+const ALL_STATUS = "ALL_STATUS";
+
+export const PIN_OPERATION = "pin";
+export const UNPIN_OPERATION = "unpin";
+export const DRAFT_OPERATION = "draft";
+export const RECYCLE_OPERATION = "recycle";
+export const RESTORE_OPERATION = "restore";
+
 import {
   requestCategories,
   receiveCategories,
@@ -38,8 +50,34 @@ import {
 import {
   failure as failedOnArticles,
   requestArticles,
-  receiveArticles
+  receiveArticles,
+  changingArticles,
+  changedArticles
 } from "./slices/articles";
+
+const articlesDeleteCall = id => ({
+  [CALL_API]: {
+    types: [changingArticles, changedArticles, failedOnArticles],
+    endpoint: `articles/${id}`,
+    method: "DELETE"
+  }
+});
+
+export function deleteArticle(id) {
+  return dispatch => dispatch(articlesDeleteCall(id));
+}
+
+const articlesChangeCall = (id, operation) => ({
+  [CALL_API]: {
+    types: [changingArticles, changedArticles, failedOnArticles],
+    endpoint: `articles/${id}/${operation}`,
+    method: "PUT"
+  }
+});
+
+export function changeArticle(id, operation) {
+  return dispatch => dispatch(articlesChangeCall(id, operation));
+}
 
 const articlesPreviewCall = data => ({
   [CALL_API]: {
@@ -65,15 +103,25 @@ export function fetchArticle(id) {
   return dispatch => dispatch(articlesShowCall(id));
 }
 
-const articlesIndexCall = () => ({
-  [CALL_API]: {
-    types: [requestArticles, receiveArticles, failedOnArticles],
-    endpoint: "articles"
+const articlesListCall = status => {
+  let endpoint = "articles";
+  switch (status) {
+    case NORMAL_STATUS:
+    case HIDDEN_STATUS:
+    case RECYCLE_STATUS:
+    case NON_NORMAL_STATUS:
+      endpoint += status;
   }
-});
+  return {
+    [CALL_API]: {
+      types: [requestArticles, receiveArticles, failedOnArticles],
+      endpoint
+    }
+  };
+};
 
-export function fetchArticles() {
-  return dispatch => dispatch(articlesIndexCall());
+export function fetchArticles(status = ALL_STATUS) {
+  return dispatch => dispatch(articlesListCall(status));
 }
 
 const articleCreateCall = data => ({

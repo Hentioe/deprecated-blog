@@ -57,16 +57,22 @@ class Sidenav extends React.Component {
                     </Link>
                   </li>
                   <li>
-                    <a href="#!">
-                      恢复文章
-                      <i className="material-icons">restore</i>
-                    </a>
-                  </li>
-                  <li>
-                    <a href="#!">
+                    <Link
+                      className="sidenav-close"
+                      to="/admin/articles/operation"
+                    >
                       附加操作
                       <i className="material-icons">view_headline</i>
-                    </a>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link
+                      className="sidenav-close"
+                      to="/admin/articles/restore"
+                    >
+                      恢复文章
+                      <i className="material-icons">restore</i>
+                    </Link>
                   </li>
                 </ul>
               </div>

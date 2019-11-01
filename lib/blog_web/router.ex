@@ -50,6 +50,8 @@ defmodule BlogWeb.Router do
     put "/articles/:id/unpin", ArticleController, :unpin
     get "/articles/drafted", ArticleController, :drafted_list
     get "/articles/recycled", ArticleController, :recycled_list
+    get "/articles/non_normal", ArticleController, :non_normal_list
+    get "/articles/normal", ArticleController, :normal_list
     post "/articles/preview", ArticleController, :preview
     resources "/articles", ArticleController, except: [:new, :edit]
   end

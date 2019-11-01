@@ -3,6 +3,7 @@ import { apiError, failureAction } from "../lib/error";
 
 const initialState = {
   isLoaded: true,
+  isChanging: false,
   apiError,
   items: []
 };
@@ -22,7 +23,8 @@ const articles = createSlice({
             slug: "loading...",
             content: "",
             category_id: 0,
-            comment_permissions: 0
+            comment_permissions: 0,
+            category: { name: "加载中…" }
           }
         ]
       }),
@@ -30,7 +32,9 @@ const articles = createSlice({
       Object.assign({}, state, {
         isLoaded: true,
         items: action.payload
-      })
+      }),
+    changingArticles: state => Object.assign({}, state, { isChanging: true }),
+    changedArticles: state => Object.assign({}, state, { isChanging: false })
   }
 });
 
@@ -38,6 +42,8 @@ export const {
   failure,
   requestArticles,
   receiveArticles,
+  changingArticles,
+  changedArticles
 } = articles.actions;
 
 export default articles.reducer;

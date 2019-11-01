@@ -97,6 +97,18 @@ defmodule BlogWeb.API.Admin.ArticleController do
     end
   end
 
+  def normal_list(conn, _params) do
+    with categories <- Business.find_article_list(1) do
+      json(conn, categories)
+    end
+  end
+
+  def non_normal_list(conn, _params) do
+    with categories <- Business.non_normal_article_list() do
+      json(conn, categories)
+    end
+  end
+
   @markdown_opts %Earmark.Options{
     smartypants: false
   }

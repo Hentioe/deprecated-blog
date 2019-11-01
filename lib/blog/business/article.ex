@@ -34,7 +34,12 @@ defmodule Blog.Business.Article do
   def find_list(status, conds) when is_list(conds) do
     filter_status =
       if status do
-        dynamic([a], a.status == ^status)
+        case status do
+          :non_normal -> dynamic([a], a.status != 1)
+          :non_hidden -> dynamic([a], a.status != 0)
+          :non_deleted -> dynamic([a], a.status != -1)
+          _ -> dynamic([a], a.status == ^status)
+        end
       else
         true
       end
