@@ -10,6 +10,7 @@ const initialState = {
     title: "",
     slug: "",
     content: "",
+    tags: [],
     category_id: 0,
     comment_permissions: 0
   },
@@ -30,7 +31,9 @@ const pushArticle = createSlice({
           title: "加载中……",
           slug: "loading...",
           content: "文字内容加载中……",
-          category_id: 0
+          tags: [],
+          category_id: 0,
+          comment_permissions: 0
         }
       }),
     receiveArticle: (state, action) =>

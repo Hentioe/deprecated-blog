@@ -74,7 +74,6 @@ class PageComponent extends React.Component {
     let pageSelect = `#${this.constructor.name}`;
     M.FormSelect.init(document.querySelectorAll(`${pageSelect} select`), {});
     M.Tabs.init(document.querySelectorAll(`${pageSelect} .tabs`), {});
-    M.Chips.init(document.querySelectorAll(`${pageSelect} .chips`), {});
     M.FloatingActionButton.init(
       document.querySelectorAll(`${pageSelect} .fixed-action-btn`),
       {}

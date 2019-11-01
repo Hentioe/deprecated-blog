@@ -6,7 +6,9 @@ import {
   fetchArticle,
   createArticle,
   updateArticle,
-  previewArticle
+  previewArticle,
+  fetchTags,
+  createTag
 } from "../actions";
 
 const textAreaStyles = {
@@ -27,6 +29,7 @@ class PushArticle extends React.Component {
     this.categorySelect = React.createRef();
     this.articleSelect = React.createRef();
     this.attachSelect = React.createRef();
+    this.tagChips = React.createRef();
 
     this.state = {
       editingArticle: {
@@ -34,6 +37,7 @@ class PushArticle extends React.Component {
         title: "",
         slug: "",
         content: "",
+        tags: [],
         category_id: 0,
         comment_permissions: 0
       }
@@ -43,6 +47,17 @@ class PushArticle extends React.Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch(fetchCategories());
+    dispatch(fetchTags());
+    M.Chips.init(this.tagChips.current, {
+      autocompleteOptions: {
+        data: {
+          你好: null
+        },
+        limit: Infinity,
+        minLength: 1
+      },
+      onChipAdd: this.handleTagChipAdd
+    });
   }
 
   componentDidUpdate(prevProps, prevState, _snapshot) {
@@ -52,6 +67,8 @@ class PushArticle extends React.Component {
       isLoaded,
       isCategoriesLoaded,
       isArticlesLoaded,
+      isTagsLoaded,
+      tags,
       article
     } = this.props;
     let { editingArticle } = this.state;
@@ -63,6 +80,40 @@ class PushArticle extends React.Component {
     ) {
       if (action == EDIT_ACTION) dispatch(fetchArticles());
     }
+    // 标签列表加载完毕，重置 Chips 的自动完成数据
+    if (isTagsLoaded != prevProps.isTagsLoaded && isTagsLoaded) {
+      let data = {};
+      tags.forEach(t => (data[`${t.name} (${t.slug})`] = null));
+
+      M.Chips.init(this.tagChips.current, {
+        autocompleteOptions: {
+          data,
+          limit: Infinity,
+          minLength: 1
+        },
+        onChipAdd: this.handleTagChipAdd
+      });
+    }
+    // 让标签列表和 Chips 组件数据同步
+    if (editingArticle.tags != prevState.editingArticle.tags) {
+      const tagIdList = editingArticle.tags.map(t => t.id);
+      const data = editingArticle.tags.map(t => ({ tag: t.name, id: t.id }));
+      let autocompleteData = {};
+      tags
+        .filter(t => !tagIdList.includes(t.id))
+        .forEach(t => (autocompleteData[`${t.name} (${t.slug})`] = null));
+
+      M.Chips.init(this.tagChips.current, {
+        data,
+        autocompleteOptions: {
+          data: autocompleteData,
+          limit: Infinity,
+          minLength: 1
+        },
+        onChipAdd: this.handleTagChipAdd,
+        onChipDelete: this.handleTagChipDelete
+      });
+    }
 
     // 文章列表加载完毕根据可能传递的 id 加载文章
     if (isArticlesLoaded !== prevProps.isArticlesLoaded && isArticlesLoaded) {
@@ -70,6 +121,7 @@ class PushArticle extends React.Component {
       if (id) dispatch(fetchArticle(id));
     }
 
+    // 文章加载完毕，赋给正在编辑的对象
     if (isLoaded !== prevProps.isLoaded && isLoaded) {
       this.setState({
         editingArticle: Object.assign({}, article)
@@ -78,8 +130,43 @@ class PushArticle extends React.Component {
     if (editingArticle.id != prevState.editingArticle.id) {
       M.updateTextFields();
     }
-    M.AutoInit();
+
+    M.FormSelect.init(this.categorySelect.current, {});
+    M.FormSelect.init(this.articleSelect.current, {});
+    M.FormSelect.init(this.attachSelect.current, {});
   }
+
+  handleTagChipDelete = (a, b) => {
+    const tagChips = M.Chips.getInstance(this.tagChips.current);
+    const tags = tagChips.chipsData.map(t => ({ id: t.id, name: t.tag }));
+    const editingArticle = this.props;
+
+    this.setState({
+      editingArticle: Object.assign({}, editingArticle, { tags })
+    });
+  };
+
+  handleTagChipAdd = (chipsNode, chipNode) => {
+    const tagChips = M.Chips.getInstance(this.tagChips.current);
+    const addedChip = tagChips.chipsData[tagChips.chipsData.length - 1];
+    const mg = addedChip.tag.match(/ \(([^()]+)\)$/);
+    if (mg) {
+      const { tags } = this.props;
+      const slug = mg[1];
+      let findTags = tags.filter(t => t.slug == slug);
+      if (findTags.length > 0) {
+        const { editingArticle } = this.state;
+        const pushedTags = [...editingArticle.tags];
+        pushedTags.push(findTags[0]);
+        this.setState({
+          editingArticle: Object.assign({}, editingArticle, {
+            tags: pushedTags
+          })
+        });
+      }
+    }
+    tagChips.deleteChip(tagChips.chipsData.length - 1);
+  };
 
   handleChangeAttach = e => {
     const selectInstance = M.FormSelect.getInstance(this.attachSelect.current);
@@ -164,7 +251,9 @@ class PushArticle extends React.Component {
       Date.parse(e.pinned_at) > 0 && PINNED_ATTACH,
       e.status === 0 && DRAFTED_ATTACH
     ].filter(Boolean);
+
     if (attachValue.length == 0) attachValue = [0];
+
     return (
       <form className="z-depth-1 white">
         <div className="row">
@@ -253,7 +342,8 @@ class PushArticle extends React.Component {
               )}
             </div>
           </div>
-          <div className="input-field chips chips-initial col s12">
+          {/* 标签整理 */}
+          <div ref={this.tagChips} className="input-field chips col s12">
             <input className="input" placeholder="添加标签…" />
           </div>
           {/* 附加属性设置 */}
@@ -308,6 +398,11 @@ const mapStateToProps = state => {
     apiError: articlesApiError,
     items: articles
   } = state.articles;
+  const {
+    isLoaded: isTagsLoaded,
+    apiError: tagsApiError,
+    items: tags
+  } = state.tags;
 
   let attachState = {
     isCategoriesLoaded,
@@ -315,8 +410,12 @@ const mapStateToProps = state => {
     categories,
     isArticlesLoaded,
     articlesApiError,
-    articles
+    articles,
+    isTagsLoaded,
+    tagsApiError,
+    tags
   };
+
   return {
     ...state.pushArticle,
     ...attachState
