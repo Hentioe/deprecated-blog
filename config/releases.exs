@@ -28,6 +28,10 @@ config :blog, BlogWeb.Endpoint,
   secret_key_base: secret_key_base,
   server: true
 
+config :blog, BlogWeb.Endpoint,
+  username: System.get_env("BLOG_ADMIN_USERNAME"),
+  password: System.get_env("BLOG_ADMIN_PASSWORD")
+
 # ## Using releases (Elixir v1.9+)
 #
 # If you are doing OTP releases, you need to instruct Phoenix

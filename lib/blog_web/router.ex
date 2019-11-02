@@ -11,6 +11,8 @@ defmodule BlogWeb.Router do
   end
 
   pipeline :api do
+    plug :fetch_cookies
+    plug BlogWeb.Plugs.TokenAuthentication, from: :api
     plug :accepts, ["json"]
   end
 
@@ -18,7 +20,8 @@ defmodule BlogWeb.Router do
     plug :put_layout, {BlogWeb.LayoutView, :user}
   end
 
-  pipeline :admin_layout do
+  pipeline :admin do
+    plug BlogWeb.Plugs.TokenAuthentication, from: :page
     plug :put_layout, {BlogWeb.LayoutView, :admin}
   end
 
@@ -30,10 +33,11 @@ defmodule BlogWeb.Router do
     live "/t/:tag_slug", IndexLive, as: :tlist
     live "/p/:slug", ArticleLive
     live "/404", NotFoundLive
+    live "/login", LoginLive
   end
 
   scope "/admin", BlogWeb.Admin do
-    pipe_through [:browser, :admin_layout]
+    pipe_through [:browser, :admin]
 
     get "/*path", PageController, :index
   end

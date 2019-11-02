@@ -1,0 +1,92 @@
+<div class="container" phx-hook="LoginPage" bl-title="登录后台" data-token="<%= @token %>">
+  <section class="section">
+    <div class="columns is-desktop">
+      <div class="column is-8-desktop">
+        <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">
+              登录
+            </p>
+          </header>
+          <div class="card-content">
+            <div class="content">
+              <div class="columns is-desktop">
+                <div class="column is-6-desktop">
+                  <form phx-submit="login">
+                    <div class="field">
+                      <div class="control has-icons-left has-icons-right">
+                        <input name="username" class="input" type="text" placeholder="用户名/邮箱">
+                        <span class="icon is-small is-left">
+                          <i class="iconfont icon-user_name"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="control has-icons-left has-icons-right">
+                        <input name="password" class="input" type="password" placeholder="密码">
+                        <span class="icon is-small is-left">
+                          <i class="iconfont icon-wodemima"></i>
+                        </span>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <div class="control">
+                        <label class="checkbox">
+                          <input type="checkbox">
+                          长期保持登录状态
+                        </label>
+                        <%= if @errors do %>
+                          <span style="color:red;"><%= @errors %></span>
+                        <% end %>
+                        <%= if @ok do %>
+                          <span style="color:green;">成功，跳转中……</span>
+                        <% end %>
+                      </div>
+                    </div>
+                    <div class="field">
+                      <p class="control">
+                        <button class="button is-success is-fullwidth">
+                          登录
+                        </button>
+                      </p>
+                    </div>
+                  </form>
+                </div>
+                <div class="column is-6-desktop">
+                  <h4 class="subtitle is-4">一些建议和提示</h4>
+                  <div class="content">
+                    <ol>
+                      <li>推荐第三方帐号快捷登录</li>
+                      <li>最好不使用不常用密码</li>
+                      <li>邮箱是不公开的，请安心</li>
+                      <li><b>当前登录功能仅针对管理员</b></li>
+                    </ol>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="column is-4-desktop bl-sidecards">
+        <div class="card">
+            <header class="card-header">
+              <p class="card-header-title">使用其它平台帐号</p>
+            </header>
+            <div class="card-content">
+              <p class="buttons">
+                <a class="button is-medium is-fullwidth">
+                  <span class="icon is-medium">
+                    <i class="iconfont icon-github"></i>
+                  </span>
+                  <span>GitHub</span>
+                </a>
+              </p>
+            </div>
+          </div>
+        <%# 载入侧边页脚 %>
+        <%= Phoenix.LiveView.live_render @socket, BlogWeb.SidefooterLive, id: "article_sidefooter" %>
+      </div>
+    </div>
+  </section>
+</div>

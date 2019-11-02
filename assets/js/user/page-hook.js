@@ -45,10 +45,7 @@ class PageHook {
     bar.finished();
   }
   updateTitle() {
-    let hookName = this.constructor.name;
-    let container = document.querySelector(
-      `.container[phx-hook='${hookName}']`
-    );
+    const container = this.getContainer();
     let title = defaultTitle;
     if (container != null) {
       let subtitle = container.getAttribute("bl-title");
@@ -58,6 +55,12 @@ class PageHook {
     }
     document.title = title;
   }
+
+  getContainer = () => {
+    return document.querySelector(
+      `.container[phx-hook='${this.constructor.name}']`
+    );
+  };
 }
 
 export default PageHook;

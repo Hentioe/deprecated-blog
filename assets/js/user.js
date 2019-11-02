@@ -36,6 +36,17 @@ class NotFoundPage extends PageHook {
   }
 }
 
+class LoginPage extends PageHook {
+  updated() {
+    const c = this.getContainer();
+    const token = c.getAttribute("data-token");
+    if (token) {
+      document.cookie = `token=${token};`;
+      location.href = "/admin";
+    }
+  }
+}
+
 let Hooks = {
   IndexPage: new IndexPage(),
   ArticlePage: new ArticlePage(),
@@ -48,7 +59,8 @@ let Hooks = {
       });
     }
   },
-  NotFoundPage: new NotFoundPage()
+  NotFoundPage: new NotFoundPage(),
+  LoginPage: new LoginPage()
 };
 
 let liveSocket = new LiveSocket("/live", Socket, { hooks: Hooks });

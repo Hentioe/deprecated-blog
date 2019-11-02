@@ -10,6 +10,10 @@ config :blog, Blog.Repo,
   pool_size: 10,
   migration_timestamps: [type: :utc_datetime]
 
+config :blog, BlogWeb.Endpoint,
+  username: "admin",
+  password: "admin"
+
 # For development, we disable any cache and enable
 # debugging and code reloading.
 #
