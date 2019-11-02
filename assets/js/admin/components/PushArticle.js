@@ -95,7 +95,7 @@ class PushArticle extends React.Component {
       });
     }
     // 让标签列表和 Chips 组件数据同步
-    if (editingArticle.tags != prevState.editingArticle.tags) {
+    if (editingArticle.tags.length != prevState.editingArticle.tags.length) {
       const tagIdList = editingArticle.tags.map(t => t.id);
       const data = editingArticle.tags.map(t => ({ tag: t.name, id: t.id }));
       let autocompleteData = {};
@@ -136,10 +136,10 @@ class PushArticle extends React.Component {
     M.FormSelect.init(this.attachSelect.current, {});
   }
 
-  handleTagChipDelete = (a, b) => {
+  handleTagChipDelete = (chipsNode, chipNode) => {
     const tagChips = M.Chips.getInstance(this.tagChips.current);
     const tags = tagChips.chipsData.map(t => ({ id: t.id, name: t.tag }));
-    const editingArticle = this.props;
+    const { editingArticle } = this.state;
 
     this.setState({
       editingArticle: Object.assign({}, editingArticle, { tags })
@@ -191,7 +191,7 @@ class PushArticle extends React.Component {
 
   handlePush = e => {
     let { editingArticle } = this.state;
-    let { action, dispatch } = this.props;
+    const { action, dispatch } = this.props;
 
     switch (action) {
       case ADD_ACTION:
@@ -222,7 +222,7 @@ class PushArticle extends React.Component {
 
   handleTitleChange = e => {
     this.setState({
-      editingArticle: Object.assign(this.state.editingArticle, {
+      editingArticle: Object.assign({}, this.state.editingArticle, {
         title: e.target.value
       })
     });
@@ -230,7 +230,7 @@ class PushArticle extends React.Component {
 
   handleSlugChange = e => {
     this.setState({
-      editingArticle: Object.assign(this.state.editingArticle, {
+      editingArticle: Object.assign({}, this.state.editingArticle, {
         slug: e.target.value.toLowerCase()
       })
     });
@@ -238,7 +238,7 @@ class PushArticle extends React.Component {
 
   handleContentChange = e => {
     this.setState({
-      editingArticle: Object.assign(this.state.editingArticle, {
+      editingArticle: Object.assign({}, this.state.editingArticle, {
         content: e.target.value
       })
     });

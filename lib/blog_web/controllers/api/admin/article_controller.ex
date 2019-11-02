@@ -16,13 +16,7 @@ defmodule BlogWeb.API.Admin.ArticleController do
     end
   end
 
-  def create(conn, params) do
-    with {:ok, article} <- Business.create_article(params) do
-      json(conn, article)
-    end
-  end
-
-  def update(conn, %{"id" => id} = params) do
+  defp fetch_tags(params) do
     tags = params["tags"] || []
 
     tags =
@@ -35,7 +29,19 @@ defmodule BlogWeb.API.Admin.ArticleController do
       end)
       |> Enum.filter(fn tag -> tag end)
 
-    params = params |> Map.put("tags", tags)
+    params |> Map.put("tags", tags)
+  end
+
+  def create(conn, params) do
+    params = params |> fetch_tags()
+
+    with {:ok, article} <- Business.create_article(params) do
+      json(conn, article)
+    end
+  end
+
+  def update(conn, %{"id" => id} = params) do
+    params = params |> fetch_tags()
 
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.update_article(article, params) do
