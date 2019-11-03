@@ -16,6 +16,9 @@ $article-list-item-color: #ececec;
         @extend %link;
       }
     }
+    &-pinned {
+      color: #4285f4;
+    }
     &-rm {
       padding: 0 0 0 0.75rem;
       span {

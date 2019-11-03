@@ -13,11 +13,19 @@
                   <%= live_link article.title,
                         to: Routes.live_path(@socket, BlogWeb.ArticleLive, article.slug) %>
                 </div>
+                <%= if DateTime.to_unix(article.pinned_at) > 0 do %>
+                <div class="column is-narrow">
+                  <span class="bl-index-articles-item-pinned">
+                    <i class="iconfont icon-pin"></i>
+                  </span>
+                </div>
+                <%= else %>
                 <div class="column is-narrow has-text-centered bl-index-articles-item-rm">
-                  <span>
+                  <span class="bl-index-articles-item-rm">
                     0 
                   </span>
                 </div>
+                <% end %>
               </div>
             <% end %>
           </div>
