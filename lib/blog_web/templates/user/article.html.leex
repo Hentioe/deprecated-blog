@@ -1,4 +1,4 @@
-<div class="container" phx-hook="ArticlePage" bl-title="<%= @article.title %>">
+<div class="container" phx-hook="ArticlePage" bl-title="<%= @article.title %>" >
   <section class="section">
     <div class="columns is-desktop">
       <div class="column is-8-desktop">
@@ -17,8 +17,8 @@
             </div>
             <div class="column is-paddingless is-narrow">
               <span>&nbsp;·</span>
-              <span>0</span>
-              次阅读（假象）
+              <span>[?]</span>
+              次阅读
             </div>
           </div>
           <div class="card-content">
@@ -35,16 +35,18 @@
           </header>
           <div class="card-content has-text-centered">
             <p class="buttons">
-              <a class="button is-fullwidth is-info">
-                <span><%= @article.category.name %></span>
-              </a>
+            <%= live_link class: "button is-fullwidth is-info",
+                      to: Routes.clist_path(@socket, BlogWeb.IndexLive, @article.category.slug) do %>
+              <span><%= @article.category.name %></span>
+            <% end %>
             </p>
             <p class="buttons">
             <%= for tag <- @article.tags do %>
               <% tag = unless tag.color, do: %{tag | color: "#00dae0"}, else: tag %>
-              <a class="button" style="background-color:<%= tag.color %>; color: white; border-color: transparent;">
-              <span><%= tag.name %></span>
-            </a>
+              <%= live_link class: "button", style: "background-color:#{tag.color}; color: white; border-color: transparent;",
+                  to: Routes.tlist_path(@socket, BlogWeb.IndexLive, tag.slug) do %>
+                <span><%= tag.name %></span>
+              <% end %>
             <% end %>
             </p>
           </div>

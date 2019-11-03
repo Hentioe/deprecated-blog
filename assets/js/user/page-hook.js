@@ -5,7 +5,8 @@ const defaultOptions = {
   // 选中的导航栏子项
   navbar_item: null
 };
-const defaultTitle = document.title;
+const DEFAULT_TITLE = "蓝雨博客";
+const currentTitle = document.title;
 
 class PageHook {
   constructor(options = defaultOptions) {
@@ -31,7 +32,7 @@ class PageHook {
       items.forEach(item => item.classList.remove("is-active", "breathe"));
     }
     window.scrollTo({ top: 0, behavior: "smooth" });
-    document.title = defaultTitle;
+    document.title = DEFAULT_TITLE;
   }
 
   disconnected() {
@@ -46,11 +47,11 @@ class PageHook {
   }
   updateTitle() {
     const container = this.getContainer();
-    let title = defaultTitle;
-    if (container != null) {
+    let title = document.title;
+    if (title.startsWith(DEFAULT_TITLE) && container != null) {
       let subtitle = container.getAttribute("bl-title");
       if (subtitle != null) {
-        title = `${subtitle} · ${defaultTitle}`;
+        title = `${subtitle} - ${DEFAULT_TITLE}`;
       }
     }
     document.title = title;
