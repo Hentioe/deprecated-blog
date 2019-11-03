@@ -10,6 +10,7 @@
     <meta name="msapplication-navbutton-color" content="#00dae0">
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="#00dae0">
+    <meta name="google-site-verification" content="<%= google_site_verification() %>" />
     <title><%= title(@conn, assigns) %> - 蓝雨博客</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/user.css") %>"/>
   </head>

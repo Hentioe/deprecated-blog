@@ -1,6 +1,10 @@
 defmodule BlogWeb.LayoutView do
   use BlogWeb, :view
 
+  def google_site_verification do
+    "Wbcnh_ngL7nUE4lAq6caXgbSiwEoq3rXuFlqhqD-ySg"
+  end
+
   def title(_conn, assigns) do
     %{content: {:safe, content}} = assigns
 
