@@ -10,7 +10,7 @@
     <meta name="msapplication-navbutton-color" content="#00c1c7">
     <!-- iOS Safari -->
     <meta name="apple-mobile-web-app-status-bar-style" content="#00c1c7">
-    <title>Bluerain Blog Admin | React</title>
+    <title>后台 - 蓝雨博客</title>
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/admin.css") %>"/>
   </head>
   <body>
