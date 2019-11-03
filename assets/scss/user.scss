@@ -71,11 +71,16 @@ $readding-icon-color: #99ff82;
   }
 }
 
-// 页脚（位于侧边）
+// 侧边导航
 .bl-sidefooter {
   position: sticky;
   top: $navbar-height + $default-spacing;
   &-about {
+    &-links {
+      p:not(:first-child) {
+       margin-top: .2em; 
+      }
+    }
     a {
       text-decoration: underline;
     }

@@ -1,12 +1,19 @@
 <div class="card bl-sidefooter-about">
   <header class="card-header">
-    <p class="card-header-title">关于</p>
+    <p class="card-header-title">导航</p>
   </header>
-  <div class="card-content">
+  <div class="card-content bl-sidefooter-about-links">
     <div>
       <p>
         <%= live_link "博客的说明和相关历史",
               to: Routes.live_path(@socket, BlogWeb.ArticleLive, "history") %>
+      </p>
+      <p>
+        <%= live_link "功能计划",
+              to: Routes.live_path(@socket, BlogWeb.ArticleLive, "feature-plan") %>
+              |
+        <%= live_link "关于我",
+              to: Routes.live_path(@socket, BlogWeb.ArticleLive, "about-me") %>
       </p>
     </div>
   </div>

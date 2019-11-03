@@ -29,6 +29,26 @@
         </div>
       </div>
       <div class="column is-4-desktop bl-sidecards">
+      <div class="card">
+          <header class="card-header">
+            <p class="card-header-title">关于本文</p>
+          </header>
+          <div class="card-content has-text-centered">
+            <p class="buttons">
+              <a class="button is-fullwidth is-info">
+                <span><%= @article.category.name %></span>
+              </a>
+            </p>
+            <p class="buttons">
+            <%= for tag <- @article.tags do %>
+              <% tag = unless tag.color, do: %{tag | color: "#00dae0"}, else: tag %>
+              <a class="button" style="background-color:<%= tag.color %>; color: white; border-color: transparent;">
+              <span><%= tag.name %></span>
+            </a>
+            <% end %>
+            </p>
+          </div>
+        </div>
         <%# 载入侧边页脚 %>
         <%= Phoenix.LiveView.live_render @socket, BlogWeb.SidefooterLive, id: "article_sidefooter" %>
       </div>

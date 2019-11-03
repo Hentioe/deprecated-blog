@@ -23,7 +23,7 @@ defmodule Blog.Business.Article do
         conds
       end
 
-    case Article |> preload(:category) |> Repo.get_by(conds) do
+    case Article |> preload(:category) |> preload(:tags) |> Repo.get_by(conds) do
       nil -> {:error, :not_found, %{entry: Article, params: %{slug: slug}}}
       article -> {:ok, article}
     end
