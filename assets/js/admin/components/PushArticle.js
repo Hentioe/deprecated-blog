@@ -190,8 +190,9 @@ class PushArticle extends React.Component {
   };
 
   handlePush = e => {
+    const { action, dispatch, isPushing } = this.props;
+    if (isPushing) return;
     let { editingArticle } = this.state;
-    const { action, dispatch } = this.props;
 
     switch (action) {
       case ADD_ACTION:
@@ -245,7 +246,14 @@ class PushArticle extends React.Component {
   };
 
   render() {
-    let { action, categories, articles, isPreviewing, preview } = this.props;
+    let {
+      action,
+      categories,
+      articles,
+      isPreviewing,
+      isPushing,
+      preview
+    } = this.props;
     let { editingArticle: e } = this.state;
     let attachValue = [
       Date.parse(e.pinned_at) > 0 && PINNED_ATTACH,
@@ -253,6 +261,20 @@ class PushArticle extends React.Component {
     ].filter(Boolean);
 
     if (attachValue.length == 0) attachValue = [0];
+
+    let defaultBtnClass = [
+      "btn-floating",
+      "btn-large",
+      "waves-effect",
+      "waves-light",
+      "blue"
+    ];
+    if (isPushing) {
+      defaultBtnClass.push("icon-loading");
+      defaultBtnClass = defaultBtnClass.filter(c => !c.startsWith("waves"));
+    }
+
+    defaultBtnClass = defaultBtnClass.join(" ");
 
     return (
       <form className="z-depth-1 white">
@@ -375,11 +397,10 @@ class PushArticle extends React.Component {
           </div>
         </div>
         <div id="push-article-fab" className="fixed-action-btn">
-          <a
-            className="btn-floating btn-large waves-effect waves-light blue"
-            onClick={this.handlePush}
-          >
-            <i className="material-icons">{this.props.action}</i>
+          <a className={defaultBtnClass} onClick={this.handlePush}>
+            <i className="material-icons">
+              {isPushing ? "sync" : this.props.action}
+            </i>
           </a>
         </div>
       </form>

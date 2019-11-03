@@ -33,3 +33,19 @@ footer {
     }
   }
 }
+
+// 按钮图标旋转
+.icon-loading i {
+  animation: iconRotate 0.8s linear infinite;
+}
+@keyframes iconRotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
+}
