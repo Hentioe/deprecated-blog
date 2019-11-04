@@ -115,6 +115,9 @@ defmodule Blog.Business.Article do
   end
 
   def delete(%Article{} = article) do
-    article |> Repo.delete()
+    article
+    |> Ecto.Changeset.change()
+    |> Ecto.Changeset.no_assoc_constraint(:redirections)
+    |> Repo.delete()
   end
 end

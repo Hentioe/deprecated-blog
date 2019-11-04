@@ -4,7 +4,7 @@ defmodule Blog.Schemas.Article do
   @required_fields ~w(title slug content comment_permissions pinned_at category_id status)a
   @optional_fields ~w()a
 
-  @derive {Jason.Encoder, except: [:__meta__]}
+  @derive {Jason.Encoder, except: [:__meta__, :redirections]}
   schema "articles" do
     field :title, :string
     field :slug, :string
@@ -14,6 +14,7 @@ defmodule Blog.Schemas.Article do
 
     belongs_to :category, Blog.Schemas.Category
     many_to_many :tags, Blog.Schemas.Tag, join_through: "articles_tags", on_replace: :delete
+    has_many :redirections, Blog.Schemas.Redireticon, foreign_key: :dest_id
 
     status()
     timestamps()
