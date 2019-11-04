@@ -14,15 +14,15 @@ defmodule Blog.Business do
           nil ->
             {:error, :not_found, %{entry: unquote(name), params: %{id: id}}}
 
-          c ->
-            c =
+          s ->
+            s =
               if unquote(preload) do
-                Repo.preload(c, unquote(preload))
+                Repo.preload(s, unquote(preload))
               else
-                c
+                s
               end
 
-            {:ok, c}
+            {:ok, s}
         end
       end
     end

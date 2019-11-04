@@ -24,6 +24,12 @@ defmodule Blog.Factory do
     }
   end
 
+  def build(:redirection) do
+    %Blog.Schemas.Redirection{
+      source_slug: "old-redirection-slug-1"
+    }
+  end
+
   def build(factory_name, attributes) do
     factory_name |> build() |> struct(attributes)
   end

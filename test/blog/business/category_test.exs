@@ -42,7 +42,7 @@ defmodule Blog.Business.CategoryTest do
   test "delete/1 with related articles" do
     {:ok, category} = Category.create(build_params())
 
-    {:ok, _} =
+    {:ok, article} =
       Blog.Business.create_article(
         Map.from_struct(Factory.build(:article, category_id: category.id))
       )
@@ -50,6 +50,9 @@ defmodule Blog.Business.CategoryTest do
     {:error, %{errors: errors}} = Category.delete(category)
     [articles: {reason, _}] = errors
     assert reason == "are still associated with this entry"
+
+    {:ok, _} = Blog.Business.delete_article(article)
+    {:ok, _} = Category.delete(category)
   end
 
   test "find_list/0" do

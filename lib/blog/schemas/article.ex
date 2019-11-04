@@ -14,7 +14,7 @@ defmodule Blog.Schemas.Article do
 
     belongs_to :category, Blog.Schemas.Category
     many_to_many :tags, Blog.Schemas.Tag, join_through: "articles_tags", on_replace: :delete
-    has_many :redirections, Blog.Schemas.Redireticon, foreign_key: :dest_id
+    has_many :redirections, Blog.Schemas.Redirection, foreign_key: :dest_id
 
     status()
     timestamps()
