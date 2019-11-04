@@ -10,6 +10,7 @@ import {
   fetchTags,
   createTag
 } from "../actions";
+import { pushingArticle } from "../slices/push-article";
 
 const textAreaStyles = {
   height: "380px",
@@ -64,6 +65,8 @@ class PushArticle extends React.Component {
     let {
       dispatch,
       action,
+      apiError,
+      isPushing,
       isLoaded,
       isCategoriesLoaded,
       isArticlesLoaded,
@@ -127,8 +130,16 @@ class PushArticle extends React.Component {
         editingArticle: Object.assign({}, article)
       });
     }
+
+    // 切换文章
     if (editingArticle.id != prevState.editingArticle.id) {
       M.updateTextFields();
+    }
+
+    // 推送失败
+    if (!isPushing && apiError.type === pushingArticle.type) {
+      console.log(apiError.errors);
+      M.toast({ html: "文章推送失败了" });
     }
 
     M.FormSelect.init(this.categorySelect.current, {});

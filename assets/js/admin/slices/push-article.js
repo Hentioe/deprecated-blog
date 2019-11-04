@@ -1,5 +1,5 @@
 import { createSlice } from "redux-starter-kit";
-import { apiError, failureAction } from "../lib/error";
+import { apiError, buildFailure } from "../lib/error";
 
 const initialState = {
   isLoaded: true,
@@ -21,7 +21,7 @@ const pushArticle = createSlice({
   name: "pushArticle",
   initialState,
   reducers: {
-    failure: failureAction,
+    failure: buildFailure({ isPushing: false }),
     requestArticle: state =>
       Object.assign({}, state, {
         isLoaded: false,
@@ -60,7 +60,7 @@ export const {
   pushingArticle,
   pushedArticle,
   requestPreview,
-  receivePreview,
+  receivePreview
 } = pushArticle.actions;
 
 export default pushArticle.reducer;

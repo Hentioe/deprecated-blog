@@ -10,3 +10,18 @@ export const failureAction = (state, action) =>
       errors: action.payload.errors
     }
   });
+
+export const buildFailure = change => {
+  return (state, action) =>
+    Object.assign(
+      {},
+      state,
+      {
+        apiError: {
+          type: action.payload.sourceAction,
+          errors: action.payload.errors
+        }
+      },
+      change
+    );
+};

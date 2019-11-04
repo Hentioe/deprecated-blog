@@ -67,12 +67,19 @@ export default store => next => action => {
       );
     },
 
-    errors =>
+    errors => {
       next(
         actionWith({
           payload: { sourceAction: requestType, errors: errors },
           type: failureType
         })
-      )
+      );
+      next(
+        actionWith({
+          payload: { sourceAction: null, errors: null },
+          type: failureType
+        })
+      );
+    }
   );
 };
