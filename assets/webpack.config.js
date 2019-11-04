@@ -29,13 +29,12 @@ module.exports = (env, options) => ({
     rules: [
       {
         test: /\.js$/,
-        exclude: /node_modules/,
         use: {
           loader: "babel-loader"
         }
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.(s[ac]|c)ss$/i,
         use: [
           "style-loader",
           MiniCssExtractPlugin.loader,

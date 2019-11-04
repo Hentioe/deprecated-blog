@@ -20,6 +20,8 @@ import "./user/bulma-event";
 import "./user/breathe";
 import PageHook from "./user/page-hook";
 
+import Prism from "prismjs";
+
 class IndexPage extends PageHook {
   constructor() {
     super({ navbar_item: "/" });
@@ -28,6 +30,11 @@ class IndexPage extends PageHook {
 class ArticlePage extends PageHook {
   constructor() {
     super({ navbar_item: "/readding" });
+  }
+
+  mounted() {
+    super.mounted();
+    Prism.highlightAll();
   }
 }
 class NotFoundPage extends PageHook {

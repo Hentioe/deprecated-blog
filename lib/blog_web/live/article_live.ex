@@ -15,6 +15,7 @@ defmodule BlogWeb.ArticleLive do
   end
 
   @markdown_opts %Earmark.Options{
+    code_class_prefix: "lang-",
     smartypants: false
   }
 

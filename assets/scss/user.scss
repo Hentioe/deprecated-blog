@@ -78,7 +78,7 @@ $readding-icon-color: #99ff82;
   &-about {
     &-links {
       p:not(:first-child) {
-       margin-top: .2em; 
+        margin-top: 0.2em;
       }
     }
     a {
@@ -142,4 +142,23 @@ $readding-icon-color: #99ff82;
       margin-bottom: $default-spacing;
     }
   }
+}
+
+// 规避 Prism 类样式冲突
+.content .tag,
+.content .number {
+  display: inline;
+  padding: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  text-align: inherit;
+  vertical-align: inherit;
+  border-radius: inherit;
+  font-weight: inherit;
+  white-space: inherit;
+  background: inherit;
+  margin: inherit;
+  min-width: inherit;
+  justify-content: inherit;
+  align-items: inherit;
 }

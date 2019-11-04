@@ -1,3 +1,23 @@
 {
-  "presets": ["@babel/preset-env", "react-app"]
+  "presets": ["@babel/preset-env", "react-app"],
+  "plugins": [
+    [
+      "prismjs",
+      {
+        "languages": [
+          "elixir",
+          "erlang",
+          "rust",
+          "crystal",
+          "html",
+          "css",
+          "javascript",
+          "markdown",
+          "markup"
+        ],
+        "theme": "okaidia",
+        "css": true
+      }
+    ]
+  ]
 }
