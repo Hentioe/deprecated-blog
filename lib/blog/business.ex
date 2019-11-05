@@ -16,7 +16,7 @@ defmodule Blog.Business do
 
           s ->
             s =
-              if unquote(preload) do
+              if unquote(preload) != nil do
                 Repo.preload(s, unquote(preload))
               else
                 s
