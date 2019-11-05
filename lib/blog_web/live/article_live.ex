@@ -42,8 +42,8 @@ defmodule BlogWeb.ArticleLive do
     end
   end
 
-  def find_article(slug) do
-    with {:ok, article} <- Business.find_article_by_slug(slug) do
+  defp find_article(slug) do
+    with {:ok, article} <- Business.find_article(slug: slug, status: :non_deleted) do
       html =
         case article.content |> Earmark.as_html(@markdown_opts) do
           {:ok, html, _} -> html

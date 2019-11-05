@@ -5,7 +5,7 @@ defmodule BlogWeb.API.Admin.ArticleController do
   action_fallback BlogWeb.FallbackController
 
   def index(conn, _params) do
-    with categories <- Business.find_article_list(nil) do
+    with categories <- Business.find_article_list() do
       json(conn, categories)
     end
   end
@@ -58,21 +58,21 @@ defmodule BlogWeb.API.Admin.ArticleController do
 
   def draft(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
-         {:ok, article} <- Business.draft_article(article) do
+         {:ok, article} <- Business.change_article_status(article, :hidden) do
       json(conn, article)
     end
   end
 
   def recycle(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
-         {:ok, article} <- Business.recycle_article(article) do
+         {:ok, article} <- Business.change_article_status(article, :deleted) do
       json(conn, article)
     end
   end
 
   def restore(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
-         {:ok, article} <- Business.restore_article(article) do
+         {:ok, article} <- Business.change_article_status(article, :normal) do
       json(conn, article)
     end
   end
@@ -92,25 +92,25 @@ defmodule BlogWeb.API.Admin.ArticleController do
   end
 
   def drafted_list(conn, _params) do
-    with categories <- Business.drafted_article_list() do
+    with categories <- Business.find_article_list(status: :hidden) do
       json(conn, categories)
     end
   end
 
   def recycled_list(conn, _params) do
-    with categories <- Business.recycled_article_list() do
+    with categories <- Business.find_article_list(status: :deleted) do
       json(conn, categories)
     end
   end
 
   def normal_list(conn, _params) do
-    with categories <- Business.find_article_list(1) do
+    with categories <- Business.find_article_list(status: :normal) do
       json(conn, categories)
     end
   end
 
   def non_normal_list(conn, _params) do
-    with categories <- Business.non_normal_article_list() do
+    with categories <- Business.find_article_list(status: :non_normal) do
       json(conn, categories)
     end
   end

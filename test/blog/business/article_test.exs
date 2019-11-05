@@ -48,7 +48,7 @@ defmodule Blog.Business.ArticleTest do
   test "change_status/1" do
     {:ok, article} = Article.create(build_params())
 
-    {:ok, article} = Article.change_status(article, 0)
+    {:ok, article} = Article.change_status(article, :hidden)
 
     assert article.status == 0
   end
@@ -82,21 +82,21 @@ defmodule Blog.Business.ArticleTest do
     assert article.pinned_at == DateTime.from_unix!(0, :microsecond)
   end
 
-  test "find_by_slug/2" do
+  test "find/2" do
     {:ok, article} = Article.create(build_params())
 
     slug = article.slug
 
-    {:ok, article} = Article.find_by_slug(article.slug, 1)
+    {:ok, article} = Article.find(slug: slug, status: :normal)
 
     assert article
     assert article.category
 
-    {:ok, _} = Article.change_status(article, -1)
+    {:ok, _} = Article.change_status(article, :deleted)
 
-    {:error, :not_found, _} = Article.find_by_slug(slug, 1)
+    {:error, :not_found, _} = Article.find(slug: slug, status: :normal)
 
-    {:ok, article} = Article.find_by_slug(slug, nil)
+    {:ok, article} = Article.find(slug: slug)
 
     assert article
   end
@@ -112,25 +112,25 @@ defmodule Blog.Business.ArticleTest do
         article
       end)
 
-    assert Enum.count(Article.find_list(1, [])) == 15
+    assert Enum.count(Article.find_list(status: :normal)) == 15
 
     1..5
     |> Enum.each(fn i ->
       article = list |> Enum.at(i)
-      {:ok, _} = Article.change_status(article, 0)
+      {:ok, _} = Article.change_status(article, :hidden)
     end)
 
     6..10
     |> Enum.each(fn i ->
       article = list |> Enum.at(i)
-      {:ok, _} = Article.change_status(article, -1)
+      {:ok, _} = Article.change_status(article, :deleted)
     end)
 
-    assert Enum.count(Article.find_list(1, [])) == 5
-    assert Enum.count(Article.find_list(0, [])) == 5
-    assert Enum.count(Article.find_list(-1, [])) == 5
+    assert Enum.count(Article.find_list(status: :normal)) == 5
+    assert Enum.count(Article.find_list(status: :hidden)) == 5
+    assert Enum.count(Article.find_list(status: :deleted)) == 5
 
-    list = Article.find_list(nil, [])
+    list = Article.find_list()
     assert Enum.count(list) == 15
 
     list
@@ -138,8 +138,8 @@ defmodule Blog.Business.ArticleTest do
       assert a.content == nil
     end)
 
-    {:ok, article} = Article.pin(Enum.at(Article.find_list(nil, []), 5))
-    assert Enum.at(Article.find_list(nil, []), 0) == article
+    {:ok, article} = Article.pin(Enum.at(Article.find_list(), 5))
+    assert Enum.at(Article.find_list(), 0) == article
   end
 
   test "find_list/1 with conditions" do
@@ -153,21 +153,21 @@ defmodule Blog.Business.ArticleTest do
       article
     end)
 
-    list = Article.find_list(nil, category_slug: "c-1")
+    list = Article.find_list(category_slug: "c-1")
     assert Enum.count(list) == 15
-    assert Enum.count(Article.find_list(nil, category_slug: "c-2")) == 0
+    assert Enum.count(Article.find_list(category_slug: "c-2")) == 0
 
     category = Enum.at(list, 0).category
     {:ok, _} = Blog.Business.update_category(category, %{slug: "c-2"})
 
-    assert Enum.count(Article.find_list(nil, category_slug: "c-2")) == 15
+    assert Enum.count(Article.find_list(category_slug: "c-2")) == 15
 
-    assert Enum.count(Article.find_list(nil, tag_slug: "t-1")) == 15
+    assert Enum.count(Article.find_list(tag_slug: "t-1")) == 15
 
     {:ok, _} = Article.update_tags(Enum.at(list, 0), [])
-    assert Enum.count(Article.find_list(nil, tag_slug: "t-1")) == 14
+    assert Enum.count(Article.find_list(tag_slug: "t-1")) == 14
 
     {:ok, _} = Blog.Business.delete_tag(tag)
-    assert Enum.count(Article.find_list(nil, tag_slug: "t-1")) == 0
+    assert Enum.count(Article.find_list(tag_slug: "t-1")) == 0
   end
 end

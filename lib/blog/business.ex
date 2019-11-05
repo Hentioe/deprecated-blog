@@ -30,26 +30,19 @@ defmodule Blog.Business do
 
   alias __MODULE__.{Article, Category, Tag}
 
-  @status %{normal: 1, hidden: 0, deleted: -1}
-
-  defdelegate find_article_list(status \\ @status.normal, conds \\ []),
+  defdelegate find_article_list(conds \\ []),
     to: Article,
     as: :find_list
 
   defdelegate get_article(id), to: Article, as: :get
-  defdelegate find_article_by_slug(slug, status \\ @status.normal), to: Article, as: :find_by_slug
+  defdelegate find_article(conds), to: Article, as: :find
   defdelegate create_article(params), to: Article, as: :create
   defdelegate update_article(article, attrs), to: Article, as: :update
   defdelegate update_article_tags(article, tags), to: Article, as: :update_tags
   defdelegate pin_article(article), to: Article, as: :pin
   defdelegate unpin_article(article), to: Article, as: :unpin
   defdelegate delete_article(article), to: Article, as: :delete
-  def draft_article(article), do: Article.change_status(article, @status.hidden)
-  def recycle_article(article), do: Article.change_status(article, @status.deleted)
-  def restore_article(article), do: Article.change_status(article, @status.normal)
-  def drafted_article_list, do: find_article_list(@status.hidden)
-  def recycled_article_list, do: find_article_list(@status.deleted)
-  def non_normal_article_list, do: find_article_list(:non_normal)
+  defdelegate change_article_status(article, status), to: Article, as: :change_status
 
   defdelegate get_category(id), to: Category, as: :get
   defdelegate find_category_list, to: Category, as: :find_list

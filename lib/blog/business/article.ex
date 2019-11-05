@@ -4,6 +4,9 @@ defmodule Blog.Business.Article do
   use Blog.Business, schema: Blog.Schemas.Article, preload: @preload
   import Ecto.Query
 
+  @status %{normal: 1, hidden: 0, deleted: -1}
+  @find_list_fields Article.fields(excludes: [:content])
+
   defp preload({:error, %Ecto.Changeset{} = _} = error) do
     error
   end
@@ -13,32 +16,61 @@ defmodule Blog.Business.Article do
     {:ok, article}
   end
 
-  def find_by_slug(slug, status) when is_bitstring(slug) do
-    conds = [slug: slug |> String.trim()]
+  defp map_to_i(status) when is_atom(status) do
+    case status do
+      :non_normal -> {:uneq, @status.normal}
+      :non_hidden -> {:uneq, @status.hidden}
+      :non_deleted -> {:uneq, @status.deleted}
+      :normal -> {:eq, @status.normal}
+      :hidden -> {:eq, @status.hidden}
+      :deleted -> {:eq, @status.deleted}
+      _ -> {:error, :unknown}
+    end
+  end
 
-    conds =
-      if status do
-        Keyword.merge(conds, status: status)
-      else
-        conds
+  def find(conds) when is_list(conds) do
+    filter_slug =
+      if slug = conds[:slug] do
+        dynamic([a], a.slug == ^slug)
       end
 
-    case Article |> preload(:category) |> preload(:tags) |> Repo.get_by(conds) do
-      nil -> {:error, :not_found, %{entry: Article, params: %{slug: slug}}}
+    filter_status =
+      if status = conds[:status] do
+        case map_to_i(status) do
+          {:uneq, status} -> dynamic([a], a.status != ^status)
+          {:eq, status} -> dynamic([a], a.status == ^status)
+          _ -> true
+        end
+      else
+        true
+      end
+
+    article =
+      Repo.one(
+        from a in Article,
+          where: ^filter_slug,
+          where: ^filter_status,
+          preload: [:category, :tags]
+      )
+
+    case article do
+      nil -> {:error, :not_found, %{entry: Article, params: %{slug: slug, status: status}}}
       article -> {:ok, article}
     end
   end
 
-  @find_list_fields Article.fields(excludes: [:content])
-
-  def find_list(status, conds) when is_list(conds) do
+  def find_list(conds \\ []) when is_list(conds) do
     filter_status =
-      if status do
-        case status do
-          :non_normal -> dynamic([a], a.status != 1)
-          :non_hidden -> dynamic([a], a.status != 0)
-          :non_deleted -> dynamic([a], a.status != -1)
-          _ -> dynamic([a], a.status == ^status)
+      if status = conds[:status] do
+        case map_to_i(status) do
+          {:uneq, status} ->
+            dynamic([a], a.status != ^status)
+
+          {:eq, status} ->
+            dynamic([a], a.status == ^status)
+
+          _ ->
+            true
         end
       else
         true
@@ -86,7 +118,9 @@ defmodule Blog.Business.Article do
     |> preload()
   end
 
-  def change_status(%Article{} = article, status) do
+  def change_status(%Article{} = article, status) when is_atom(status) do
+    {:eq, status} = map_to_i(status)
+
     article
     |> Article.status_changeset(status)
     |> Repo.update()

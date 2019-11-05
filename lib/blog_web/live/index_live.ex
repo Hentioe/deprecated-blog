@@ -26,6 +26,6 @@ defmodule BlogWeb.IndexLive do
   end
 
   def find_articles(category_slug: category_slug, tag_slug: tag_slug) do
-    Business.find_article_list(1, category_slug: category_slug, tag_slug: tag_slug)
+    Business.find_article_list(status: :normal, category_slug: category_slug, tag_slug: tag_slug)
   end
 end

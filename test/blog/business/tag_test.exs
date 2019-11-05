@@ -49,11 +49,11 @@ defmodule Blog.Business.TagTest do
         Map.from_struct(Factory.build(:article, category_id: category.id, tags: [tag]))
       )
 
-    assert Enum.count(Blog.Business.find_article_list(nil, tag_slug: tag.slug)) == 1
+    assert Enum.count(Blog.Business.find_article_list(tag_slug: tag.slug)) == 1
 
     {:ok, _} = Tag.delete(tag)
 
-    assert Enum.count(Blog.Business.find_article_list(nil, tag_slug: tag.slug)) == 0
+    assert Enum.count(Blog.Business.find_article_list(tag_slug: tag.slug)) == 0
   end
 
   test "find_list/0" do
