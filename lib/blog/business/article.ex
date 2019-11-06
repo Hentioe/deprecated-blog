@@ -59,6 +59,17 @@ defmodule Blog.Business.Article do
     end
   end
 
+  def find_redirected_list do
+    Repo.all(
+      from a in Article,
+        select: struct(a, ^@find_list_fields),
+        left_join: r in assoc(a, :redirections),
+        order_by: [desc: count(r.id), desc: a.id],
+        group_by: [a.id, r.id],
+        preload: [redirections: r]
+    )
+  end
+
   def find_list(conds \\ []) when is_list(conds) do
     filter_status =
       if status = conds[:status] do

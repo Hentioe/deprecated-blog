@@ -170,4 +170,33 @@ defmodule Blog.Business.ArticleTest do
     {:ok, _} = Blog.Business.delete_tag(tag)
     assert Enum.count(Article.find_list(tag_slug: "t-1")) == 0
   end
+
+  test "find_redirected_list/0" do
+    {:ok, a1} = Article.create(build_params())
+
+    {:ok, a2} =
+      :article
+      |> Factory.build(slug: "article-2", category_id: a1.category_id)
+      |> Map.from_struct()
+      |> Article.create()
+
+    list = Article.find_redirected_list()
+
+    assert hd(list).id == a2.id
+
+    {:ok, redirection} =
+      Blog.Business.create_redirection(
+        Map.from_struct(Factory.build(:redirection, dest_id: a1.id))
+      )
+
+    list = Article.find_redirected_list()
+
+    assert hd(list).id == a1.id
+
+    Blog.Business.delete_redirection(redirection)
+
+    list = Article.find_redirected_list()
+
+    assert hd(list).id == a2.id
+  end
 end

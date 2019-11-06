@@ -28,7 +28,7 @@ defmodule Blog.Business do
     end
   end
 
-  alias __MODULE__.{Article, Category, Tag}
+  alias __MODULE__.{Article, Category, Tag, Redirection}
 
   defdelegate find_article_list(conds \\ []),
     to: Article,
@@ -36,6 +36,7 @@ defmodule Blog.Business do
 
   defdelegate get_article(id), to: Article, as: :get
   defdelegate find_article(conds), to: Article, as: :find
+  defdelegate find_redirected_article_list, to: Article, as: :find_redirected_list
   defdelegate create_article(params), to: Article, as: :create
   defdelegate update_article(article, attrs), to: Article, as: :update
   defdelegate update_article_tags(article, tags), to: Article, as: :update_tags
@@ -55,4 +56,9 @@ defmodule Blog.Business do
   defdelegate create_tag(params), to: Tag, as: :create
   defdelegate update_tag(tag, attrs), to: Tag, as: :update
   defdelegate delete_tag(tag), to: Tag, as: :delete
+
+  defdelegate find_redirected_slug(slug), to: Redirection, as: :find_dest_slug
+  defdelegate create_redirection(params), to: Redirection, as: :create
+  defdelegate update_redirection(redirection, attrs), to: Redirection, as: :update
+  defdelegate delete_redirection(redirection), to: Redirection, as: :delete
 end
