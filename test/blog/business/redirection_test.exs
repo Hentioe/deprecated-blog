@@ -57,7 +57,7 @@ defmodule Blog.Business.RedirectionTest do
   test "find_dest_slug/1" do
     {:ok, redirection} = Redirection.create(build_params())
 
-    {:ok, dest_slug} = Redirection.find_dest_slug(redirection.source_slug)
+    dest_slug = Redirection.find_dest_slug(redirection.source_slug)
 
     assert dest_slug == "title1"
   end

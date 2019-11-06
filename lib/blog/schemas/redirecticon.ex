@@ -19,6 +19,5 @@ defmodule Blog.Schemas.Redirection do
     |> assoc_constraint(:article)
     |> validate_required(@required_fields)
     |> unique_constraint(:source_slug, name: :redirections_source_slug_index)
-    |> slugify_field(:source_slug)
   end
 end
