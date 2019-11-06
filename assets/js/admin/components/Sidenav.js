@@ -101,6 +101,12 @@ class Sidenav extends React.Component {
           <div className="divider"></div>
         </li>
         <li>
+          <Link className="sidenav-close" to="/admin/redirections">
+            重定向
+            <i className="material-icons">view_list</i>
+          </Link>
+        </li>
+        <li>
           <a className="sidenav-close">
             设置
             <i className="material-icons">settings</i>

@@ -57,6 +57,7 @@ defmodule Blog.Business do
   defdelegate update_tag(tag, attrs), to: Tag, as: :update
   defdelegate delete_tag(tag), to: Tag, as: :delete
 
+  defdelegate get_redirection(id), to: Redirection, as: :get
   defdelegate find_redirected_slug(slug), to: Redirection, as: :find_dest_slug
   defdelegate create_redirection(params), to: Redirection, as: :create
   defdelegate update_redirection(redirection, attrs), to: Redirection, as: :update

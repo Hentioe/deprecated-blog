@@ -4,7 +4,6 @@ defmodule Blog.Schemas.Article do
   @required_fields ~w(title slug content comment_permissions pinned_at category_id status)a
   @optional_fields ~w()a
 
-  @derive {Jason.Encoder, except: [:__meta__, :redirections]}
   schema "articles" do
     field :title, :string
     field :slug, :string

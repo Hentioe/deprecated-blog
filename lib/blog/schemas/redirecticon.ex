@@ -4,7 +4,6 @@ defmodule Blog.Schemas.Redirection do
   @required_fields ~w(source_slug dest_id)a
   @optional_fields ~w()a
 
-  @derive {Jason.Encoder, except: [:__meta__, :article]}
   schema "redirections" do
     field :source_slug, :string
 

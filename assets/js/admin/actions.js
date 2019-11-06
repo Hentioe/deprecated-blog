@@ -55,6 +55,63 @@ import {
   changedArticles
 } from "./slices/articles";
 
+import {
+  failure as failedOnRedirections,
+  requestRedirections,
+  receiveRedirections,
+  changingRedirections,
+  changedRedirections
+} from "./slices/redirections";
+
+const redirectionsDeleteCall = id => ({
+  [CALL_API]: {
+    types: [changingRedirections, changedRedirections, failedOnRedirections],
+    endpoint: `redirections/${id}`,
+    method: "DELETE"
+  }
+});
+
+export function deleteRedirection(id) {
+  return dispatch => dispatch(redirectionsDeleteCall(id));
+}
+
+const redirectionsUpdateCall = (id, data) => ({
+  [CALL_API]: {
+    types: [changingRedirections, changedRedirections, failedOnRedirections],
+    endpoint: `redirections/${id}`,
+    method: "PUT",
+    data
+  }
+});
+
+export function updateRedirection(data) {
+  return dispatch => dispatch(redirectionsUpdateCall(data.id, data));
+}
+
+const redirectionsCreateCall = data => ({
+  [CALL_API]: {
+    types: [changingRedirections, changedRedirections, failedOnRedirections],
+    endpoint: "redirections",
+    method: "POST",
+    data
+  }
+});
+
+export function createRedirection(data) {
+  return dispatch => dispatch(redirectionsCreateCall(data));
+}
+
+const articlesRedirecedCall = () => ({
+  [CALL_API]: {
+    types: [requestRedirections, receiveRedirections, failedOnRedirections],
+    endpoint: "articles/redirected"
+  }
+});
+
+export function fetchArticlesRedirected() {
+  return dispatch => dispatch(articlesRedirecedCall());
+}
+
 const articlesDeleteCall = id => ({
   [CALL_API]: {
     types: [changingArticles, changedArticles, failedOnArticles],

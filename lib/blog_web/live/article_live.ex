@@ -29,7 +29,13 @@ defmodule BlogWeb.ArticleLive do
     with {:ok, socket} <- socket |> assign(slug: slug) |> fetch() do
       {:noreply, socket}
     else
-      {:error, :not_found, _} -> {:noreply, socket |> assign(error: :not_found)}
+      {:error, :not_found, _} ->
+        if latest_slug = Business.find_redirected_slug(slug) do
+          {:stop,
+           redirect(socket, to: Routes.live_path(socket, BlogWeb.ArticleLive, latest_slug))}
+        else
+          {:noreply, socket |> assign(error: :not_found)}
+        end
     end
   end
 

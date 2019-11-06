@@ -47,6 +47,7 @@ defmodule BlogWeb.Router do
 
     resources "/categories", CategoryController, except: [:new, :edit]
     resources "/tags", TagController, except: [:new, :edit]
+    resources "/redirections", RedirectionController, only: [:create, :update, :delete]
     put "/articles/:id/draft", ArticleController, :draft
     put "/articles/:id/recycle", ArticleController, :recycle
     put "/articles/:id/restore", ArticleController, :restore
@@ -56,6 +57,7 @@ defmodule BlogWeb.Router do
     get "/articles/recycled", ArticleController, :recycled_list
     get "/articles/non_normal", ArticleController, :non_normal_list
     get "/articles/normal", ArticleController, :normal_list
+    get "/articles/redirected", ArticleController, :redirected_list
     post "/articles/preview", ArticleController, :preview
     resources "/articles", ArticleController, except: [:new, :edit]
   end

@@ -5,11 +5,13 @@ import categoriesReducer from "./slices/categories";
 import tagsReducer from "./slices/tags";
 import pushArticleReducer from "./slices/push-article";
 import articlesReducer from "./slices/articles";
+import redirectionsReducer from "./slices/redirections";
 
 export default combineReducers({
   globalFAB: globalFABReducer,
   categories: categoriesReducer,
   tags: tagsReducer,
   pushArticle: pushArticleReducer,
-  articles: articlesReducer
+  articles: articlesReducer,
+  redirections: redirectionsReducer
 });

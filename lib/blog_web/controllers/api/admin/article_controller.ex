@@ -5,14 +5,14 @@ defmodule BlogWeb.API.Admin.ArticleController do
   action_fallback BlogWeb.FallbackController
 
   def index(conn, _params) do
-    with categories <- Business.find_article_list() do
-      json(conn, categories)
+    with articles <- Business.find_article_list() do
+      render(conn, "index.json", articles: articles)
     end
   end
 
   def show(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
@@ -36,7 +36,7 @@ defmodule BlogWeb.API.Admin.ArticleController do
     params = params |> fetch_tags()
 
     with {:ok, article} <- Business.create_article(params) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
@@ -45,73 +45,73 @@ defmodule BlogWeb.API.Admin.ArticleController do
 
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.update_article(article, params) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def delete(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.delete_article(article) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def draft(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.change_article_status(article, :hidden) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def recycle(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.change_article_status(article, :deleted) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def restore(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.change_article_status(article, :normal) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def pin(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.pin_article(article) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def unpin(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.unpin_article(article) do
-      json(conn, article)
+      render(conn, "show.json", article: article)
     end
   end
 
   def drafted_list(conn, _params) do
-    with categories <- Business.find_article_list(status: :hidden) do
-      json(conn, categories)
+    with articles <- Business.find_article_list(status: :hidden) do
+      render(conn, "index.json", articles: articles)
     end
   end
 
   def recycled_list(conn, _params) do
-    with categories <- Business.find_article_list(status: :deleted) do
-      json(conn, categories)
+    with articles <- Business.find_article_list(status: :deleted) do
+      render(conn, "index.json", articles: articles)
     end
   end
 
   def normal_list(conn, _params) do
-    with categories <- Business.find_article_list(status: :normal) do
-      json(conn, categories)
+    with articles <- Business.find_article_list(status: :normal) do
+      render(conn, "index.json", articles: articles)
     end
   end
 
   def non_normal_list(conn, _params) do
-    with categories <- Business.find_article_list(status: :non_normal) do
-      json(conn, categories)
+    with articles <- Business.find_article_list(status: :non_normal) do
+      render(conn, "index.json", articles: articles)
     end
   end
 
@@ -126,6 +126,12 @@ defmodule BlogWeb.API.Admin.ArticleController do
         {:error, _, message} -> "Earmark parsing error:\n #{message}"
       end
 
-    json(conn, %{html: html})
+    render(conn, "preview.json", html: html)
+  end
+
+  def redirected_list(conn, _params) do
+    with articles <- Business.find_redirected_article_list() do
+      render(conn, "redirected_list.json", articles: articles)
+    end
   end
 end

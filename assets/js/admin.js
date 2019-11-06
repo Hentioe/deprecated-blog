@@ -34,6 +34,7 @@ import RestoreArticle from "./admin/pages/RestoreArticle";
 import OperationArticle from "./admin/pages/OperationArticle";
 import Categories from "./admin/pages/Categories";
 import Tags from "./admin/pages/Tags";
+import Redirections from "./admin/pages/Redirections";
 
 import Reducers from "./admin/reducers";
 import api from "./admin/middleware/api";
@@ -79,6 +80,9 @@ class AppPage extends React.Component {
                 </Route>
                 <Route path="/admin/tags">
                   <Tags />
+                </Route>
+                <Route path="/admin/redirections">
+                  <Redirections />
                 </Route>
                 <Route path="/admin">
                   <Dashboard />

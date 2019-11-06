@@ -5,10 +5,10 @@ defmodule Blog.Business.Redirection do
   def find_dest_slug(source_slug) when is_bitstring(source_slug) do
     case Redirection |> preload(:article) |> Repo.get_by(source_slug: String.trim(source_slug)) do
       nil ->
-        {:error, :not_found, %{entry: Redirection, params: %{slug: source_slug}}}
+        nil
 
       redirection ->
-        {:ok, redirection.article.slug}
+        redirection.article.slug
     end
   end
 
