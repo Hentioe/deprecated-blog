@@ -138,7 +138,6 @@ class PushArticle extends React.Component {
 
     // 推送失败
     if (!isPushing && apiError.type === pushingArticle.type) {
-      console.log(apiError.errors);
       M.toast({ html: "文章推送失败了" });
     }
 

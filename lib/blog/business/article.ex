@@ -123,10 +123,30 @@ defmodule Blog.Business.Article do
   end
 
   def update(%Article{} = article, attrs) do
-    article
-    |> Article.changeset(attrs)
-    |> Repo.update()
-    |> preload()
+    fun = fn ->
+      dest_slug = attrs[:slug] || attrs["slug"]
+
+      # 如果 SLUG 发生变化，并且目标 SLUG 不存在，则添加重定向
+      if article.slug != dest_slug and Blog.Business.find_redirected_slug(article.slug) == nil do
+        {:ok, _} =
+          Blog.Business.create_redirection(%{dest_id: article.id, source_slug: article.slug})
+      end
+
+      # 更新文章
+      {:ok, article} =
+        article
+        |> Article.changeset(attrs)
+        |> Repo.update()
+        |> preload()
+
+      article
+    end
+
+    try do
+      Repo.transaction(fun)
+    rescue
+      e in MatchError -> e.term
+    end
   end
 
   def change_status(%Article{} = article, status) when is_atom(status) do

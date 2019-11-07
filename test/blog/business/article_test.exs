@@ -45,6 +45,20 @@ defmodule Blog.Business.ArticleTest do
     assert article.status == updated_status
   end
 
+  test "update/2 and update slug" do
+    params = build_params()
+    {:ok, article} = Article.create(params)
+
+    source_slug = article.slug
+    updated_slug = "updated-slug"
+
+    {:ok, article} = Article.update(article, %{"slug" => updated_slug})
+
+    assert article.slug == updated_slug
+
+    assert Blog.Business.find_redirected_slug(source_slug) == updated_slug
+  end
+
   test "change_status/1" do
     {:ok, article} = Article.create(build_params())
 
