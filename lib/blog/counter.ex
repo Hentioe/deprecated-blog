@@ -14,6 +14,7 @@ defmodule Blog.Counter do
     Mnesia.create_schema([node()])
     Mnesia.start()
     Mnesia.create_table(Counter, attributes: [:key, :val])
+    Mnesia.wait_for_tables([Counter], 5000)
 
     sync_from_db()
     schedule_sync_to_db(true)
