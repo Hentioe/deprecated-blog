@@ -30,6 +30,10 @@ defmodule Blog.Factory do
     }
   end
 
+  def build(:counter) do
+    %Blog.Schemas.Counter{key: "article:0:all_views", val: 0}
+  end
+
   def build(factory_name, attributes) do
     factory_name |> build() |> struct(attributes)
   end

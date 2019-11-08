@@ -2,6 +2,7 @@ defmodule Blog.Counter do
   use GenServer
 
   alias :mnesia, as: Mnesia
+  alias Blog.Business.Counter
 
   def start_link(default) when is_list(default) do
     GenServer.start_link(__MODULE__, default, name: __MODULE__)
@@ -12,7 +13,44 @@ defmodule Blog.Counter do
     Mnesia.start()
     Mnesia.create_table(Counter, attributes: [:key, :val])
 
+    sync_from_db()
+    schedule_sync_to_db(true)
+
     {:ok, state}
+  end
+
+  defp sync_from_db do
+    all = Counter.all()
+
+    all
+    |> Enum.each(fn c ->
+      Mnesia.dirty_write({Counter, c.key, c.val})
+    end)
+  end
+
+  defp sync_to_db do
+    data_select = fn -> Mnesia.select(Counter, [{:_, [], [:"$_"]}]) end
+    {:atomic, counters} = Mnesia.transaction(data_select)
+
+    counters
+    |> Enum.each(fn {Counter, key, val} ->
+      Counter.sync(key, val)
+    end)
+  end
+
+  # 定时持久化计数器数据
+  @sync_time 1000 * 60 * 60 * 15
+  defp schedule_sync_to_db(first \\ false) do
+    unless first do
+      sync_to_db()
+    end
+
+    Process.send_after(self(), :sync, @sync_time)
+  end
+
+  def handle_info(:sync, state) do
+    schedule_sync_to_db()
+    {:noreply, state}
   end
 
   def read(key) do
