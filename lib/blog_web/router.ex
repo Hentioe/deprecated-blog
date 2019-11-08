@@ -60,5 +60,7 @@ defmodule BlogWeb.Router do
     get "/articles/redirected", ArticleController, :redirected_list
     post "/articles/preview", ArticleController, :preview
     resources "/articles", ArticleController, except: [:new, :edit]
+    get "/settings/preview", SettingController, :preview
+    post "/settings/counter_sync", SettingController, :counter_sync
   end
 end

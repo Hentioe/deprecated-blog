@@ -5,7 +5,8 @@ defmodule Blog.Counter do
   alias Blog.Business.Counter
 
   def start_link(default) when is_list(default) do
-    GenServer.start_link(__MODULE__, default, name: __MODULE__)
+    state = default[:state] || %{}
+    GenServer.start_link(__MODULE__, state, name: __MODULE__)
   end
 
   def init(state) do
@@ -41,6 +42,14 @@ defmodule Blog.Counter do
     end)
   end
 
+  def sync_time do
+    GenServer.call(__MODULE__, :sync_time)
+  end
+
+  def sync_now do
+    GenServer.call(__MODULE__, :sync_now)
+  end
+
   # 定时持久化计数器数据
   @sync_time 1000 * 60 * 60 * 15
   defp schedule_sync_to_db(first \\ false) do
@@ -52,6 +61,7 @@ defmodule Blog.Counter do
   end
 
   def handle_info(:sync, state) do
+    state = state |> Map.put(:sync_time, DateTime.utc_now())
     schedule_sync_to_db()
     {:noreply, state}
   end
@@ -72,6 +82,16 @@ defmodule Blog.Counter do
 
   def inc(key) do
     GenServer.cast(__MODULE__, {:inc, key})
+  end
+
+  def handle_call(:sync_time, _from, state) do
+    {:reply, state[:sync_time], state}
+  end
+
+  def handle_call(:sync_now, _from, state) do
+    sync_to_db()
+    state = state |> Map.put(:sync_time, DateTime.utc_now())
+    {:reply, state[:sync_time], state}
   end
 
   def handle_call({:read, key}, _from, state) do

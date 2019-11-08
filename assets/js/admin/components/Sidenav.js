@@ -107,10 +107,10 @@ class Sidenav extends React.Component {
           </Link>
         </li>
         <li>
-          <a className="sidenav-close">
+          <Link className="sidenav-close" to="/admin/settings">
             设置
             <i className="material-icons">settings</i>
-          </a>
+          </Link>
         </li>
       </ul>
     );

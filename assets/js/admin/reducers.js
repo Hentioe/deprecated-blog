@@ -6,6 +6,7 @@ import tagsReducer from "./slices/tags";
 import pushArticleReducer from "./slices/push-article";
 import articlesReducer from "./slices/articles";
 import redirectionsReducer from "./slices/redirections";
+import settingsReducer from "./slices/settings";
 
 export default combineReducers({
   globalFAB: globalFABReducer,
@@ -13,5 +14,6 @@ export default combineReducers({
   tags: tagsReducer,
   pushArticle: pushArticleReducer,
   articles: articlesReducer,
-  redirections: redirectionsReducer
+  redirections: redirectionsReducer,
+  settings: settingsReducer
 });

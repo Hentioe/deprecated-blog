@@ -63,6 +63,37 @@ import {
   changedRedirections
 } from "./slices/redirections";
 
+import {
+  failure as failedOnSettings,
+  requestSettings,
+  receiveSettings,
+  syncingCounter,
+  syncedCounter
+} from "./slices/settings";
+
+const settingsSyncCounterCall = () => ({
+  [CALL_API]: {
+    types: [syncingCounter, syncedCounter, failedOnSettings],
+    endpoint: "settings/counter_sync",
+    method: "POST"
+  }
+});
+
+export function syncCounter() {
+  return dispatch => dispatch(settingsSyncCounterCall());
+}
+
+const settingsPreviewCall = () => ({
+  [CALL_API]: {
+    types: [requestSettings, receiveSettings, failedOnSettings],
+    endpoint: "settings/preview"
+  }
+});
+
+export function fetchSettings() {
+  return dispatch => dispatch(settingsPreviewCall());
+}
+
 const redirectionsDeleteCall = id => ({
   [CALL_API]: {
     types: [changingRedirections, changedRedirections, failedOnRedirections],
