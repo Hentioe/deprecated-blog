@@ -9,6 +9,8 @@ defmodule Blog.Counter do
   end
 
   def init(state) do
+    Process.flag(:trap_exit, true)
+
     Mnesia.create_schema([node()])
     Mnesia.start()
     Mnesia.create_table(Counter, attributes: [:key, :val])
@@ -51,6 +53,11 @@ defmodule Blog.Counter do
   def handle_info(:sync, state) do
     schedule_sync_to_db()
     {:noreply, state}
+  end
+
+  def terminate(_reason, _state) do
+    sync_to_db()
+    :normal
   end
 
   def read(key) do
