@@ -11,9 +11,10 @@ defmodule Blog.Application do
       # Start the Ecto repository
       Blog.Repo,
       # Start the endpoint when the application starts
-      BlogWeb.Endpoint
+      BlogWeb.Endpoint,
       # Starts a worker by calling: Blog.Worker.start_link(arg)
       # {Blog.Worker, arg},
+      Blog.Counter
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

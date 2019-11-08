@@ -40,7 +40,7 @@ defmodule BlogWeb.ArticleLive do
   end
 
   def fetch(%Socket{assigns: %{slug: slug}} = socket) do
-    with {:ok, article} <- find_article(slug) do
+    with {:ok, article} <- find_article(slug, connected?(socket)) do
       socket = socket |> assign(article: article)
       {:ok, socket}
     else
@@ -48,13 +48,18 @@ defmodule BlogWeb.ArticleLive do
     end
   end
 
-  defp find_article(slug) do
+  defp find_article(slug, is_connected) do
     with {:ok, article} <- Business.find_article(slug: slug, status: :non_deleted) do
       html =
         case article.content |> Earmark.as_html(@markdown_opts) do
           {:ok, html, _} -> html
           {:error, _, message} -> "Earmark parsing error:\n #{message}"
         end
+
+      # 阅读次数+1
+      if is_connected do
+        Blog.Counter.inc("article:#{article.id}:all_views")
+      end
 
       {:ok, %{article | content: html}}
     else

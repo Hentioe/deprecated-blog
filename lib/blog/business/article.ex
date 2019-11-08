@@ -126,7 +126,7 @@ defmodule Blog.Business.Article do
     fun = fn ->
       dest_slug = attrs[:slug] || attrs["slug"]
 
-      # 如果 SLUG 发生变化，并且目标 SLUG 不存在，则添加重定向
+      # 如果 SLUG 发生变化，并且原 SLUG 不存在重定向，则添加重定向
       if article.slug != dest_slug and Blog.Business.find_redirected_slug(article.slug) == nil do
         {:ok, _} =
           Blog.Business.create_redirection(%{dest_id: article.id, source_slug: article.slug})

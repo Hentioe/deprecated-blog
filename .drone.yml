@@ -3,7 +3,7 @@ name: default
 
 steps:
   - name: app-compile
-    image: bluerain/elixir:1.9.2-slim
+    image: bluerain/elixir:1.9.4-slim
     environment:
       MIX_ENV: prod
     commands:
@@ -17,7 +17,7 @@ steps:
       - npm run deploy --prefix assets
 
   - name: app-build
-    image: bluerain/elixir:1.9.2-slim
+    image: bluerain/elixir:1.9.4-slim
     pull: true
     environment:
       MIX_ENV: prod
