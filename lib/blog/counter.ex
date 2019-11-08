@@ -55,6 +55,11 @@ defmodule Blog.Counter do
     {:noreply, state}
   end
 
+  def handle_info({:EXIT, _from, :shutdown}, state) do
+    sync_to_db()
+    {:noreply, state}
+  end
+
   def terminate(_reason, _state) do
     sync_to_db()
     :normal
