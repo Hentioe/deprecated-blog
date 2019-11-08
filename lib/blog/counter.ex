@@ -41,7 +41,7 @@ defmodule Blog.Counter do
   end
 
   # 定时持久化计数器数据
-  @sync_time 1000 * 60 * 60 * 15
+  @sync_time 1000 * 5
   defp schedule_sync_to_db(first \\ false) do
     unless first do
       sync_to_db()
