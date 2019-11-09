@@ -23,9 +23,5 @@ defmodule BlogWeb.Sitemaps do
         )
       end)
     end
-
-    if unquote(Mix.env() == :prod) do
-      ping()
-    end
   end
 end
