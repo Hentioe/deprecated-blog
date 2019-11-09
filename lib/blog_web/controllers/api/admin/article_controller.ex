@@ -37,6 +37,11 @@ defmodule BlogWeb.API.Admin.ArticleController do
     params = params |> fetch_tags()
 
     with {:ok, article} <- Business.create_article(params) do
+      # 更新网站地图
+      if article.status == 1 do
+        Sitemaps.generate()
+      end
+
       render(conn, "show.json", article: article)
     end
   end
@@ -89,7 +94,10 @@ defmodule BlogWeb.API.Admin.ArticleController do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.pin_article(article) do
       # 更新网站地图
-      Sitemaps.generate()
+      if article.status == 1 do
+        Sitemaps.generate()
+      end
+
       render(conn, "show.json", article: article)
     end
   end
@@ -98,7 +106,10 @@ defmodule BlogWeb.API.Admin.ArticleController do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.unpin_article(article) do
       # 更新网站地图
-      Sitemaps.generate()
+      if article.status == 1 do
+        Sitemaps.generate()
+      end
+
       render(conn, "show.json", article: article)
     end
   end
