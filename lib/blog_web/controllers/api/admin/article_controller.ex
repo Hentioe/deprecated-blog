@@ -1,6 +1,7 @@
 defmodule BlogWeb.API.Admin.ArticleController do
   use BlogWeb, :controller
   alias Blog.Business
+  alias BlogWeb.Sitemaps
 
   action_fallback BlogWeb.FallbackController
 
@@ -45,6 +46,11 @@ defmodule BlogWeb.API.Admin.ArticleController do
 
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.update_article(article, params) do
+      # 更新网站地图
+      if article.status == 1 do
+        Sitemaps.generate()
+      end
+
       render(conn, "show.json", article: article)
     end
   end
@@ -73,6 +79,8 @@ defmodule BlogWeb.API.Admin.ArticleController do
   def restore(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.change_article_status(article, :normal) do
+      # 更新网站地图
+      Sitemaps.generate()
       render(conn, "show.json", article: article)
     end
   end
@@ -80,6 +88,8 @@ defmodule BlogWeb.API.Admin.ArticleController do
   def pin(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.pin_article(article) do
+      # 更新网站地图
+      Sitemaps.generate()
       render(conn, "show.json", article: article)
     end
   end
@@ -87,6 +97,8 @@ defmodule BlogWeb.API.Admin.ArticleController do
   def unpin(conn, %{"id" => id}) do
     with {:ok, article} <- Business.get_article(id),
          {:ok, article} <- Business.unpin_article(article) do
+      # 更新网站地图
+      Sitemaps.generate()
       render(conn, "show.json", article: article)
     end
   end
