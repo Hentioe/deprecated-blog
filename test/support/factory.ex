@@ -34,6 +34,13 @@ defmodule Blog.Factory do
     %Blog.Schemas.Counter{key: "article:0:all_views", val: 0}
   end
 
+  def build(:user) do
+    %Blog.Schemas.User{
+      username: "user-1",
+      nickname: "用户-1"
+    }
+  end
+
   def build(factory_name, attributes) do
     factory_name |> build() |> struct(attributes)
   end

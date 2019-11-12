@@ -38,6 +38,7 @@ defmodule Blog.Schemas.CounterTest do
     assert changeset.validations == []
 
     assert changeset.required == [
+             :key,
              :val
            ]
 
